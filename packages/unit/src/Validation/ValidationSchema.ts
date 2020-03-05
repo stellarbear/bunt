@@ -1,5 +1,6 @@
 import {entriesReverse, isFunction, isObject, isUndefined} from "@typesafeunit/util";
 import {ValidationAttributes, ValidationDescription, ValidationFunction, ValidationResult} from "./interfaces";
+import {ValidationError} from "./ValidationError";
 import {ValidationRule} from "./ValidationRule";
 
 type ValidatorArg<T, K extends keyof T> = ValidationFunction<T, K>
@@ -39,6 +40,12 @@ export class ValidationSchema<T> {
         }
 
         return this;
+    }
+
+    public assert(description: ValidationDescription<T>, message?: string) {
+        if (!description.valid) {
+            throw new ValidationError(message || "Validation failed", description);
+        }
     }
 
     public async validate(state: Partial<T> | any = {}, message?: string): Promise<ValidationDescription<T>> {

@@ -1,5 +1,6 @@
 export const isNull = (value: any): value is null => value === null;
 export const isUndefined = (value: any): value is undefined => typeof value === "undefined";
+export const isDefined = <T>(value: T | undefined): value is T => typeof value !== "undefined";
 export const isBoolean = (value: any): value is boolean => typeof value === "boolean";
 export const isString = (value: any): value is string => typeof value === "string";
 export const isArray = <T>(value: any): value is T[] => Array.isArray(value);

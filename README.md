@@ -2,7 +2,7 @@
 
 Unit style Application Framework written in TypeScript for Node.js.
 
-### install
+### Install
 
 Type `yarn add @typesafeunit/app`
 

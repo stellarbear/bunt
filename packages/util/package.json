@@ -13,7 +13,7 @@
     "files": [
         "dist/"
     ],
-    "description": "Application Utils",
+    "description": "Utils",
     "repository": "git@github.com:izatop/typesafeunit.git",
     "scripts": {
         "clean": "yarn build:clean",

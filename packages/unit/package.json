@@ -13,7 +13,7 @@
     "files": [
         "dist/"
     ],
-    "description": "Application Unit Core",
+    "description": "Unit Core",
     "repository": "git@github.com:izatop/typesafeunit.git",
     "scripts": {
         "clean": "yarn build:clean",

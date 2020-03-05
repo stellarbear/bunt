@@ -1,4 +1,14 @@
-import {assert, fails, isClass, isFunction, isInstanceOf, isUndefined, memoize, Profiler} from "@typesafeunit/util";
+import {
+    assert,
+    fails,
+    isClass,
+    isDefined,
+    isFunction,
+    isInstanceOf,
+    isUndefined,
+    memoize,
+    Profiler,
+} from "@typesafeunit/util";
 import {Action} from "./Action";
 import {Context} from "./Context";
 import {ActionCtor, ActionReturn, ActionStateArgs, ContextArg, IContext, UnitAction} from "./interfaces";
@@ -86,13 +96,21 @@ export class Unit<C extends IContext = {}> {
 
         try {
             if (isFunction(hooks.validate)) {
-                const validate = await hooks.validate(new ValidationSchema(), context);
-                const res = await validate.validate(state);
-                this.profiler.fire("action:validate", res.valid);
-                assert(res.valid, `${ctor.name} validation failed`);
+                const staticValidationSchema = await hooks.validate(new ValidationSchema(), context);
+                const validationDescription = await staticValidationSchema.validate(state);
+
+                this.profiler.fire("action:validate", validationDescription.valid);
+                await staticValidationSchema.assert(validationDescription, `${ctor.name} validation failed`);
             }
 
             const action = new ctor(context, state);
+            const validationSchema = await action.createValidationSchema();
+            if (isDefined(validationSchema)) {
+                const validationDescription = await validationSchema.validate(state);
+                this.profiler.fire("action:validate", validationDescription.valid);
+                validationSchema.assert(validationDescription, `${ctor.name} validation failed`);
+            }
+
             if (isFunction(hooks.create)) {
                 this.profiler.fire("action:create");
                 await hooks.create(context, state);
