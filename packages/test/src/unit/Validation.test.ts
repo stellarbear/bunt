@@ -18,7 +18,7 @@ const validSample: ISample = {
     b: true,
     child: {
         name: "Bob",
-        date: new Date("2000-01-01 00:00:00"),
+        date: new Date("2020-01-01T00:00:00.000Z"),
     },
     nullable: null,
 };
@@ -28,7 +28,7 @@ const invalidSample = {
     b: true,
     child: {
         name: 123,
-        date: new Date("2000-01-01 00:00:00"),
+        date: new Date("2020-01-01T00:00:00.000Z"),
     },
     nullable: true,
 };
