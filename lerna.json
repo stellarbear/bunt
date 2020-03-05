@@ -7,15 +7,18 @@
             "allowBranch": "master"
         },
         "publish": {
-            "ignoreChanges": ["*.md", "packages/test/**"],
+            "ignoreChanges": [
+                "*.md",
+                "packages/test/**"
+            ],
             "conventionalCommits": true,
             "noCommitHooks": true,
-            "noChangelog":  true,
+            "noChangelog": true,
             "yes": true
         }
     },
     "stream": true,
     "npmClient": "yarn",
     "useWorkspaces": true,
-    "version": "0.2.13"
+    "version": "0.3.0"
 }
