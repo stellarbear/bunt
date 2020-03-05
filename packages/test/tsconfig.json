@@ -1,0 +1,14 @@
+{
+    "extends": "../../tsconfig.test.json",
+    "compilerOptions": {
+        "noEmit": true
+    },
+    "references": [
+        {"path": "../util"},
+        {"path": "../unit"},
+        {"path": "../app"}
+    ],
+    "include": [
+        "src"
+    ]
+}

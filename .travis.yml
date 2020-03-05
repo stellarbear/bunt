@@ -1,0 +1,27 @@
+language: node_js
+
+notifications:
+  email: false
+
+node_js:
+  - "12"
+  - "13"
+
+cache: yarn
+
+install: yarn install --pure-lockfile
+before_install: curl -o- -L https://yarnpkg.com/install.sh | bash
+
+script:
+  - yarn ci
+  - npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
+  - git config --global user.email "travis@travis-ci.org"
+  - git config --global user.name "Travis CI"
+  - git remote set-url origin https://${GH_TOKEN}@github.com/${TRAVIS_REPO_SLUG}.git
+  - git checkout master
+
+after_success: yarn release
+
+branches:
+  only:
+    - master

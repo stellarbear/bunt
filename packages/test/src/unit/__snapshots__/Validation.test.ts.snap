@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Validation 1`] = `
+Object {
+  "message": undefined,
+  "valid": true,
+  "validation": Object {
+    "b": Object {
+      "valid": true,
+      "value": true,
+    },
+    "child": Object {
+      "valid": true,
+      "value": Object {
+        "date": 1999-12-31T21:00:00.000Z,
+        "name": "Bob",
+      },
+    },
+    "nullable": Object {
+      "nullable": true,
+      "required": true,
+      "valid": true,
+      "value": null,
+    },
+    "v": Object {
+      "valid": true,
+      "value": 1,
+    },
+  },
+}
+`;
+
+exports[`Validation 2`] = `
+Object {
+  "message": undefined,
+  "valid": false,
+  "validation": Object {
+    "b": Object {
+      "valid": true,
+      "value": true,
+    },
+    "child": Object {
+      "message": undefined,
+      "nullable": false,
+      "required": true,
+      "valid": false,
+      "validation": Object {
+        "message": undefined,
+        "valid": false,
+        "validation": Object {
+          "date": Object {
+            "valid": true,
+            "value": 1999-12-31T21:00:00.000Z,
+          },
+          "name": Object {
+            "error": [Error: Assertion fails],
+            "message": undefined,
+            "nullable": false,
+            "required": true,
+            "valid": false,
+            "value": 123,
+          },
+        },
+      },
+      "value": Object {
+        "date": 1999-12-31T21:00:00.000Z,
+        "name": 123,
+      },
+    },
+    "nullable": Object {
+      "error": [Error: Assertion fails],
+      "message": undefined,
+      "nullable": true,
+      "required": true,
+      "valid": false,
+      "value": true,
+    },
+    "v": Object {
+      "error": [Error: Assertion fails],
+      "message": "The value of \\"v\\" shouldn't be null",
+      "nullable": false,
+      "required": true,
+      "valid": false,
+      "value": null,
+    },
+  },
+}
+`;

@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route Not found 1`] = `
+Transport {
+  "request": Request {
+    "body": "",
+    "headers": Headers {
+      Symbol(): Map {},
+    },
+    "route": "/wrong-uri",
+  },
+  "response": Object {
+    "code": 404,
+    "status": "Page not found",
+  },
+  Symbol(): true,
+}
+`;
+
+exports[`Route Success 1`] = `
+Transport {
+  "request": Request {
+    "body": "{\\"name\\":\\"World\\"}",
+    "headers": Headers {
+      Symbol(): Map {
+        "Content-Type" => "application/json",
+      },
+    },
+    "route": "/u/123",
+  },
+  "response": "Hello, World!",
+  Symbol(): true,
+}
+`;

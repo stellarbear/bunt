@@ -1,0 +1,34 @@
+{
+    "name": "@typesafeunit/app",
+    "version": "0.1.0",
+    "keywords": [
+        "typescript"
+    ],
+    "author": {
+        "name": "Artur Bier",
+        "email": "izatop@gmail.com"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/"
+    ],
+    "description": "Application Server",
+    "repository": "git@github.com:izatop/typesafeunit.git",
+    "scripts": {
+        "clean": "yarn build:clean",
+        "watch": "yarn build:watch",
+        "build": "yarn build:clean && tsc",
+        "build:clean": "rimraf dist tsconfig.tsbuildinfo",
+        "build:watch": "yarn build --watch"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@typesafeunit/unit": "0.1.0",
+        "@typesafeunit/util": "0.1.0",
+        "path-to-regexp": "^6.1.0"
+    },
+    "license": "MIT"
+}
