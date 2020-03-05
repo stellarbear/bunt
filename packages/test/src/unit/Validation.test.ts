@@ -3,14 +3,14 @@ import {assert, isBoolean, isNumber, isString} from "@typesafeunit/util";
 
 interface IChildSample {
     name: string;
-    date?: Date;
+    date?: string;
 }
 
 interface ISample {
     v: number;
     b: boolean;
     child: IChildSample;
-    nullable: Date | null;
+    nullable: string | null;
 }
 
 const validSample: ISample = {
@@ -18,7 +18,7 @@ const validSample: ISample = {
     b: true,
     child: {
         name: "Bob",
-        date: new Date("2020-01-01T00:00:00.000Z"),
+        date: "2020-01-01T00:00:00.000Z",
     },
     nullable: null,
 };
@@ -28,13 +28,13 @@ const invalidSample = {
     b: true,
     child: {
         name: 123,
-        date: new Date("2020-01-01T00:00:00.000Z"),
+        date: "2020-01-01T00:00:00.000Z",
     },
     nullable: true,
 };
 
 test("Validation", async () => {
-    const validateDate = (v: any) => assert(v instanceof Date);
+    const validateDate = (v: any) => assert(!!new Date(v));
     const childValidationSchema = new ValidationSchema<IChildSample>();
     childValidationSchema
         .add("date", {validator: validateDate, required: false})

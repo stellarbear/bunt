@@ -12,7 +12,7 @@ Object {
     "child": Object {
       "valid": true,
       "value": Object {
-        "date": 1999-12-31T21:00:00.000Z,
+        "date": "2020-01-01T00:00:00.000Z",
         "name": "Bob",
       },
     },
@@ -50,7 +50,7 @@ Object {
         "validation": Object {
           "date": Object {
             "valid": true,
-            "value": 1999-12-31T21:00:00.000Z,
+            "value": "2020-01-01T00:00:00.000Z",
           },
           "name": Object {
             "error": [Error: Assertion fails],
@@ -63,16 +63,12 @@ Object {
         },
       },
       "value": Object {
-        "date": 1999-12-31T21:00:00.000Z,
+        "date": "2020-01-01T00:00:00.000Z",
         "name": 123,
       },
     },
     "nullable": Object {
-      "error": [Error: Assertion fails],
-      "message": undefined,
-      "nullable": true,
-      "required": true,
-      "valid": false,
+      "valid": true,
       "value": true,
     },
     "v": Object {
