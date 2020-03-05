@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.2](https://github.com/izatop/typesafeunit/compare/v0.3.1...v0.3.2) (2020-03-05)
+
+
+### Bug Fixes
+
+* lerna scripts ([ce2bb09](https://github.com/izatop/typesafeunit/commit/ce2bb09bc757cb2c1a2b26e2ec5f8762001502ac))
+
+
+
+
+
 ## [0.3.1](https://github.com/izatop/typesafeunit/compare/v0.3.0...v0.3.1) (2020-03-05)
 
 **Note:** Version bump only for package typesafeunit
