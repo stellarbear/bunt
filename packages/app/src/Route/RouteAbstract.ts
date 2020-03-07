@@ -6,7 +6,7 @@ export abstract class RouteAbstract<A extends RouteAction = RouteAction> {
     public readonly action: ActionCtor<A>;
     public readonly route: string;
     public readonly validate?: RouteConfigValidate<A>;
-    public readonly state: RouteConfigState<A>;
+    public readonly state?: RouteConfigState<A>;
 
     public abstract readonly matcher: IRouteMatcher;
 
@@ -14,7 +14,13 @@ export abstract class RouteAbstract<A extends RouteAction = RouteAction> {
         this.action = action;
         this.route = config.route;
         this.validate = config.validate;
-        this.state = config.state;
+        if (RouteAbstract.hasState(config)) {
+            this.state = config.state;
+        }
+    }
+
+    private static hasState<A>(config: RouteConfig<A>): config is RouteConfig<A> & { state: RouteConfigState<A> } {
+        return Reflect.has(config, "state");
     }
 
     public test(route: string) {
