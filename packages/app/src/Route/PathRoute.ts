@@ -1,8 +1,8 @@
 import {memoize} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
 import {RouteArgs} from "./interfaces";
-import {RouteAbstract} from "./RouteAbstract";
 import {RegexpMatcher} from "./Matcher/RegexpMatcher";
+import {RouteAbstract} from "./RouteAbstract";
 
 export class PathRoute<A extends RouteAction> extends RouteAbstract<A> {
     @memoize

@@ -1,5 +1,5 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
-import {assert, isFunction} from "@typesafeunit/util";
+import {assert, isFunction, isObject} from "@typesafeunit/util";
 import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
 import {RouteAbstract} from "./Route";
 import {TransportAbstract} from "./Transport";
@@ -63,8 +63,10 @@ export class Application<U extends Unit<C>, C> {
                     await route.validate(routeContext);
                 }
 
-                for (const [name, factory] of Object.entries(route.state)) {
-                    Reflect.set(state, name, await factory(routeContext));
+                if (isObject(route.state)) {
+                    for (const [name, factory] of Object.entries(route.state)) {
+                        Reflect.set(state, name, await factory(routeContext));
+                    }
                 }
 
                 return this.unit.run(route.action, state);

@@ -20,7 +20,8 @@ export type RouteResponse = IResponse
     | number
     | boolean
     | null
-    | undefined;
+    | undefined
+    | void;
 
 export type RouteAction = Action<any, any, RouteResponse>;
 

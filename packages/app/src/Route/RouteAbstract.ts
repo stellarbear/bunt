@@ -11,8 +11,8 @@ export abstract class RouteAbstract<A extends RouteAction = RouteAction> {
     public abstract readonly matcher: IRouteMatcher;
 
     constructor(action: ActionCtor<A>, config: RouteConfig<A>) {
-        this.route = config.route;
         this.action = action;
+        this.route = config.route;
         this.validate = config.validate;
         this.state = config.state;
     }
