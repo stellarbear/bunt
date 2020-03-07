@@ -23,7 +23,7 @@ Transport {
     "body": "{\\"name\\":\\"World\\"}",
     "headers": Headers {
       Symbol(): Map {
-        "Content-Type" => "application/json",
+        "content-type" => "application/json",
       },
     },
     "route": "/u/123",

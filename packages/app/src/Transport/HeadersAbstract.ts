@@ -4,6 +4,10 @@ import {HeaderAssertValue, IHeaders} from "../interfaces";
 import {KeyValueReadonlyMap} from "./KeyValueReadonlyMap";
 
 export abstract class HeadersAbstract extends KeyValueReadonlyMap implements IHeaders {
+    constructor(values: [string, string][]) {
+        super(values.map(([key, value]) => [key.toLowerCase(), value]));
+    }
+
     public assert(header: string, expected: HeaderAssertValue): void {
         const clientValue = this.get(header.toLowerCase());
         const cmp = curry(compare, clientValue);
