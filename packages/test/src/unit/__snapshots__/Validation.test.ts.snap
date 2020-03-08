@@ -40,6 +40,10 @@ Object {
       "valid": true,
       "value": null,
     },
+    "str": Object {
+      "valid": true,
+      "value": "foo",
+    },
     "v": Object {
       "valid": true,
       "value": 1,
@@ -100,6 +104,12 @@ Object {
     "nullable": Object {
       "valid": true,
       "value": true,
+    },
+    "str": Object {
+      "nullable": false,
+      "required": false,
+      "valid": true,
+      "value": undefined,
     },
     "v": Object {
       "error": [Error: Assertion fails],

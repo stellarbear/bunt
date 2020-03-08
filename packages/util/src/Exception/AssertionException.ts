@@ -5,10 +5,9 @@ export class AssertionException extends Error {
 
     constructor(message?: string, details?: any) {
         super(message || "Assertion fails");
-        if (isFunction(details)) {
-            this.details = details();
-        }
 
-        this.details = details;
+        this.details = isFunction(details)
+            ? details()
+            : details;
     }
 }

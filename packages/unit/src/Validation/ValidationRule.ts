@@ -30,6 +30,10 @@ export class ValidationRule<T, K extends keyof T> {
 
     public async validate(value: T[K]): Promise<ValidationResult<T, K>> {
         const attributes = this.attributes;
+        if (!this.required && isUndefined(value)) {
+            return {value, valid: true, ...attributes};
+        }
+
         if (this.required && this.nullable && this.isNull(value)) {
             return {value, valid: true, ...attributes};
         }

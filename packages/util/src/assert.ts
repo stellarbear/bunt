@@ -11,9 +11,9 @@ export function assert(expr: any, message?: AssertionMessage, details?: Assertio
     }
 }
 
-export function fails(expr: any, message?: string, details?: AssertionDetails) {
+export function fails(expr: any, message?: AssertionMessage, details?: AssertionDetails) {
     if (!!expr) {
-        throw new AssertionException(message, details);
+        throw new AssertionException(isFunction(message) ? message() : message, details);
     }
 }
 
