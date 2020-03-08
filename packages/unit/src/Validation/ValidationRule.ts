@@ -30,7 +30,22 @@ export class ValidationRule<T, K extends keyof T> {
 
     public async validate(value: T[K]): Promise<ValidationResult<T, K>> {
         const attributes = this.attributes;
-        if (this.required && this.nullable && isNull(value)) {
+        if (this.required && this.nullable && this.isNull(value)) {
+            return {value, valid: true, ...attributes};
+        }
+
+        if (Array.isArray(value)) {
+            if (value.length === 0) {
+                return {value, valid: false, ...attributes};
+            }
+
+            for (const child of value) {
+                const res = await this.validate(child);
+                if (!res.valid) {
+                    return {...res, value};
+                }
+            }
+
             return {value, valid: true, ...attributes};
         }
 
@@ -68,5 +83,9 @@ export class ValidationRule<T, K extends keyof T> {
         }
 
         return {value, valid: true};
+    }
+
+    protected isNull(value: any) {
+        return isNull(value) || (Array.isArray(value) && value.length === 0);
     }
 }

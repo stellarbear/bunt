@@ -9,8 +9,8 @@ node_js:
 
 cache: yarn
 
-install: yarn install --pure-lockfile
 before_install: curl -o- -L https://yarnpkg.com/install.sh | bash
+install: yarn install --pure-lockfile
 
 script:
   - yarn ci

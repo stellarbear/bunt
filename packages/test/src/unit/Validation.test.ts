@@ -10,6 +10,8 @@ interface ISample {
     v: number;
     b: boolean;
     child: IChildSample;
+    arrayReq: number[];
+    array: string[];
     nullable: string | null;
 }
 
@@ -20,6 +22,8 @@ const validSample: ISample = {
         name: "Bob",
         date: "2020-01-01T00:00:00.000Z",
     },
+    arrayReq: [1, 2, 3],
+    array: ["foo"],
     nullable: null,
 };
 
@@ -30,6 +34,8 @@ const invalidSample = {
         name: 123,
         date: "2020-01-01T00:00:00.000Z",
     },
+    arrayReq: [],
+    array: [],
     nullable: true,
 };
 
@@ -44,6 +50,8 @@ test("Validation", async () => {
     validationSchema
         .add("v", (v) => assert(isNumber(v)))
         .add("b", (v) => assert(isBoolean(v)))
+        .add("arrayReq", (v) => assert(isNumber(v)))
+        .add("array", {validator: (v) => assert(isString(v)), required: true, nullable: true})
         .add("nullable", {validator: validateDate, nullable: true})
         .add("child", childValidationSchema);
 

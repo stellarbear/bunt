@@ -5,6 +5,24 @@ Object {
   "message": undefined,
   "valid": true,
   "validation": Object {
+    "array": Object {
+      "nullable": true,
+      "required": true,
+      "valid": true,
+      "value": Array [
+        "foo",
+      ],
+    },
+    "arrayReq": Object {
+      "nullable": false,
+      "required": true,
+      "valid": true,
+      "value": Array [
+        1,
+        2,
+        3,
+      ],
+    },
     "b": Object {
       "valid": true,
       "value": true,
@@ -35,6 +53,18 @@ Object {
   "message": undefined,
   "valid": false,
   "validation": Object {
+    "array": Object {
+      "nullable": true,
+      "required": true,
+      "valid": true,
+      "value": Array [],
+    },
+    "arrayReq": Object {
+      "nullable": false,
+      "required": true,
+      "valid": false,
+      "value": Array [],
+    },
     "b": Object {
       "valid": true,
       "value": true,
