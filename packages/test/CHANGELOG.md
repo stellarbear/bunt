@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.9](https://github.com/izatop/typesafeunit/compare/v0.3.8...v0.3.9) (2020-03-08)
+
+
+### Bug Fixes
+
+* **validation:** skip validation if not required ([d50b893](https://github.com/izatop/typesafeunit/commit/d50b8936a26445b3e098fad01a8c6b0d23933081))
+
+
+
+
+
 ## [0.3.8](https://github.com/izatop/typesafeunit/compare/v0.3.7...v0.3.8) (2020-03-08)
 
 **Note:** Version bump only for package @typesafeunit/test
