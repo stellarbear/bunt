@@ -1,5 +1,5 @@
 import {assert, fails, isFunction, isNull, isUndefined} from "@typesafeunit/util";
-import {ValidationAttributes, ValidationFunction, ValidationResult} from "./interfaces";
+import {ValidationAttributes, ValidationFails, ValidationFunction, ValidationResult} from "./interfaces";
 import {ValidationSchema} from "./ValidationSchema";
 
 export class ValidationRule<T, K extends keyof T> {
@@ -61,10 +61,7 @@ export class ValidationRule<T, K extends keyof T> {
         for (const [validator, message] of [...validators, ...this.validators]) {
             try {
                 if (isFunction(validator)) {
-                    const returns = validator(value);
-                    if (!isUndefined(returns)) {
-                        returns;
-                    }
+                    validator(value);
                     continue;
                 }
 
@@ -75,7 +72,7 @@ export class ValidationRule<T, K extends keyof T> {
 
                 const validation = await validator.validate(value);
                 if (!validation.valid) {
-                    return {value, message, validation, valid: false, ...attributes};
+                    return {value, message, validation, valid: false, ...attributes} as ValidationFails<any, any>;
                 }
             } catch (error) {
                 return {value, error, message, valid: false, ...attributes};

@@ -1,11 +1,7 @@
 import {entriesReverse, isFunction, isObject, isUndefined} from "@typesafeunit/util";
-import {ValidationAttributes, ValidationDescription, ValidationFunction, ValidationResult} from "./interfaces";
+import {ValidationAttributes, ValidationDescription, ValidationResult, ValidatorArg} from "./interfaces";
 import {ValidationError} from "./ValidationError";
 import {ValidationRule} from "./ValidationRule";
-
-type ValidatorArg<T, K extends keyof T> = ValidationFunction<T, K>
-    | [ValidationFunction<T, K>, string]
-    | ValidationAttributes & { validator: ValidationFunction<T, K>; message?: string };
 
 export class ValidationSchema<T> {
     protected readonly attributes: ValidationAttributes = {
