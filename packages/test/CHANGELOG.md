@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.3.5](https://github.com/izatop/typesafeunit/compare/v0.3.4...v0.3.5) (2020-03-07)
+
+
+### Bug Fixes
+
+* headers keys case sensitivity ([37c372d](https://github.com/izatop/typesafeunit/commit/37c372d23a1ac9a5175aa6428c3b1c82e17e669c))
+
+
+
+
+
 ## [0.3.4](https://github.com/izatop/typesafeunit/compare/v0.3.3...v0.3.4) (2020-03-07)
 
 **Note:** Version bump only for package @typesafeunit/test
