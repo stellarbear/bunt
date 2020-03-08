@@ -1,4 +1,5 @@
 import {Application} from "@typesafeunit/app";
+import {NotFound} from "@typesafeunit/app/dist/Error/NotFound";
 import {MainContext} from "../unit/src/context/MainContext";
 import HelloWorldRoute from "./src/actions/HelloWorldRoute";
 import {Request} from "./src/transport/Request";
@@ -37,7 +38,7 @@ describe("Route", () => {
         const request = new Request("/wrong-uri", {});
         const transport = new Transport(request);
         await app.handle(transport);
-        expect(transport.response).toEqual({code: 404, status: "Page not found"});
+        expect(transport.response).toBeInstanceOf(NotFound);
         expect(transport).toMatchSnapshot();
     });
 });

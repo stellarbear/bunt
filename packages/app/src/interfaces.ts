@@ -1,22 +1,11 @@
 import {Action, Context, MatchContext, Promisify} from "@typesafeunit/unit";
 import {RouteAbstract} from "./Route";
-import ReadableStream = NodeJS.ReadableStream;
 
-export interface IResponseObject {
-    toJSON(): object;
-}
-
-export interface IResponseSimple {
-    code: number;
-    status?: string;
-    response?: string | Buffer;
-}
-
-export type RouteResponse = IResponse
-    | IResponseSimple
-    | IResponseObject
-    | string
+export type RouteResponse = Error
+    | {stringify(): string}
+    | NodeJS.ReadableStream
     | Buffer
+    | string
     | number
     | boolean
     | null
@@ -64,12 +53,8 @@ export interface IRequest {
     readonly headers: IHeaders;
 
     getBuffer(): Promise<Buffer>;
-    createReadableStream(): Promisify<ReadableStream>;
+    createReadableStream(): Promisify<NodeJS.ReadableStream>;
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
-}
-
-export interface IResponse extends IResponseSimple {
-    headers: IHeaders;
 }
 
 export type HeaderAssertValue = |

@@ -26,10 +26,10 @@ export class Unit<C extends IContext = {}> {
     @memoize
     protected get profiler() {
         return Profiler.create({
-            run: () => Object.create(null),
-            has: (action: string, exists: boolean) => ({action, exists}),
-            add: (tags: string[]) => tags,
-            remove: (tags: string[]) => tags,
+            "run": () => Object.create(null),
+            "has": (action: string, exists: boolean) => ({action, exists}),
+            "add": (tags: string[]) => tags,
+            "remove": (tags: string[]) => tags,
             "run:error": (error: Error) => error,
             "action:validate": (valid: boolean) => valid,
             "action:create": null,

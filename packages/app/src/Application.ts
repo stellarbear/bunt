@@ -1,5 +1,6 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
-import {assert, isFunction, isObject} from "@typesafeunit/util";
+import {assert, isDefined, isFunction, isObject} from "@typesafeunit/util";
+import {NotFound} from "./Error/NotFound";
 import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
 import {RouteAbstract} from "./Route";
 import {TransportAbstract} from "./Transport";
@@ -42,7 +43,7 @@ export class Application<U extends Unit<C>, C> {
             await transport.respond(await this.run(transport.request));
         } catch (error) {
             if (!transport.sent) {
-                await transport.respond({code: 500, status: error.message});
+                await transport.respond(error);
             }
 
             throw error;
@@ -63,9 +64,13 @@ export class Application<U extends Unit<C>, C> {
                     await route.validate(routeContext);
                 }
 
-                if (isObject(route.state)) {
-                    for (const [name, factory] of Object.entries(route.state)) {
-                        Reflect.set(state, name, await factory(routeContext));
+                if (isDefined(route.state)) {
+                    if (isFunction(route.state)) {
+                        Object.assign(state, await route.state(routeContext));
+                    } else if (isObject(route.state)) {
+                        for (const [name, factory] of Object.entries(route.state)) {
+                            Reflect.set(state, name, await factory(routeContext));
+                        }
                     }
                 }
 
@@ -73,6 +78,6 @@ export class Application<U extends Unit<C>, C> {
             }
         }
 
-        return {code: 404, status: "Page not found"};
+        return new NotFound("Route not found");
     }
 }

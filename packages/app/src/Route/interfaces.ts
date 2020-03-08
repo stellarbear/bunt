@@ -1,4 +1,4 @@
-import {Action, ActionCtor, IContext, Promisify} from "@typesafeunit/unit";
+import {Action, ActionCtor, Context, IContext, Promisify} from "@typesafeunit/unit";
 import {IRequest, RouteAction, RouteResponse} from "../interfaces";
 import {RouteAbstract} from "./RouteAbstract";
 
@@ -13,9 +13,13 @@ export interface IRouteContext<C extends IContext> {
     args: Map<string, string>;
 }
 
+export type RouteStateSure<C extends Context, T> = |
+    { [K in keyof T]: (context: IRouteContext<C>) => Promisify<T[K]> } |
+    ((context: IRouteContext<C>) => Promisify<T>);
+
 export type RouteConfigState<A> = A extends Action<infer C, infer S, RouteResponse>
     ? S extends object
-        ? { [K in keyof S]: (context: IRouteContext<C>) => Promisify<S[K]> }
+        ? RouteStateSure<C, S>
         : never
     : never;
 

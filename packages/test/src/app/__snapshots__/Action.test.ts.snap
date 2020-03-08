@@ -9,10 +9,7 @@ Transport {
     },
     "route": "/wrong-uri",
   },
-  "response": Object {
-    "code": 404,
-    "status": "Page not found",
-  },
+  "response": [Error: Route not found],
   Symbol(): true,
 }
 `;
