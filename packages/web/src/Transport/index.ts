@@ -1,5 +1,5 @@
-export * from "./Response/JSONResponse";
-export * from "./Response/ResponseAbstract";
+export * from "./Response";
+export * from "./ServerError";
 export * from "./Connection";
 export * from "./Headers";
 export * from "./Request";
