@@ -9,9 +9,7 @@ describe("Route", () => {
     const headers = {"Content-Type": "application/json"};
 
     test("Success", async () => {
-        const app = await Application.factory(new MainContext());
-        app.add(HelloWorldRoute);
-
+        const app = await Application.factory(new MainContext(), [HelloWorldRoute]);
         const request = new Request(
             "/u/123",
             headers,

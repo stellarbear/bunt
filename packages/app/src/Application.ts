@@ -17,8 +17,14 @@ export class Application<U extends Unit<C>, C> {
         return this.route.length;
     }
 
-    public static async factory<C extends Context>(context: ContextArg<C>) {
-        return new this<Unit<C>, C>(await unit(context));
+    public static async factory<C extends Context>(context: ContextArg<C>,
+                                                   routes: MatchRoute<C, RouteAbstract<RouteAction>>[] = []) {
+        const app = new this<Unit<C>, C>(await unit(context));
+        if (routes.length > 0) {
+            routes.forEach((route) => app.add(route));
+        }
+
+        return app;
     }
 
     public add<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>) {
