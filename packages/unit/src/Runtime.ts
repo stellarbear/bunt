@@ -24,8 +24,8 @@ export class Runtime {
     protected readonly disposable: Disposable[] = [];
     private [Disposed] = false;
 
-    public get disposed() {
-        return this[Disposed];
+    public get online() {
+        return !this[Disposed];
     }
 
     public static async run(fn: (runtime: Runtime) => Promisify<void>) {
@@ -47,9 +47,9 @@ export class Runtime {
         }
     }
 
-    private on(event: "dispose", fn: Disposable): void;
-    private on(event: "dispose:sync", fn: Disposable): void;
-    private on(event: "dispose" | "dispose:sync", fn: Disposable): void {
+    public on(event: "dispose", fn: Disposable): void;
+    public on(event: "dispose:sync", fn: Disposable): void;
+    public on(event: "dispose" | "dispose:sync", fn: Disposable): void {
         if (event === "dispose:sync") {
             Reflect.set(fn, DisposableSync, true);
         }
@@ -58,7 +58,7 @@ export class Runtime {
     }
 
     private async dispose() {
-        if (this.disposed) {
+        if (!this.online) {
             return;
         }
 
