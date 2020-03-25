@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.4.2](https://github.com/izatop/typesafeunit/compare/v0.4.1...v0.4.2) (2020-03-25)
+
+
+### Bug Fixes
+
+* bugfix ([b0f47b2](https://github.com/izatop/typesafeunit/commit/b0f47b2cf26aa191fc550b5c9fdaf71a0326cdfa))
+
+
+
+
+
 ## [0.4.1](https://github.com/izatop/typesafeunit/compare/v0.4.0...v0.4.1) (2020-03-25)
 
 
