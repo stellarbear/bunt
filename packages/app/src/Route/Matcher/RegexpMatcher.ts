@@ -5,6 +5,7 @@ export class RegexpMatcher implements IRouteMatcher {
     protected readonly route: string;
     protected readonly matcher: MatchFunction;
     protected readonly tester: RegExp;
+
     constructor(route: string) {
         this.route = route;
         this.tester = pathToRegexp(route);

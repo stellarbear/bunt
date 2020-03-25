@@ -4,6 +4,7 @@ const KEY_VALUE_MAP = Symbol();
 
 export class KeyValueMap implements IKeyValueMap {
     protected readonly [KEY_VALUE_MAP]: Map<string, string>;
+
     constructor(values: [string, string][]) {
         this[KEY_VALUE_MAP] = new Map(values);
     }

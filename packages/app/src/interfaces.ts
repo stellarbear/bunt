@@ -2,7 +2,7 @@ import {Action, Context, MatchContext, Promisify} from "@typesafeunit/unit";
 import {RouteAbstract} from "./Route";
 
 export type RouteResponse = Error
-    | {stringify(): string}
+    | { stringify(): string }
     | NodeJS.ReadableStream
     | Buffer
     | string
@@ -53,7 +53,9 @@ export interface IRequest {
     readonly headers: IHeaders;
 
     getBuffer(): Promise<Buffer>;
+
     createReadableStream(): Promisify<NodeJS.ReadableStream>;
+
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
 }
 

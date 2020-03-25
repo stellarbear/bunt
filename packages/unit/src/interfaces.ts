@@ -36,7 +36,7 @@ export type ActionHookCreate<C extends Context, S = null> = (context: C, state: 
 export type ActionHookSuccess<C extends Context, T> = (returns: T, context: C) => Promisify<void>;
 export type ActionHookError<C extends Context> = (error: Error, context: C) => Promisify<void>;
 export type ActionHookValidate<C extends Context, S = null> = (validationSchema: ValidationSchema<S>,
-                                                                context: C) => ValidationSchema<S>;
+                                                               context: C) => ValidationSchema<S>;
 
 export interface IActionHooks<C extends Context, S = null, T = any> {
     validate?: ActionHookValidate<C, S>;
