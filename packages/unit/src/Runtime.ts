@@ -1,49 +1,42 @@
 import {isFunction} from "@typesafeunit/util";
 import {Promisify} from "./interfaces";
+import {Disposable} from "./Runtime/interfaces";
+import {DisposableSync, Disposed, Signals} from "./Runtime/symbols";
 
-const DisposableSync = Symbol();
-const Disposed = Symbol();
-
-interface IDisposableSync {
-    [DisposableSync]: true;
-}
-
-interface IDisposable {
-    dispose(): Promisify<void>;
-}
-
-type DisposableFn = () => Promisify<void>;
-type Disposable = DisposableFn
-    | IDisposable
-    | DisposableFn & IDisposableSync
-    | IDisposable & IDisposableSync;
-
-const Signals: NodeJS.Signals[] = ["SIGINT", "SIGQUIT", "SIGTERM"];
+const RuntimeRef = Symbol();
 
 export class Runtime {
+    private static readonly [RuntimeRef] = new Runtime();
     protected readonly disposable: Disposable[] = [];
+    private readonly created: Date;
     private [Disposed] = false;
+
+    private constructor() {
+        this.created = new Date();
+    }
+
+    public static get runtime() {
+        return this[RuntimeRef];
+    }
 
     public get online() {
         return !this[Disposed];
     }
 
-    public static async run(fn: (runtime: Runtime) => Promisify<void>) {
-        const runtime = new this();
+    public static run(fn: (runtime: Runtime) => Promisify<void>) {
+        return this.runtime.run(fn);
+    }
 
+    public async run(fn: (runtime: Runtime) => Promisify<void>) {
         // @TODO Send an event when a signal has been received.
         for (const signal of Signals) {
-            process.on(signal, async () => {
-                await runtime.dispose();
-                process.exit();
-            });
+            process.on(signal, async () => await this.shutdown());
         }
 
         try {
-            await fn(runtime);
+            await fn(this);
         } finally {
-            await runtime.dispose();
-            process.exit();
+            await this.shutdown();
         }
     }
 
@@ -57,12 +50,17 @@ export class Runtime {
         this.disposable.push(fn);
     }
 
+    private async shutdown() {
+        await this.dispose();
+        this[Disposed] = true;
+        process.exit();
+    }
+
     private async dispose() {
         if (!this.online) {
             return;
         }
 
-        this[Disposed] = true;
         const filter = (disposer: Disposable) => DisposableSync in disposer;
         const disposableSync = this.disposable.filter(filter);
         const disposableAsync = this.disposable.filter((disposer) => !filter(disposer));
