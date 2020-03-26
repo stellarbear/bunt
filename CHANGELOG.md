@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/izatop/typesafeunit/compare/v0.4.6...v0.5.0) (2020-03-26)
+
+
+### Bug Fixes
+
+* bugs ([3d4d640](https://github.com/izatop/typesafeunit/commit/3d4d6405d7e93e5b2c66be8c55015c24c4b7686f))
+
+
+### Features
+
+* improve flow control ([1d4a31d](https://github.com/izatop/typesafeunit/commit/1d4a31da7b1801fa7eb66e5a7b699a1b79cede2b))
+
+
+
+
+
 ## [0.4.6](https://github.com/izatop/typesafeunit/compare/v0.4.5...v0.4.6) (2020-03-25)
 
 
