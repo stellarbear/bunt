@@ -15,6 +15,11 @@ export class Runtime {
 
     private constructor() {
         this.created = new Date();
+
+        // @TODO Send an event when a signal has been received.
+        for (const signal of Signals) {
+            process.on(signal, async () => this.online && this.release());
+        }
     }
 
     public static get runtime() {
@@ -30,16 +35,13 @@ export class Runtime {
     }
 
     public async run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
-        // @TODO Send an event when a signal has been received.
-        for (const signal of Signals) {
-            process.on(signal, async () => await this.release());
-        }
-
         try {
             this.accept(await fn(this));
             await Promise.allSettled(this.queue.map((hb) => hb.waitUntilStop()));
         } finally {
-            await this.release();
+            if (this.online) {
+                await this.release();
+            }
         }
     }
 
@@ -54,17 +56,20 @@ export class Runtime {
     }
 
     private async release() {
-        assert(this.#disposed, "Runtime has been already released");
+        assert(this.online, "Runtime has been already released");
         this.#disposed = true;
 
         const filter = (disposer: Disposable) => DisposableSync in disposer;
+        const dispose = (disposer: Disposable) => isFunction(disposer) ? disposer() : disposer.dispose();
         const disposableSync = this.disposable.filter(filter);
         const disposableAsync = this.disposable.filter((disposer) => !filter(disposer));
         for (const disposer of disposableSync) {
-            await (isFunction(disposer) ? disposer() : disposer.dispose());
+            try {
+                await dispose(disposer);
+            } finally {}
         }
 
-        await Promise.all(disposableAsync.map((disposer) => isFunction(disposer) ? disposer() : disposer.dispose()));
+        await Promise.allSettled(disposableAsync.map(dispose));
         process.exit();
     }
 }
