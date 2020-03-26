@@ -1,5 +1,6 @@
 import {assert, isFunction} from "@typesafeunit/util";
 import {Promisify} from "../interfaces";
+import {Heartbeat} from "./Heartbeat";
 import {Disposable, IRunnable} from "./interfaces";
 import {DisposableSync, isDisposable, isRunnable, Signals} from "./internal";
 
@@ -7,7 +8,7 @@ const RuntimeRef = Symbol();
 
 export class Runtime {
     private static readonly [RuntimeRef] = new Runtime();
-    protected readonly runnable: IRunnable[] = [];
+    protected readonly queue: Heartbeat[] = [];
     protected readonly disposable: Disposable[] = [];
     private readonly created: Date;
     #disposed = false;
@@ -36,7 +37,7 @@ export class Runtime {
 
         try {
             this.accept(await fn(this));
-            await Promise.all(this.runnable);
+            await Promise.allSettled(this.queue.map((hb) => hb.waitUntilStop()));
         } finally {
             await this.release();
         }
@@ -48,7 +49,7 @@ export class Runtime {
         }
 
         if (isRunnable(item)) {
-            this.runnable.push(item);
+            this.queue.push(item.getHeartbeat());
         }
     }
 
