@@ -22,7 +22,7 @@ export class TransformObject<T, K extends keyof T> {
             }
 
             if (isObject(transform)) {
-                await this.transform(sourceValue, Reflect.get(transform, property));
+                await this.transform(sourceValue, transform);
             }
         }
 

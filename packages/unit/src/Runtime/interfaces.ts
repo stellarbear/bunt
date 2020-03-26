@@ -1,5 +1,14 @@
 import {Promisify} from "../interfaces";
-import {DisposableSync} from "./symbols";
+import {Heartbeat} from "./Heartbeat";
+import {DisposableSync} from "./index";
+
+export interface IRunnable<TState = unknown> {
+    getHeartbeat(): Heartbeat<TState>;
+}
+
+export interface IDestroyable<TState = unknown> {
+    destroy(): Promisify<void> | Heartbeat<TState>;
+}
 
 export interface IDisposableSync {
     [DisposableSync]: true;

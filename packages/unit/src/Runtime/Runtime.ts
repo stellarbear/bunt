@@ -1,15 +1,16 @@
-import {isFunction} from "@typesafeunit/util";
-import {Promisify} from "./interfaces";
-import {Disposable} from "./Runtime/interfaces";
-import {DisposableSync, Disposed, Signals} from "./Runtime/symbols";
+import {assert, isFunction} from "@typesafeunit/util";
+import {Promisify} from "../interfaces";
+import {Disposable, IRunnable} from "./interfaces";
+import {DisposableSync, isDisposable, isRunnable, Signals} from "./internal";
 
 const RuntimeRef = Symbol();
 
 export class Runtime {
     private static readonly [RuntimeRef] = new Runtime();
+    protected readonly runnable: IRunnable[] = [];
     protected readonly disposable: Disposable[] = [];
     private readonly created: Date;
-    private [Disposed] = false;
+    #disposed = false;
 
     private constructor() {
         this.created = new Date();
@@ -20,46 +21,40 @@ export class Runtime {
     }
 
     public get online() {
-        return !this[Disposed];
+        return !this.#disposed;
     }
 
-    public static run(fn: (runtime: Runtime) => Promisify<void>) {
+    public static run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
         return this.runtime.run(fn);
     }
 
-    public async run(fn: (runtime: Runtime) => Promisify<void>) {
+    public async run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
         // @TODO Send an event when a signal has been received.
         for (const signal of Signals) {
-            process.on(signal, async () => await this.shutdown());
+            process.on(signal, async () => await this.release());
         }
 
         try {
-            await fn(this);
+            this.accept(await fn(this));
+            await Promise.all(this.runnable);
         } finally {
-            await this.shutdown();
+            await this.release();
         }
     }
 
-    public on(event: "dispose", fn: Disposable): void;
-    public on(event: "dispose:sync", fn: Disposable): void;
-    public on(event: "dispose" | "dispose:sync", fn: Disposable): void {
-        if (event === "dispose:sync") {
-            Reflect.set(fn, DisposableSync, true);
+    public accept(item: any) {
+        if (isDisposable(item)) {
+            this.disposable.push(item);
         }
 
-        this.disposable.push(fn);
-    }
-
-    private async shutdown() {
-        await this.dispose();
-        this[Disposed] = true;
-        process.exit();
-    }
-
-    private async dispose() {
-        if (!this.online) {
-            return;
+        if (isRunnable(item)) {
+            this.runnable.push(item);
         }
+    }
+
+    private async release() {
+        assert(this.#disposed, "Runtime has been already released");
+        this.#disposed = true;
 
         const filter = (disposer: Disposable) => DisposableSync in disposer;
         const disposableSync = this.disposable.filter(filter);
@@ -69,5 +64,6 @@ export class Runtime {
         }
 
         await Promise.all(disposableAsync.map((disposer) => isFunction(disposer) ? disposer() : disposer.dispose()));
+        process.exit();
     }
 }
