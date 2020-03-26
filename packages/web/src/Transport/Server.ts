@@ -7,7 +7,7 @@ import {Connection} from "./Connection";
 
 export class Server implements IDisposableSync, IRunnable, IDestroyable {
     readonly [DisposableSync]: true;
-    
+
     protected readonly server: http.Server;
 
     protected readonly application: Application<any, any>;

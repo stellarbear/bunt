@@ -1,6 +1,6 @@
 export class Heartbeat<T = unknown> {
     #beats = true;
-    #defer: Promise<T | Error>;
+    readonly #defer: Promise<T | Error>;
 
     constructor(executor: (resolve: (value: Error | T) => void) => void) {
         this.#defer = new Promise((resolve) => {
