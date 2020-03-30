@@ -5,6 +5,8 @@ import {Disposable, IRunnable} from "./interfaces";
 import {DisposableSync, isDisposable, isRunnable, Signals} from "./internal";
 
 const RuntimeRef = Symbol();
+const DEBUG = !!process.env.DEBUG;
+const ENV = process.env.NODE_ENV || "production";
 
 export class Runtime {
     private static [RuntimeRef]: Runtime;
@@ -19,7 +21,7 @@ export class Runtime {
     private constructor() {
         this.logger = Logger.factory(this);
         this.created = new Date();
-        this.logger.info("created");
+        this.logger.info("register", {ENV, DEBUG});
 
         // @TODO Send an event when a signal has been received.
         for (const signal of Signals) {
@@ -30,6 +32,22 @@ export class Runtime {
 
     public static get runtime() {
         return this[RuntimeRef];
+    }
+
+    public static isDebugEnable() {
+        return DEBUG;
+    }
+
+    public static isProduction() {
+        return ENV === "production";
+    }
+
+    public static isDevelopment() {
+        return ENV !== "production";
+    }
+
+    public static isTest() {
+        return ENV === "test";
     }
 
     public get online() {

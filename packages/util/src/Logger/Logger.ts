@@ -167,7 +167,7 @@ export class Logger {
         const perf = new Perf(this.label, message);
         return () => {
             perf.finish();
-            this.debug(perf.label, perf, ...args);
+            this.debug("perf", perf, ...args);
         };
     }
 

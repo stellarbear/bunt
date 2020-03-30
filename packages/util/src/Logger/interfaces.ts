@@ -30,8 +30,10 @@ export type LoggerOwner = object | ILogger;
 export type LogableType = string
     | object
     | number
+    | bigint
     | null
     | undefined
+    | boolean
     | Date;
 
 export interface ILogable<T extends LogableType> {
