@@ -1,4 +1,4 @@
-import {debugLogFormat, defaultLogFormat, SeverityLevel} from "@typesafeunit/util";
+import {debugLogFormat, defaultLogFormat, readableJSONLogFormat, SeverityLevel} from "@typesafeunit/util";
 
 describe("Log format", () => {
     test("test default log formatter", () => {
@@ -10,7 +10,20 @@ describe("Log format", () => {
             groupId: "groupId",
             host: "srv1",
             timestamp: 1585574245816,
-            severity: SeverityLevel.DEBUG,
+            severity: SeverityLevel.EMERGENCY,
+        })).toMatchSnapshot();
+    });
+
+    test("test readable JSON log formatter", () => {
+        expect(readableJSONLogFormat({
+            pid: 5761,
+            label: "Test",
+            message: "Log message",
+            args: [1, {foo: "123"}],
+            groupId: "groupId",
+            host: "srv1",
+            timestamp: 1585574245816,
+            severity: SeverityLevel.NOTICE,
         })).toMatchSnapshot();
     });
 
@@ -23,7 +36,7 @@ describe("Log format", () => {
             groupId: "G-7782",
             host: "srv2",
             timestamp: 1585574245816,
-            severity: SeverityLevel.DEBUG,
+            severity: SeverityLevel.INFO,
         })).toMatchSnapshot();
     });
 });

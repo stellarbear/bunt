@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Log format test debug log formatter 1`] = `
-"2020-03-30T13:17:25.816Z DEBUG srv=srv2 pid=6611 group=G-7782
+"2020-03-30T13:17:25.816Z INFO srv=srv2 pid=6611 group=G-7782
 Test: Log message
 [
   1,
@@ -11,7 +11,9 @@ Test: Log message
 ]"
 `;
 
-exports[`Log format test default log formatter 1`] = `
+exports[`Log format test default log formatter 1`] = `"{\\"pid\\":5761,\\"label\\":\\"Test\\",\\"message\\":\\"Log message\\",\\"args\\":[1,{\\"foo\\":\\"123\\"}],\\"groupId\\":\\"groupId\\",\\"host\\":\\"srv1\\",\\"timestamp\\":1585574245816,\\"severity\\":0}"`;
+
+exports[`Log format test readable JSON log formatter 1`] = `
 "{
   \\"pid\\": 5761,
   \\"label\\": \\"Test\\",
@@ -25,6 +27,6 @@ exports[`Log format test default log formatter 1`] = `
   \\"groupId\\": \\"groupId\\",
   \\"host\\": \\"srv1\\",
   \\"timestamp\\": 1585574245816,
-  \\"severity\\": 7
+  \\"severity\\": 5
 }"
 `;
