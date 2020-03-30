@@ -72,7 +72,7 @@ export class Unit<C extends IContext = {}> {
 
     public async run<T extends Action<any, any, any>>(ctor: UnitAction<C, ActionCtor<T>>,
                                                       ...stateArgs: ActionStateArgs<T>) {
-        const finish = this.logger.perf("run", ctor.name);
+        const finish = this.logger.perf("run", {action: ctor.name});
         assert(isClass(ctor), "First argument isn't a class constructor");
         assert(this.registry.has(ctor), `Unknown action ${ctor.name}`);
 
@@ -84,7 +84,6 @@ export class Unit<C extends IContext = {}> {
             if (isFunction(hooks.validate)) {
                 const staticValidationSchema = await hooks.validate(new ValidationSchema(), context);
                 const validationDescription = await staticValidationSchema.validate(state);
-
                 await staticValidationSchema.assert(validationDescription, `${ctor.name} validation failed`);
             }
 
@@ -99,7 +98,7 @@ export class Unit<C extends IContext = {}> {
                 await hooks.create(context, state);
             }
 
-            const finishActionRun = this.logger.perf("action.run", action.name);
+            const finishActionRun = this.logger.perf("execute", {action: action.name});
             const result = await action.run();
             finishActionRun();
 

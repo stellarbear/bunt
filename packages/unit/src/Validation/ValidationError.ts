@@ -1,7 +1,8 @@
+import {ILogable} from "@typesafeunit/util";
 import {ISafeReadableError} from "@typesafeunit/util/dist/Exception/interfaces";
 import {ValidationDescription, ValidationResult, ValidationSafeValue} from "./interfaces";
 
-export class ValidationError<T> extends Error implements ISafeReadableError {
+export class ValidationError<T> extends Error implements ISafeReadableError, ILogable<object> {
     public readonly description: ValidationDescription<T>;
 
     constructor(message: string, description: ValidationDescription<T>) {
@@ -19,6 +20,10 @@ export class ValidationError<T> extends Error implements ISafeReadableError {
             error: description.message || message,
             validation: this.getValidationErrors(description),
         };
+    }
+
+    public getLogValue(): object {
+        return this.toSafeJSON();
     }
 
     private getValidationErrors(description: ValidationDescription<T>): ValidationSafeValue[] {
