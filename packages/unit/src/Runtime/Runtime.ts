@@ -7,7 +7,7 @@ import {DisposableSync, isDisposable, isRunnable, Signals} from "./internal";
 const RuntimeRef = Symbol();
 
 export class Runtime {
-    private static readonly [RuntimeRef] = new Runtime();
+    private static [RuntimeRef]: Runtime;
 
     public readonly logger: Logger;
 
@@ -36,7 +36,20 @@ export class Runtime {
         return !this.#disposed;
     }
 
+    public static initialize(before?: () => any) {
+        if (this[RuntimeRef]) {
+            return;
+        }
+
+        try {
+            before && before();
+        } finally {
+            this[RuntimeRef] = new this();
+        }
+    }
+
     public static run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
+        this.initialize();
         return this.runtime.run(fn);
     }
 

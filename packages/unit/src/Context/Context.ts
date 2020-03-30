@@ -10,7 +10,7 @@ export class Context {
 
     public static async resolve<T extends any>(value: T): Promise<ResolveService<T>> {
         if (isObject(value) && Object.getPrototypeOf(value) instanceof Service) {
-            const finish = this.logger.perf("resolve", value.constructor.name);
+            const finish = this.logger.perf("resolve", value.name);
             try {
                 return await value.resolve();
             } finally {

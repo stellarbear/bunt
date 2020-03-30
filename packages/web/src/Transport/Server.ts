@@ -30,7 +30,7 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
         this.server.on(
             "request",
             async (req: IncomingMessage, res: ServerResponse) => {
-                const finish = this.logger.perf("request", req.method, req.url);
+                const finish = this.logger.perf("request", {request: req.method, url: req.url});
                 try {
                     this.logger.info(`${req.method} ${req.url}`);
                     await this.application.handle(new Request(req, res));
