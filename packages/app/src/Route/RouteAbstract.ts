@@ -1,8 +1,9 @@
 import {ActionCtor} from "@typesafeunit/unit";
+import {ILogable} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
 import {IRouteMatcher, RouteConfig, RouteConfigState, RouteConfigValidate} from "./interfaces";
 
-export abstract class RouteAbstract<A extends RouteAction = RouteAction> {
+export abstract class RouteAbstract<A extends RouteAction = RouteAction> implements ILogable<{ route: string }> {
     public readonly action: ActionCtor<A>;
     public readonly route: string;
     public readonly validate?: RouteConfigValidate<A>;
@@ -21,6 +22,10 @@ export abstract class RouteAbstract<A extends RouteAction = RouteAction> {
 
     private static hasState<A>(config: RouteConfig<A>): config is RouteConfig<A> & { state: RouteConfigState<A> } {
         return Reflect.has(config, "state");
+    }
+
+    public getLogValue() {
+        return {route: this.route};
     }
 
     public test(route: string) {

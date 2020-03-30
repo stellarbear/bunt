@@ -1,12 +1,15 @@
 import {Application} from "@typesafeunit/app";
 import {DisposableSync, IDestroyable, IDisposableSync, IRunnable} from "@typesafeunit/unit";
 import {Heartbeat} from "@typesafeunit/unit/dist/Runtime/Heartbeat";
-import {assert} from "@typesafeunit/util";
+import {assert, logger, Logger} from "@typesafeunit/util";
 import * as http from "http";
-import {Connection} from "./Connection";
+import {IncomingMessage, ServerResponse} from "http";
+import {Request} from "./Request";
 
 export class Server implements IDisposableSync, IRunnable, IDestroyable {
-    readonly [DisposableSync]: true;
+    @logger
+    public readonly logger!: Logger;
+    public readonly [DisposableSync]: true;
 
     protected readonly server: http.Server;
 
@@ -26,18 +29,22 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
 
         this.server.on(
             "request",
-            async (req, res) => {
+            async (req: IncomingMessage, res: ServerResponse) => {
+                const finish = this.logger.perf("request", req.method, req.url);
                 try {
-                    await this.application.handle(new Connection(req, res));
+                    this.logger.info(`${req.method} ${req.url}`);
+                    await this.application.handle(new Request(req, res));
                 } catch (error) {
-                    console.error(error);
+                    this.logger.alert(error.message, error.stack);
                     if (!res.headersSent) {
                         res.writeHead(500, "Internal Server Error");
                     }
                 } finally {
                     res.writable && res.end();
+                    finish();
                 }
             })
+            .on("listening", () => this.logger.info("listen", {port}))
             .listen(port);
 
         return this;
@@ -48,6 +55,7 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
     }
 
     public destroy() {
+        this.logger.info("destroy");
         assert(this.server.listening, "Server was destroyed");
         return new Promise<void>((resolve) => this.server.close(() => resolve));
     }

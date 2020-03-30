@@ -7,7 +7,7 @@ type TestEntry = {
         date: Date;
         num: number;
     };
-    arr: {f: number}[];
+    arr: { f: number }[];
 };
 
 test("Transform", async () => {

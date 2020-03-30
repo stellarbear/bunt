@@ -28,12 +28,18 @@ export type ValidationFails<T, K extends keyof T> = {
     validation?: ValidationDescription<T[K]>;
 };
 
-export type ValidationResult<T, K extends keyof T> = { valid: true } |
-    ValidationSuccess<T, K> |
-    ValidationFails<T, K>;
-
 export type ValidationDescription<T> = {
     valid: boolean;
     message?: string;
     validation: { [K in keyof T]: ValidationResult<T, K> };
+};
+
+export type ValidationResult<T, K extends keyof T> = { valid: true } |
+    ValidationSuccess<T, K> |
+    ValidationFails<T, K>;
+
+export type ValidationSafeValue = {
+    field: string;
+    message?: string;
+    input: any;
 };

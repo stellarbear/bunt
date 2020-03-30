@@ -1,9 +1,9 @@
-import {assert, curry, isBoolean, isFunction} from "@typesafeunit/util";
-import {compare} from "@typesafeunit/util/dist/string";
+import {assert, compare, curry, ILogable, isBoolean, isFunction} from "@typesafeunit/util";
 import {HeaderAssertValue, IHeaders} from "../interfaces";
 import {KeyValueReadonlyMap} from "./KeyValueReadonlyMap";
 
-export abstract class HeadersAbstract extends KeyValueReadonlyMap implements IHeaders {
+export abstract class HeadersAbstract extends KeyValueReadonlyMap
+    implements IHeaders, ILogable<{ [key: string]: string }> {
     constructor(values: [string, string][]) {
         super(values.map(([key, value]) => [key.toLowerCase(), value]));
     }
@@ -24,5 +24,9 @@ export abstract class HeadersAbstract extends KeyValueReadonlyMap implements IHe
                 assert(result, `Wrong ${header}`);
             }
         }
+    }
+
+    public getLogValue() {
+        return this.toJSON();
     }
 }

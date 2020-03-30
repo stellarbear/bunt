@@ -1,4 +1,4 @@
-import {IHeaders, RequestAbstract} from "@typesafeunit/app";
+import {IHeaders, RequestAbstract, RouteResponse} from "@typesafeunit/app";
 import {Readable} from "stream";
 import {Headers} from "./Headers";
 
@@ -6,6 +6,8 @@ export class Request extends RequestAbstract {
     public readonly headers: IHeaders;
     public readonly route: string;
     public readonly body: string;
+
+    public response?: RouteResponse;
 
     constructor(route: string, headers: { [key: string]: string }, body = "") {
         super();
@@ -16,5 +18,10 @@ export class Request extends RequestAbstract {
 
     public createReadableStream() {
         return Readable.from(this.body);
+    }
+
+    protected write(response: RouteResponse): Promise<void> {
+        this.response = response;
+        return Promise.resolve();
     }
 }

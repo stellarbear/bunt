@@ -1,10 +1,16 @@
 import {Promisify} from "@typesafeunit/unit";
-import {isFunction} from "@typesafeunit/util";
-import {IHeaders, IRequest, RequestTransformType} from "../interfaces";
+import {assert, ILogable, isFunction} from "@typesafeunit/util";
+import {IHeaders, IRequest, RequestTransformType, RouteResponse} from "../interfaces";
 
-export abstract class RequestAbstract implements IRequest {
+export abstract class RequestAbstract implements IRequest, ILogable<{ route: string }> {
     public abstract readonly route: string;
     public abstract readonly headers: IHeaders;
+
+    #complete = false;
+
+    public get complete() {
+        return this.#complete;
+    }
 
     public async getBuffer(): Promise<Buffer> {
         const chunks: Buffer[] = [];
@@ -24,5 +30,20 @@ export abstract class RequestAbstract implements IRequest {
         return transformer.transform(this);
     }
 
+    public async respond(response: RouteResponse) {
+        assert(!this.complete, `Response was already sent`);
+        try {
+            await this.write(response);
+        } finally {
+            this.#complete = true;
+        }
+    }
+
     public abstract createReadableStream(): Promisify<NodeJS.ReadableStream>;
+
+    public getLogValue() {
+        return {route: this.route};
+    }
+
+    protected abstract write(response: RouteResponse): Promise<void>;
 }

@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "module": "commonjs",
-        "target": "esnext",
-        "declaration": true,
-        "sourceMap": true,
+        "target": "ES2019",
+        "lib": ["ES2020"],
         "strict": true,
+        "sourceMap": true,
         "strictNullChecks": true,
         "forceConsistentCasingInFileNames": true,
         "noImplicitThis": true,
@@ -12,9 +12,10 @@
         "strictPropertyInitialization": true,
         "strictFunctionTypes": true,
         "experimentalDecorators": true,
-        "skipLibCheck": true,
-        "resolveJsonModule": true,
+        "declaration": true,
         "noEmit": true
     },
-    "exclude": ["node_modules"]
+    "exclude": [
+        "node_modules"
+    ]
 }

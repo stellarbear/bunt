@@ -1,42 +1,38 @@
 import {IKeyValueMap} from "../interfaces";
 
-const KEY_VALUE_MAP = Symbol();
-
 export class KeyValueMap implements IKeyValueMap {
-    protected readonly [KEY_VALUE_MAP]: Map<string, string>;
+    #map: Map<string, string>;
 
     constructor(values: [string, string][]) {
-        this[KEY_VALUE_MAP] = new Map(values);
+        this.#map = new Map(values);
     }
 
     public delete(name: string): void {
-        this[KEY_VALUE_MAP].delete(name);
+        this.#map.delete(name);
     }
 
     public entries(): [string, string][] {
-        return [...this[KEY_VALUE_MAP].entries()];
+        return [...this.#map.entries()];
     }
 
     public get(name: string, defaultValue?: string): string {
-        return this[KEY_VALUE_MAP].get(name) || defaultValue || "";
+        return this.#map.get(name) || defaultValue || "";
     }
 
     public has(name: string): boolean {
-        return this[KEY_VALUE_MAP].has(name);
+        return this.#map.has(name);
     }
 
     public set(name: string, value: string): void {
-        this[KEY_VALUE_MAP].set(name, value);
+        this.#map.set(name, value);
     }
 
-    public toObject(): { [p: string]: string } {
+    public toJSON(): { [p: string]: string } {
         const object: { [p: string]: string } = {};
-        for (const [key, value] of this[KEY_VALUE_MAP].entries()) {
+        for (const [key, value] of this.#map.entries()) {
             object[key] = value;
         }
 
         return object;
     }
-
-
 }

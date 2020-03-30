@@ -1,5 +1,5 @@
-import {Payload} from "@typesafeunit/app";
-import {Action, ActionHooks, IContext, ValidationSchema} from "@typesafeunit/unit";
+import {Action, ActionHooks, IContext} from "@typesafeunit/unit";
+import {ValidationChild} from "@typesafeunit/unit/dist/Validation/ValidationChild";
 import {assert, isNumber, isString} from "@typesafeunit/util";
 
 interface IHelloWorldActionState {
@@ -14,7 +14,7 @@ export class HelloWorldAction extends Action<IContext, IHelloWorldActionState> {
         return {
             validate: (validationSchema) => validationSchema
                 .add("id", (v) => assert(isNumber(v)))
-                .add("payload", new ValidationSchema<Payload<IHelloWorldActionState>>()
+                .add("payload", new ValidationChild<IHelloWorldActionState, "payload">()
                     .add("name", (v) => assert(isString(v))),
                 ),
         };

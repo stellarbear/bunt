@@ -1,4 +1,4 @@
-import {assert, isFunction} from "@typesafeunit/util";
+import {assert, isFunction, Logger} from "@typesafeunit/util";
 import {Promisify} from "../interfaces";
 import {Heartbeat} from "./Heartbeat";
 import {Disposable, IRunnable} from "./interfaces";
@@ -8,16 +8,22 @@ const RuntimeRef = Symbol();
 
 export class Runtime {
     private static readonly [RuntimeRef] = new Runtime();
+
+    public readonly logger: Logger;
+
     protected readonly queue: Heartbeat[] = [];
     protected readonly disposable: Disposable[] = [];
     private readonly created: Date;
     #disposed = false;
 
     private constructor() {
+        this.logger = Logger.factory(this);
         this.created = new Date();
+        this.logger.info("created");
 
         // @TODO Send an event when a signal has been received.
         for (const signal of Signals) {
+            this.logger.debug("listen", signal);
             process.on(signal, async () => this.online && this.release());
         }
     }
@@ -35,13 +41,19 @@ export class Runtime {
     }
 
     public async run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
+        const finish = this.logger.perf("run");
         try {
             this.accept(await fn(this));
             await Promise.allSettled(this.queue.map((hb) => hb.waitUntilStop()));
+        } catch (error) {
+            this.logger.emergency(error.message, error.stack);
         } finally {
+            this.logger.info("finish");
             if (this.online) {
                 await this.release();
             }
+
+            finish();
         }
     }
 
@@ -56,6 +68,7 @@ export class Runtime {
     }
 
     private async release() {
+        this.logger.info("release");
         assert(this.online, "Runtime has been already released");
         this.#disposed = true;
 

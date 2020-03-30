@@ -34,7 +34,7 @@ export interface IKeyValueMap {
 
     entries(): [string, string][];
 
-    toObject(): { [key: string]: string };
+    toJSON(): { [key: string]: string };
 }
 
 export interface IKeyValueReadonlyMap extends IKeyValueMap {
@@ -57,6 +57,8 @@ export interface IRequest {
     createReadableStream(): Promisify<NodeJS.ReadableStream>;
 
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
+
+    respond(response: RouteResponse): Promise<void>;
 }
 
 export type HeaderAssertValue = |

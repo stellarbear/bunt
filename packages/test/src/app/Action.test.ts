@@ -1,9 +1,8 @@
 import {Application} from "@typesafeunit/app";
-import {NotFound} from "@typesafeunit/app/dist/Error/NotFound";
+import {RouteNotFound} from "@typesafeunit/app";
 import {MainContext} from "../unit/src/context/MainContext";
 import HelloWorldRoute from "./src/actions/HelloWorldRoute";
 import {Request} from "./src/transport/Request";
-import {Transport} from "./src/transport/Transport";
 
 describe("Route", () => {
     const headers = {"Content-Type": "application/json"};
@@ -16,9 +15,8 @@ describe("Route", () => {
             JSON.stringify({name: "World"}),
         );
 
-        const transport = new Transport(request);
-        await app.handle(transport);
-        expect(transport).toMatchSnapshot();
+        await app.handle(request);
+        expect(request).toMatchSnapshot();
 
         const wrongRequest = new Request(
             "/u/123",
@@ -26,7 +24,7 @@ describe("Route", () => {
             JSON.stringify({}),
         );
 
-        await expect(app.handle(new Transport(wrongRequest)))
+        await expect(app.handle(wrongRequest))
             .rejects
             .toThrow("HelloWorldAction validation failed");
     });
@@ -34,9 +32,8 @@ describe("Route", () => {
     test("Not found", async () => {
         const app = await Application.factory(new MainContext());
         const request = new Request("/wrong-uri", {});
-        const transport = new Transport(request);
-        await app.handle(transport);
-        expect(transport.response).toBeInstanceOf(NotFound);
-        expect(transport).toMatchSnapshot();
+        await app.handle(request);
+        expect(request.response).toBeInstanceOf(RouteNotFound);
+        expect(request).toMatchSnapshot();
     });
 });

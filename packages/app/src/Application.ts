@@ -1,11 +1,13 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
-import {assert, isDefined, isFunction, isObject} from "@typesafeunit/util";
-import {NotFound} from "./Error/NotFound";
+import {assert, isDefined, isFunction, isObject, logger, Logger} from "@typesafeunit/util";
 import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
-import {RouteAbstract} from "./Route";
-import {TransportAbstract} from "./Transport";
+import {RouteAbstract, RouteNotFound} from "./Route";
+import {RequestAbstract} from "./Transport";
 
 export class Application<U extends Unit<C>, C> {
+    @logger
+    public logger!: Logger;
+
     protected readonly unit: U;
     protected readonly route: RouteAbstract<RouteAction>[] = [];
 
@@ -28,6 +30,7 @@ export class Application<U extends Unit<C>, C> {
     }
 
     public add<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>) {
+        this.logger.debug("add", route);
         assert(!this.unit.has(route.action), `This route was already added`);
         this.unit.add(route.action);
         this.route.push(route);
@@ -36,6 +39,7 @@ export class Application<U extends Unit<C>, C> {
 
     public remove<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>) {
         if (this.unit.has(route.action)) {
+            this.logger.debug("remove", route);
             this.unit.remove(route.action);
             const index = this.route.findIndex((item) => item === route);
             this.route.splice(index, index + 1);
@@ -44,21 +48,28 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public async handle(transport: TransportAbstract) {
+    public async handle(request: RequestAbstract) {
+        const finish = this.logger.perf("handle", request);
         try {
-            await transport.respond(await this.run(transport.request));
+            await request.respond(await this.run(request));
         } catch (error) {
-            if (!transport.sent) {
-                await transport.respond(error);
+            this.logger.error(error.message, error);
+
+            if (!request.complete) {
+                await request.respond(error);
             }
 
             throw error;
+        } finally {
+            finish();
         }
     }
 
     public async run(request: IRequest): Promise<RouteResponse> {
         for (const route of this.route) {
             if (route.test(request.route)) {
+                this.logger.debug("match", route);
+
                 const state = {};
                 const requestArgs = new Map<string, string>();
                 const context = await this.unit.getContext();
@@ -84,6 +95,6 @@ export class Application<U extends Unit<C>, C> {
             }
         }
 
-        return new NotFound("Route not found");
+        return new RouteNotFound(request.route);
     }
 }

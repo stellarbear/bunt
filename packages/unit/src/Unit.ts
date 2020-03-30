@@ -6,8 +6,8 @@ import {
     isFunction,
     isInstanceOf,
     isUndefined,
-    memoize,
-    Profiler,
+    logger,
+    Logger,
 } from "@typesafeunit/util";
 import {Action} from "./Action";
 import {Context} from "./Context";
@@ -15,28 +15,16 @@ import {ActionCtor, ActionReturn, ActionStateArgs, ContextArg, IContext, UnitAct
 import {ValidationSchema} from "./Validation";
 
 export class Unit<C extends IContext = {}> {
+    @logger
+    public readonly logger!: Logger;
+
     protected readonly context: C;
+
     private readonly registry = new WeakSet();
 
     protected constructor(context: C, actions: UnitAction<C, any>[] = []) {
         this.context = context;
         this.add(...actions);
-    }
-
-    @memoize
-    protected get profiler() {
-        return Profiler.create({
-            "run": () => Object.create(null),
-            "has": (action: string, exists: boolean) => ({action, exists}),
-            "add": (tags: string[]) => tags,
-            "remove": (tags: string[]) => tags,
-            "run:error": (error: Error) => error,
-            "action:validate": (valid: boolean) => valid,
-            "action:create": null,
-            "action:run": (payload: any) => payload,
-            "action:success": null,
-            "action:fails": null,
-        });
     }
 
     public static async factory<A, C extends Context>(context: ContextArg<C>, actions: UnitAction<C, A>[] = []) {
@@ -71,14 +59,11 @@ export class Unit<C extends IContext = {}> {
             }
         }
 
-        this.profiler.fire("remove", () => removed.map((item) => item.name));
         return removed;
     }
 
     public has<A>(action: UnitAction<C, A>) {
-        const exists = this.registry.has(action);
-        this.profiler.fire("has", {exists, action: action.name});
-        return exists;
+        return this.registry.has(action);
     }
 
     public getContext() {
@@ -87,6 +72,7 @@ export class Unit<C extends IContext = {}> {
 
     public async run<T extends Action<any, any, any>>(ctor: UnitAction<C, ActionCtor<T>>,
                                                       ...stateArgs: ActionStateArgs<T>) {
+        const finish = this.logger.perf("run", ctor.name);
         assert(isClass(ctor), "First argument isn't a class constructor");
         assert(this.registry.has(ctor), `Unknown action ${ctor.name}`);
 
@@ -99,7 +85,6 @@ export class Unit<C extends IContext = {}> {
                 const staticValidationSchema = await hooks.validate(new ValidationSchema(), context);
                 const validationDescription = await staticValidationSchema.validate(state);
 
-                this.profiler.fire("action:validate", validationDescription.valid);
                 await staticValidationSchema.assert(validationDescription, `${ctor.name} validation failed`);
             }
 
@@ -107,36 +92,31 @@ export class Unit<C extends IContext = {}> {
             const validationSchema = await action.createValidationSchema();
             if (isDefined(validationSchema)) {
                 const validationDescription = await validationSchema.validate(state);
-                this.profiler.fire("action:validate", validationDescription.valid);
                 validationSchema.assert(validationDescription, `${ctor.name} validation failed`);
             }
 
             if (isFunction(hooks.create)) {
-                this.profiler.fire("action:create");
                 await hooks.create(context, state);
             }
 
-            this.profiler.fire("action:run", state);
+            const finishActionRun = this.logger.perf("action.run", action.name);
             const result = await action.run();
+            finishActionRun();
+
             if (isFunction(hooks.success)) {
-                this.profiler.fire("action:success");
                 await hooks.success(result, context);
             }
 
             return result as ActionReturn<T>;
         } catch (error) {
-            this.profiler.fire("run:error", error);
             if (isFunction(hooks.fails)) {
-                this.profiler.fire("action:fails");
                 await hooks.fails(error, context);
             }
 
             throw error;
+        } finally {
+            finish();
         }
-    }
-
-    public getProfiler() {
-        return this.profiler;
     }
 }
 
