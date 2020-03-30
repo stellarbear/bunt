@@ -140,9 +140,3 @@ Object {
   ],
 }
 `;
-
-exports[`Validation 4`] = `
-"Error: Validation failed
-    at Object.<anonymous> (/Users/arturbier/dev/public/typesafeunit/packages/test/src/unit/Validation.test.ts:69:19)
-    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
-`;
