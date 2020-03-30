@@ -1,4 +1,4 @@
-import {AssertionException} from "./Exception/AssertionException";
+import {AssertionError} from "./Exception";
 import {isFunction} from "./is";
 
 export type AssertionDetailsAllowType = string | object | null | number;
@@ -7,13 +7,13 @@ export type AssertionMessage = string | (() => string);
 
 export function assert(expr: any, message?: AssertionMessage, details?: AssertionDetails): asserts expr {
     if (!expr) {
-        throw new AssertionException(isFunction(message) ? message() : message, details);
+        throw new AssertionError(isFunction(message) ? message() : message, details);
     }
 }
 
 export function fails(expr: any, message?: AssertionMessage, details?: AssertionDetails) {
     if (!!expr) {
-        throw new AssertionException(isFunction(message) ? message() : message, details);
+        throw new AssertionError(isFunction(message) ? message() : message, details);
     }
 }
 

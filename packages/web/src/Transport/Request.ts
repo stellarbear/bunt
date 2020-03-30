@@ -1,11 +1,19 @@
-import {IHeaders, KeyValueMap, RequestAbstract, RouteNotFound, RouteResponse} from "@typesafeunit/app";
-import {ValidationError} from "@typesafeunit/unit";
-import {isBoolean, isNumber, isObject, isReadableStream, isString, isUndefined} from "@typesafeunit/util";
+import {IHeaders, KeyValueMap, RequestAbstract, RouteResponse} from "@typesafeunit/app";
+import {
+    isBoolean,
+    isError,
+    isNull,
+    isNumber,
+    isObject,
+    isReadableStream,
+    isString,
+    isUndefined,
+} from "@typesafeunit/util";
 import {IncomingMessage, ServerResponse} from "http";
 import {parse} from "url";
 import {Headers} from "./Headers";
 import {ResponseAbstract} from "./Response";
-import {ServerError} from "./ServerError";
+import {TransformError} from "./TransformError";
 
 interface ISendOptions {
     code: number;
@@ -52,8 +60,8 @@ export class Request extends RequestAbstract {
     protected async write(response: RouteResponse) {
         // @TODO Validate types in the Accept header before send a response.
 
-        if (isUndefined((response))) {
-            return this.send(response);
+        if (isUndefined(response) || isNull(response)) {
+            return this.send("");
         }
 
         if (isString(response) || isNumber(response) || isBoolean(response)) {
@@ -70,23 +78,18 @@ export class Request extends RequestAbstract {
                 return;
             }
 
-            if (response instanceof Error) {
-                if (response instanceof RouteNotFound) {
-                    return this.send(response.message, {code: 404, status: "Not found"});
+            if (isError(response)) {
+                const transform = new TransformError(response);
+                const accept = this.headers.get("accept");
+                const {response: transformed, ...status} = accept.includes("application/json")
+                    ? transform.toJSON()
+                    : transform.toString();
+
+                if (accept.includes("application/json")) {
+                    return this.send(transformed, {...status, headers: {"content-type": "application/json"}});
                 }
 
-                if (response instanceof ValidationError) {
-                    return this.send(response.message, {code: 400, status: "Bad request"});
-                }
-
-                if (response instanceof ServerError) {
-                    return this.send(response.message, {code: response.code, status: response.status});
-                }
-
-                return this.send(
-                    "Internal Server Error",
-                    {code: 500, status: "Internal Server Error"},
-                );
+                return this.send(transformed, {...status});
             }
 
             if (response instanceof ResponseAbstract) {

@@ -41,5 +41,6 @@ export type ValidationResult<T, K extends keyof T> = { valid: true } |
 export type ValidationSafeValue = {
     field: string;
     message?: string;
+    validation?: ValidationSafeValue[];
     input: any;
 };

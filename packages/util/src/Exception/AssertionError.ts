@@ -1,6 +1,7 @@
 import {isFunction} from "../is";
+import {ILogable} from "../Logger";
 
-export class AssertionException extends Error {
+export class AssertionError extends Error implements ILogable<object> {
     public readonly details?: any;
 
     constructor(message?: string, details?: any) {
@@ -9,5 +10,9 @@ export class AssertionException extends Error {
         this.details = isFunction(details)
             ? details()
             : details;
+    }
+
+    public getLogValue(): object {
+        return {error: this.message, details: this.details};
     }
 }

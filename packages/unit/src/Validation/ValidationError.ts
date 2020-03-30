@@ -1,5 +1,4 @@
-import {ILogable} from "@typesafeunit/util";
-import {ISafeReadableError} from "@typesafeunit/util/dist/Exception/interfaces";
+import {ILogable, ISafeReadableError} from "@typesafeunit/util";
 import {ValidationDescription, ValidationResult, ValidationSafeValue} from "./interfaces";
 
 export class ValidationError<T> extends Error implements ISafeReadableError, ILogable<object> {
@@ -23,7 +22,7 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
     }
 
     public getLogValue(): object {
-        return this.toSafeJSON();
+        return {...this.toSafeJSON(), stack: this.stack};
     }
 
     private getValidationErrors(description: ValidationDescription<T>): ValidationSafeValue[] {
@@ -31,18 +30,20 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
             return [];
         }
 
-        const errors = [];
+        const result = [];
         const {validation} = description;
         for (const [field, res] of Object.entries<ValidationResult<any, any>>(validation)) {
-            if (!res.valid) {
-                errors.push({field, message: res.message || res.error?.message, input: res.value});
+            const errors = [];
+            if (!res.valid && res.validation) {
+                errors.push({field, validation: this.getValidationErrors(res.validation)});
+                continue;
             }
 
-            if (!res.valid && res.validation) {
-                errors.push(...this.getValidationErrors(res.validation));
+            if (!res.valid) {
+                result.push({field, message: res.message || res.error?.message, input: res.value});
             }
         }
 
-        return errors;
+        return result;
     }
 }

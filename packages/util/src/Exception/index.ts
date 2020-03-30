@@ -1,1 +1,2 @@
-export * from "./AssertionException";
+export * from "./AssertionError";
+export * from "./interfaces";

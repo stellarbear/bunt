@@ -1,4 +1,4 @@
-import {ValidationSchema} from "@typesafeunit/unit";
+import {ValidationError, ValidationSchema} from "@typesafeunit/unit";
 import {assert, isBoolean, isNumber, isString} from "@typesafeunit/util";
 
 interface IChildSample {
@@ -65,4 +65,8 @@ test("Validation", async () => {
     const fails = await validationSchema.validate(invalidSample);
     expect(fails).toMatchSnapshot();
     expect(fails.valid).toBe(false);
+
+    const error = new ValidationError("Validation failed", fails);
+    await expect(error.toSafeJSON()).toMatchSnapshot();
+    await expect(error.getLogValue()).toMatchSnapshot();
 });

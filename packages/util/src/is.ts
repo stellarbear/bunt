@@ -15,3 +15,4 @@ export type Ctor<T = any, A extends any[] = any[]> = { new(...args: A): T };
 export const isInstanceOf = <T extends Ctor>(value: any, type: T): value is T => value instanceof type;
 export const isObject = (value: any): value is object => !isNull(value) && typeof value === "object";
 export const isClass = (value: any): value is () => any => typeof value === "function" && isObject(value.prototype);
+export const isError = (value: any): value is Error => typeof value === "object" && value instanceof Error;
