@@ -1,7 +1,8 @@
 import {isDefined} from "../../is";
 import {LogFormat, SeverityLevel} from "../interfaces";
 
-export const defaultLogFormat: LogFormat = (log) => JSON.stringify(log, null, 2);
+export const defaultLogFormat: LogFormat = (log) => JSON.stringify(log);
+export const readableJSONLogFormat: LogFormat = (log) => JSON.stringify(log, null, 2);
 
 const arrayToString = (...str: string[]) => str.join("");
 export const debugLogFormat: LogFormat = (log) => {
