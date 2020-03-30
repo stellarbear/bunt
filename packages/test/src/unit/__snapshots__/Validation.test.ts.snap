@@ -142,22 +142,7 @@ Object {
 `;
 
 exports[`Validation 4`] = `
-Object {
-  "error": "Validation failed",
-  "stack": "Error: Validation failed
+"Error: Validation failed
     at Object.<anonymous> (/Users/arturbier/dev/public/typesafeunit/packages/test/src/unit/Validation.test.ts:69:19)
-    at processTicksAndRejections (internal/process/task_queues.js:97:5)",
-  "validation": Array [
-    Object {
-      "field": "v",
-      "input": null,
-      "message": "The value of \\"v\\" shouldn't be null",
-    },
-    Object {
-      "field": "arrayReq",
-      "input": Array [],
-      "message": undefined,
-    },
-  ],
-}
+    at processTicksAndRejections (internal/process/task_queues.js:97:5)"
 `;

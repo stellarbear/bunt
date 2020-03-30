@@ -68,5 +68,8 @@ test("Validation", async () => {
 
     const error = new ValidationError("Validation failed", fails);
     await expect(error.toSafeJSON()).toMatchSnapshot();
-    await expect(error.getLogValue()).toMatchSnapshot();
+
+    const {stack, ...description} = error.getLogValue();
+    await expect(description).toEqual(error.toSafeJSON());
+    expect(stack).toBeDefined();
 });

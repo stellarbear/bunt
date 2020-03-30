@@ -1,7 +1,13 @@
 import {ILogable, ISafeReadableError} from "@typesafeunit/util";
 import {ValidationDescription, ValidationResult, ValidationSafeValue} from "./interfaces";
 
-export class ValidationError<T> extends Error implements ISafeReadableError, ILogable<object> {
+export interface IValidationLogValue {
+    error: string;
+    stack: string | undefined;
+    validation: ValidationSafeValue[];
+}
+
+export class ValidationError<T> extends Error implements ISafeReadableError, ILogable<IValidationLogValue> {
     public readonly description: ValidationDescription<T>;
 
     constructor(message: string, description: ValidationDescription<T>) {
@@ -10,18 +16,18 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
     }
 
     public toSafeString(): string {
-        return this.message;
+        const {message, description} = this;
+        return description.message || message || this.message;
     }
 
-    public toSafeJSON(): object {
-        const {message, description} = this;
+    public toSafeJSON() {
         return {
-            error: description.message || message,
-            validation: this.getValidationErrors(description),
+            error: this.toSafeString(),
+            validation: this.getValidationErrors(this.description),
         };
     }
 
-    public getLogValue(): object {
+    public getLogValue(): IValidationLogValue {
         return {...this.toSafeJSON(), stack: this.stack};
     }
 
