@@ -26,7 +26,7 @@ export interface ILogger {
     getLogGroupId?(): string | number;
 }
 
-export type LoggerOwner = object | ILogger;
+export type LoggerOwner = object | ILogger | Function;
 export type LogableType = string
     | object
     | number

@@ -1,6 +1,6 @@
 import * as os from "os";
 import {fn} from "../function";
-import {isDefined, isNumber, isUndefined} from "../is";
+import {isDefined, isFunction, isNumber, isUndefined} from "../is";
 import {Perf} from "../Perf";
 import {isLogable, isLoggerOwner} from "./functions";
 import {
@@ -93,7 +93,7 @@ export class Logger {
     }
 
     protected static createLogger(target: LoggerOwner) {
-        const label = target.constructor.name;
+        const label = isFunction(target) ? target.name : target.constructor.name;
         if (isLoggerOwner(target)) {
             const logger = new this(target.getLogLabel?.() ?? label, target.getLogGroupId?.());
             loggers.set(target, logger);
