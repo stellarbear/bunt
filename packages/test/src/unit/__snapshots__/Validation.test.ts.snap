@@ -137,6 +137,16 @@ Object {
       "input": Array [],
       "message": undefined,
     },
+    Object {
+      "field": "child",
+      "validation": Array [
+        Object {
+          "field": "name",
+          "input": 123,
+          "message": "Assertion fails",
+        },
+      ],
+    },
   ],
 }
 `;

@@ -39,9 +39,8 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
         const result = [];
         const {validation} = description;
         for (const [field, res] of Object.entries<ValidationResult<any, any>>(validation)) {
-            const errors = [];
             if (!res.valid && res.validation) {
-                errors.push({field, validation: this.getValidationErrors(res.validation)});
+                result.push({field, validation: this.getValidationErrors(res.validation)});
                 continue;
             }
 
