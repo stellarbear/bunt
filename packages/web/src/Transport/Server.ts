@@ -35,7 +35,7 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
                     this.logger.info(`${req.method} ${req.url}`);
                     await this.application.handle(new Request(req, res));
                 } catch (error) {
-                    this.logger.alert(error.message, error.stack);
+                    this.logger.alert(error.message, error);
                     if (!res.headersSent) {
                         res.writeHead(500, "Internal Server Error");
                     }
