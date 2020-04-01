@@ -1,7 +1,7 @@
 import {Logger, LogMessage, SeverityLevel} from "@typesafeunit/util";
 import * as os from "os";
-import {LoggableObjectTest} from "../src/Logger/LoggableObjectTest";
-import {LoggerTestTransport} from "../src/Logger/LoggerTestTransport";
+import {LoggableObjectTest} from "./src/LoggableObjectTest";
+import {LoggerTestTransport} from "./src/LoggerTestTransport";
 
 describe("Logger", () => {
     const logs: LogMessage[] = [];

@@ -11,4 +11,8 @@ export class LoggerTestTransport implements ILoggerTransport {
     public write(log: LogMessage) {
         this.logs.push(log);
     }
+
+    public close() {
+        this.logs.length = 0;
+    }
 }
