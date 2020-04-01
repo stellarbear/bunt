@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.11](https://github.com/izatop/typesafeunit/compare/v0.6.10...v0.6.11) (2020-04-01)
+
+
+### Bug Fixes
+
+* action return type ([fe2dc96](https://github.com/izatop/typesafeunit/commit/fe2dc964e3e0776f15288f511cf7962cbf3fa8a3))
+
+
+
+
+
 ## [0.6.10](https://github.com/izatop/typesafeunit/compare/v0.6.9...v0.6.10) (2020-03-30)
 
 **Note:** Version bump only for package @typesafeunit/app
