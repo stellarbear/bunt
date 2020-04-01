@@ -82,11 +82,10 @@ export class Runtime {
             this.logger.emergency(error.message, error.stack);
         } finally {
             finish();
+        }
 
-            this.logger.info("finish");
-            if (this.online) {
-                await this.release();
-            }
+        if (this.online) {
+            process.nextTick(() => this.release());
         }
     }
 

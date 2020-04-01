@@ -32,7 +32,7 @@ describe("Route", () => {
     test("Not found", async () => {
         const app = await Application.factory(new MainContext());
         const request = new Request("/wrong-uri", {});
-        await app.handle(request);
+        await expect(app.handle(request)).rejects.toThrow(RouteNotFound);
         expect(request.response).toBeInstanceOf(RouteNotFound);
         expect(request).toMatchSnapshot();
     });

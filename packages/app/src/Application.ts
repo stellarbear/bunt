@@ -54,7 +54,6 @@ export class Application<U extends Unit<C>, C> {
             await request.respond(await this.run(request));
         } catch (error) {
             this.logger.error(error.message, request);
-
             if (!request.complete) {
                 await request.respond(error);
             }
@@ -95,6 +94,6 @@ export class Application<U extends Unit<C>, C> {
             }
         }
 
-        return new RouteNotFound(request.route);
+        throw new RouteNotFound(request.route);
     }
 }
