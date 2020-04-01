@@ -10,7 +10,8 @@ export type RouteResponse = Error
     | boolean
     | null
     | undefined
-    | void;
+    | void
+    | any;
 
 export type RouteAction = Action<any, any, RouteResponse>;
 
