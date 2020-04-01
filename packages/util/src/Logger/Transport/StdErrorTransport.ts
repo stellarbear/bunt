@@ -9,4 +9,8 @@ export class StdErrorTransport extends InOutTransportAbstract {
     protected test(log: LogMessage) {
         return log.severity < SeverityLevel.NOTICE;
     }
+
+    public close() {
+        return void 0;
+    }
 }

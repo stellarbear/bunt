@@ -151,6 +151,11 @@ export class Logger {
         };
     }
 
+    public dispose() {
+        writers.splice(0, writers.length);
+        return Promise.allSettled(transports.map((transport) => transport.close()));
+    }
+
     public add(child: ILogger) {
         if (child.logger === this || isDefined(child.logger.groupId) || isUndefined(this.groupId)) {
             return;

@@ -22,6 +22,8 @@ export class Runtime {
         this.logger = Logger.factory(this);
         this.created = new Date();
         this.logger.info("register", {ENV, DEBUG});
+        this.accept(this.logger);
+        this.accept(() => new Promise((resolve) => process.nextTick(resolve)));
 
         // @TODO Send an event when a signal has been received.
         for (const signal of Signals) {
@@ -32,6 +34,10 @@ export class Runtime {
 
     public static get runtime() {
         return this[RuntimeRef];
+    }
+
+    public get online() {
+        return !this.#disposed;
     }
 
     public static isDebugEnable() {
@@ -48,10 +54,6 @@ export class Runtime {
 
     public static isTest() {
         return ENV === "test";
-    }
-
-    public get online() {
-        return !this.#disposed;
     }
 
     public static initialize(before?: () => any) {
@@ -79,12 +81,12 @@ export class Runtime {
         } catch (error) {
             this.logger.emergency(error.message, error.stack);
         } finally {
+            finish();
+
             this.logger.info("finish");
             if (this.online) {
                 await this.release();
             }
-
-            finish();
         }
     }
 

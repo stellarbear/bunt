@@ -16,6 +16,7 @@ export interface ILoggerTransport {
     readonly writable: boolean;
 
     write(log: LogMessage): Promisify<void>;
+    close(): Promisify<void>;
 }
 
 export interface ILogger {

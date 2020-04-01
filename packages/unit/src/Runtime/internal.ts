@@ -1,4 +1,5 @@
 import {IDisposable, IRunnable} from "./interfaces";
+import {Runtime} from "./Runtime";
 
 export const DisposableSync = Symbol();
 export const Signals: NodeJS.Signals[] = ["SIGINT", "SIGQUIT", "SIGTERM"];
@@ -13,4 +14,11 @@ export function isDisposableSync(candidate: any): candidate is IDisposable {
 
 export function isRunnable(candidate: any): candidate is IRunnable {
     return "getHeartbeat" in candidate;
+}
+
+export function main(fn: (runtime: Runtime) => any, before?: () => any) {
+    process.nextTick(async () => {
+        Runtime.initialize(before);
+        Runtime.run(fn);
+    });
 }

@@ -15,7 +15,7 @@ export interface IDisposableSync {
 }
 
 export interface IDisposable {
-    dispose(): Promisify<void>;
+    dispose(): Promisify<void | Disposable | Disposable[]>;
 }
 
 export type DisposableFn = () => Promisify<void>;

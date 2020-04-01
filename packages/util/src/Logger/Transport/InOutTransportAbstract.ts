@@ -1,3 +1,4 @@
+import {Promisify} from "../../interfaces";
 import {ILoggerTransport, LogFormat, LogMessage} from "../interfaces";
 import {defaultLogFormat} from "./formatters";
 
@@ -22,6 +23,8 @@ export abstract class InOutTransportAbstract implements ILoggerTransport {
             );
         }
     }
+
+    public abstract close(): Promisify<void>;
 
     protected abstract test(log: LogMessage): boolean;
 }
