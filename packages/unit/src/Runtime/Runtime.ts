@@ -1,4 +1,4 @@
-import {assert, isFunction, Logger} from "@typesafeunit/util";
+import {assert, isFunction, isNull, isUndefined, Logger} from "@typesafeunit/util";
 import {Promisify} from "../interfaces";
 import {Heartbeat} from "./Heartbeat";
 import {Disposable, IRunnable} from "./interfaces";
@@ -90,6 +90,10 @@ export class Runtime {
     }
 
     public accept(item: any) {
+        if (isUndefined(item) || isNull(item)) {
+            return;
+        }
+
         if (isDisposable(item)) {
             this.disposable.push(item);
         }
