@@ -14,7 +14,7 @@ export interface IRouteContext<C extends IContext> {
 }
 
 export type RouteStateSure<C extends Context, T> = |
-    { [K in keyof T]: (context: IRouteContext<C>) => Promisify<T[K]> } |
+    { [K in keyof T]-?: (context: IRouteContext<C>) => Promisify<T[K]> } |
     ((context: IRouteContext<C>) => Promisify<T>);
 
 export type RouteConfigState<A> = A extends Action<infer C, infer S, RouteResponse>

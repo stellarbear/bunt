@@ -7,6 +7,7 @@ interface IHelloWorldActionState {
     payload: {
         name: string;
     };
+    option?: boolean;
 }
 
 export class HelloWorldAction extends Action<IContext, IHelloWorldActionState> {

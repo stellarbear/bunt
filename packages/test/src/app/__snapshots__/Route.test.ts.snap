@@ -6,6 +6,7 @@ PathRoute {
   "route": "/u/:id",
   "state": Object {
     "id": [Function],
+    "option": [Function],
     "payload": [Function],
   },
   "validate": undefined,

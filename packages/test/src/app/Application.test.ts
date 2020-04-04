@@ -4,7 +4,7 @@ import HelloWorldRoute from "./src/actions/HelloWorldRoute";
 
 test("Application", async () => {
     const createContext = () => new MainContext();
-    const app = await Application.factory(createContext);
+    const app = await Application.factory(createContext, []);
     expect(app).toBeInstanceOf(Application);
     expect(app.size).toBe(0);
     app.add(HelloWorldRoute);
