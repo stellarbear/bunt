@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.16](https://github.com/izatop/typesafeunit/compare/v0.6.15...v0.6.16) (2020-04-30)
+
+
+### Bug Fixes
+
+* minimist vulnerability found in yarn.lock ([e5637ec](https://github.com/izatop/typesafeunit/commit/e5637ec0fdad586860468a53672bd6b4e000632e))
+
+
+
+
+
 ## [0.6.15](https://github.com/izatop/typesafeunit/compare/v0.6.14...v0.6.15) (2020-04-04)
 
 
