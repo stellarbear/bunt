@@ -1,10 +1,11 @@
-import {JSONResponse, Response} from "@typesafeunit/web";
+import {JSONResponse, NoContentResponse} from "@typesafeunit/web";
 
 describe("Response", () => {
     test("Main", () => {
-        const resp = new Response("", {code: 200, status: "Hello", headers: {"foo": "123"}});
+        const resp = new NoContentResponse({headers: {"foo": "123"}});
         expect(resp.getContentType()).toMatchSnapshot();
         expect(resp.getHeaders()).toMatchSnapshot();
+        expect(resp.code).toBe(204);
     });
 
     test("JSON", () => {
@@ -12,5 +13,6 @@ describe("Response", () => {
         expect(resp.getContentType()).toMatchSnapshot();
         expect(resp.getHeaders()).toMatchSnapshot();
         expect(resp.stringify()).toMatchSnapshot();
+        expect(resp.code).toBe(200);
     });
 });
