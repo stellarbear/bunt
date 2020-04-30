@@ -1,6 +1,6 @@
 import * as os from "os";
 import {fn} from "../function";
-import {isDefined, isFunction, isNumber, isUndefined} from "../is";
+import {isDefined, isFunction, isInstanceOf, isNumber, isUndefined} from "../is";
 import {Perf} from "../Perf";
 import {isLogable, isLoggerOwner} from "./functions";
 import {
@@ -131,6 +131,11 @@ export class Logger {
             for (const arg of args) {
                 if (isLogable(arg)) {
                     log.args.push(arg.getLogValue());
+                    continue;
+                }
+
+                if (isInstanceOf(arg, Error)) {
+                    log.args.push(arg.stack);
                     continue;
                 }
 

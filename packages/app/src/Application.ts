@@ -53,7 +53,6 @@ export class Application<U extends Unit<C>, C> {
         try {
             await request.respond(await this.run(request));
         } catch (error) {
-            this.logger.error(error.message, request);
             if (!request.complete) {
                 await request.respond(error);
             }
