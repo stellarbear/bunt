@@ -96,7 +96,7 @@ export class Request extends RequestAbstract {
                 const {code, status} = response;
                 return this.send(
                     response.stringify(),
-                    {code, status, headers: {"content-type": response.getContentType()}},
+                    {code, status, headers: response.getHeaders()},
                 );
             }
 
