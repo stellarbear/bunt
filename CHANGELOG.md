@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.17](https://github.com/izatop/typesafeunit/compare/v0.6.16...v0.6.17) (2020-04-30)
+
+
+### Bug Fixes
+
+* rename ([6c55540](https://github.com/izatop/typesafeunit/commit/6c555406249d9ca25f2515345839a5b3219e5706))
+
+
+
+
+
 ## [0.6.16](https://github.com/izatop/typesafeunit/compare/v0.6.15...v0.6.16) (2020-04-30)
 
 
