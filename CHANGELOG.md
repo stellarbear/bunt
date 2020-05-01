@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.19](https://github.com/izatop/typesafeunit/compare/v0.6.18...v0.6.19) (2020-05-01)
+
+
+### Bug Fixes
+
+* transform object -> transform input ([1fc2033](https://github.com/izatop/typesafeunit/commit/1fc20330c11cbb98583c75138ec2cff8f1a29692))
+
+
+
+
+
 ## [0.6.18](https://github.com/izatop/typesafeunit/compare/v0.6.17...v0.6.18) (2020-04-30)
 
 
