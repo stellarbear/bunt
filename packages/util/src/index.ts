@@ -5,6 +5,7 @@ export * from "./object";
 export * from "./string";
 export * from "./decorator";
 export * from "./function";
+export * from "./Date";
 export * from "./Transform";
 export * from "./Logger";
 export * from "./Exception";
