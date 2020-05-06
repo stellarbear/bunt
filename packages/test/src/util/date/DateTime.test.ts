@@ -7,14 +7,17 @@ describe("DateTime", () => {
             ["ms", +100],
             ["sec", +10],
             ["min", -10],
+            ["week", -1],
+            ["week", +2],
+            ["month", +3],
             ["hour", +2],
             ["day", -1],
             ["year", -5],
         ];
 
         const result = [];
-        for (const value of mutations) {
-            result.push(date.mutate(value).getDate());
+        for (const [type, value] of mutations) {
+            result.push([type, value, date.mutate([type, value]).getDate()]);
         }
 
         expect(result).toMatchSnapshot();
@@ -26,13 +29,14 @@ describe("DateTime", () => {
             ["sec", 22],
             ["min", 11],
             ["hour", 0],
+            ["month", 2],
             ["day", 11],
             ["year", 2022],
         ];
 
         const result = [];
-        for (const value of setters) {
-            result.push(date.set(value).getDate());
+        for (const [type, value] of setters) {
+            result.push([type, value, date.set([type, value]).getDate()]);
         }
 
         expect(result).toMatchSnapshot();
@@ -43,6 +47,7 @@ describe("DateTime", () => {
         const begins: Exclude<DateTimeKind, "ms" | "week">[] = ["sec", "min", "hour", "day", "month", "year"];
         for (const kind of begins) {
             result.push({
+                kind,
                 begins: date.begins(kind).getDate(),
                 ends: date.ends(kind).getDate(),
             });
