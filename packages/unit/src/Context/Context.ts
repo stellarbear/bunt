@@ -29,7 +29,7 @@ export class Context {
         const finish = this.logger.perf("Resolve context", {context: name});
         try {
             const descriptionMap: PropertyDescriptorMap = Object.getOwnPropertyDescriptors(context);
-            for (const key of Service.getRef(context)) {
+            for (const key of Service.getReferences(context, Context)) {
                 if (Reflect.has(context, key)) {
                     const service: Service<any> = Reflect.get(context, key);
                     const finishResolve = this.logger.perf(

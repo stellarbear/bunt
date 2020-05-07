@@ -15,6 +15,7 @@ test("Context", async () => {
     expect(await context.getMemoryDb()).toBeInstanceOf(MemoryDb);
     expect(await context.getMemoryDb() === context.memoryDb).toBe(true);
 
+    expect(context.parentDb).toBeInstanceOf(MemoryDb);
     expect(context.randomBytes).not.toStrictEqual(context.randomBytes);
     expect(context.randomBytes).toBeInstanceOf(Buffer);
 
