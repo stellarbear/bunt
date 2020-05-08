@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.24](https://github.com/izatop/typesafeunit/compare/v0.6.23...v0.6.24) (2020-05-08)
+
+
+### Bug Fixes
+
+* update deps, interfaces ([2189fd4](https://github.com/izatop/typesafeunit/commit/2189fd4fe86d4a2871f49133be03062ffd748c4d))
+
+
+
+
+
 ## [0.6.23](https://github.com/izatop/typesafeunit/compare/v0.6.22...v0.6.23) (2020-05-08)
 
 
