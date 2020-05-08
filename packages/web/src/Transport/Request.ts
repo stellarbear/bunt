@@ -1,7 +1,8 @@
 import {IHeaders, KeyValueMap, RequestAbstract, RouteResponse} from "@typesafeunit/app";
 import {
     isBoolean,
-    isError, isFunction,
+    isError,
+    isFunction,
     isNull,
     isNumber,
     isObject,
@@ -12,24 +13,16 @@ import {
 import {IncomingMessage, ServerResponse} from "http";
 import {parse} from "url";
 import {Headers} from "./Headers";
-import {IServerOptions} from "./interfaces";
+import {IRequestSendOptions, IServerOptions} from "./interfaces";
 import {ResponseAbstract} from "./Response";
 import {TransformError} from "./TransformError";
-
-interface ISendOptions {
-    code: number;
-    status?: string;
-    headers?: { [key: string]: string };
-}
 
 export class Request extends RequestAbstract {
     public readonly headers: IHeaders;
     public readonly route: string;
-
+    protected readonly options: IServerOptions;
     private readonly message: IncomingMessage;
     private readonly response: ServerResponse;
-
-    protected readonly options: IServerOptions;
 
     constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IServerOptions) {
         super();
@@ -112,7 +105,7 @@ export class Request extends RequestAbstract {
      * @param body
      * @param options
      */
-    protected send(body: string | undefined | Buffer, options: ISendOptions = {code: 200}) {
+    protected send(body: string | undefined | Buffer, options: IRequestSendOptions = {code: 200}) {
         try {
             const {code, status} = options;
             const headers = new KeyValueMap(Object.entries(options.headers || {}));
