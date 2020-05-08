@@ -37,7 +37,7 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
                 const finish = this.logger.perf("request", {request: req.method, url: req.url});
                 try {
                     this.logger.info(`${req.method} ${req.url}`);
-                    await this.application.handle(new Request(req, res));
+                    await this.application.handle(new Request(req, res, this.options));
                 } catch (error) {
                     this.logger.alert(
                         error.message,
