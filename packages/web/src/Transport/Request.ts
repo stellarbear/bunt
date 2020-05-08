@@ -1,7 +1,7 @@
 import {IHeaders, KeyValueMap, RequestAbstract, RouteResponse} from "@typesafeunit/app";
 import {
     isBoolean,
-    isError,
+    isError, isFunction,
     isNull,
     isNumber,
     isObject,
@@ -12,6 +12,7 @@ import {
 import {IncomingMessage, ServerResponse} from "http";
 import {parse} from "url";
 import {Headers} from "./Headers";
+import {IServerOptions} from "./interfaces";
 import {ResponseAbstract} from "./Response";
 import {TransformError} from "./TransformError";
 
@@ -25,16 +26,19 @@ export class Request extends RequestAbstract {
     public readonly headers: IHeaders;
     public readonly route: string;
 
-    private readonly incomingMessage: IncomingMessage;
-    private readonly serverResponse: ServerResponse;
+    private readonly message: IncomingMessage;
+    private readonly response: ServerResponse;
 
-    constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse) {
+    protected readonly options: IServerOptions;
+
+    constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IServerOptions) {
         super();
-        this.incomingMessage = incomingMessage;
-        this.serverResponse = serverResponse;
+        this.message = incomingMessage;
+        this.response = serverResponse;
+        this.options = options ?? {};
 
         const headers: [string, string][] = [];
-        for (const [key, value] of Object.entries(this.incomingMessage.headers)) {
+        for (const [key, value] of Object.entries(this.message.headers)) {
             if (isString(value)) {
                 headers.push([key, value]);
             }
@@ -45,12 +49,12 @@ export class Request extends RequestAbstract {
     }
 
     public createReadableStream(): NodeJS.ReadableStream {
-        return this.incomingMessage;
+        return this.message;
     }
 
     protected getRoute() {
-        const {pathname} = parse(this.incomingMessage.url || "/", true);
-        const {method = "GET"} = this.incomingMessage;
+        const {pathname} = parse(this.message.url || "/", true);
+        const {method = "GET"} = this.message;
         return `${method} ${pathname}`;
     }
 
@@ -74,7 +78,7 @@ export class Request extends RequestAbstract {
             }
 
             if (isReadableStream(response)) {
-                response.pipe(this.serverResponse);
+                response.pipe(this.response);
                 return;
             }
 
@@ -117,13 +121,31 @@ export class Request extends RequestAbstract {
             }
 
             for (const [header, value] of headers.entries()) {
-                this.serverResponse.setHeader(header, value);
+                this.response.setHeader(header, value);
             }
 
-            this.serverResponse.writeHead(code, status);
-            this.serverResponse.write(body);
+            this.applyServerOptions();
+
+            this.response.writeHead(code, status);
+            this.response.write(body);
         } finally {
-            this.serverResponse.end();
+            this.response.end();
         }
+    }
+
+    protected applyServerOptions() {
+        const headers = this.getServerHeaders();
+        for (const [header, value] of Object.entries(headers)) {
+            this.response.setHeader(header, value);
+        }
+    }
+
+    protected getServerHeaders() {
+        const headers = this.options.headers ?? {};
+        if (isFunction(headers)) {
+            return headers(this);
+        }
+
+        return headers;
     }
 }

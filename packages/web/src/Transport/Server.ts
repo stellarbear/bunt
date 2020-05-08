@@ -4,6 +4,7 @@ import {Heartbeat} from "@typesafeunit/unit/dist/Runtime/Heartbeat";
 import {assert, logger, Logger} from "@typesafeunit/util";
 import * as http from "http";
 import {IncomingMessage, ServerResponse} from "http";
+import {IServerOptions} from "./interfaces";
 import {Request} from "./Request";
 
 export class Server implements IDisposableSync, IRunnable, IDestroyable {
@@ -13,11 +14,14 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
 
     protected readonly server: http.Server;
 
+    protected readonly options: IServerOptions;
+
     protected readonly application: Application<any, any>;
 
-    constructor(application: Application<any, any>) {
+    constructor(application: Application<any, any>, options?: IServerOptions) {
         this.application = application;
         this.server = new http.Server();
+        this.options = options ?? {};
     }
 
     public getHeartbeat() {
