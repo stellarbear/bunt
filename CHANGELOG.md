@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.23](https://github.com/izatop/typesafeunit/compare/v0.6.22...v0.6.23) (2020-05-08)
+
+
+### Bug Fixes
+
+* add server options ([9fa0d84](https://github.com/izatop/typesafeunit/commit/9fa0d847bdf893ef73a7822e95dd604be917a687))
+
+
+
+
+
 ## [0.6.22](https://github.com/izatop/typesafeunit/compare/v0.6.21...v0.6.22) (2020-05-07)
 
 
