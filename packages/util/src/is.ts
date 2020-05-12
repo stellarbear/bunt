@@ -10,9 +10,18 @@ export const isFunction = (value: any): value is (...args: any[]) => any => {
     return typeof value === "function" && isUndefined(value.prototype);
 };
 
+export type Ctor<T, A extends any[] = any[]> = {
+    new(...args: A): T;
+    prototype: T;
+};
 
-export type Ctor<T = any, A extends any[] = any[]> = { new(...args: A): T };
-export const isInstanceOf = <T>(value: any, type: {new(): T}): value is T => value instanceof type;
-export const isObject = (value: any): value is object => !isNull(value) && typeof value === "object";
+export type InstanceType<T, A extends any[] = any[]> = Function & { prototype: T };
+
+
+export const isObject = <T extends object>(value: any): value is T => typeof value === "object" && !isNull(value);
 export const isClass = (value: any): value is () => any => typeof value === "function" && isObject(value.prototype);
 export const isError = (value: any): value is Error => typeof value === "object" && value instanceof Error;
+
+export function isInstanceOf<T extends any>(value: any, type: InstanceType<T>): value is T {
+    return isObject(value) && value instanceof type;
+}

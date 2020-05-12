@@ -1,4 +1,4 @@
-import {isObject, Logger} from "@typesafeunit/util";
+import {isInstanceOf, Logger} from "@typesafeunit/util";
 import {Service} from "../Service";
 import {ApplyContext, ResolveService} from "./interfaces";
 
@@ -7,12 +7,12 @@ const weakCache = new WeakMap();
 export class Context {
     public static logger = Logger.factory(Context);
 
-    public static async resolve<T extends any>(value: T): Promise<ResolveService<T>> {
-        if (isObject(value) && Object.getPrototypeOf(value) instanceof Service) {
+    public static async resolve<T extends Service<any>>(value: T): Promise<ResolveService<T>> {
+        if (isInstanceOf<Service<T>>(value, Service)) {
             return value.resolve();
         }
 
-        return value as any;
+        return value;
     }
 
     public static async apply<C extends Context>(context: C): Promise<ApplyContext<C>> {

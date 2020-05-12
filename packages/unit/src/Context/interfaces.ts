@@ -10,11 +10,13 @@ export type ApplyContext<C extends Context> = {
         : C[K];
 };
 
+export type Ex<C, K> = K extends keyof C ? C[K] : never;
+
 export type MatchContext<C extends any, T> = {
-    [K in keyof T]: C[K] extends T[K]
+    [K in keyof T]: Ex<C, K> extends T[K]
         ? T[K]
-        : C[K] extends IServiceResolver<infer M>
+        : Ex<C, K> extends IServiceResolver<infer M>
             ? M extends T[K]
-                ? T[K] : ["The IServiceResolver<T> doesn't match context", C[K], T[K]]
-            : ["The input type doesn't match context", C[K], T[K]];
+                ? T[K] : ["The IServiceResolver<T> doesn't match context", Ex<C, K>, T[K]]
+            : ["The input type doesn't match context", Ex<C, K>, T[K]];
 };

@@ -10,6 +10,10 @@ export class DateTime {
         assert(this.#date.getTime() > 0);
     }
 
+    public static from(date: string | number | Date = new Date()) {
+        return new this(date);
+    }
+
     public get date() {
         return new Date(this.#date);
     }
