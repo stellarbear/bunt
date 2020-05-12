@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.26](https://github.com/izatop/typesafeunit/compare/v0.6.25...v0.6.26) (2020-05-12)
+
+
+### Bug Fixes
+
+* typescript 2.9 ([edea75d](https://github.com/izatop/typesafeunit/commit/edea75da40d97e96cbc74f3152f1bff79baa5225))
+
+
+
+
+
 ## [0.6.22](https://github.com/izatop/typesafeunit/compare/v0.6.21...v0.6.22) (2020-05-07)
 
 
