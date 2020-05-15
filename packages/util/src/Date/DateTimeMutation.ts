@@ -7,12 +7,12 @@ import mutators from "./mutators/mutators";
 import setters from "./mutators/setters";
 
 export class DateTimeMutation {
-    public static begins(kind: Exclude<DateTimeKind, "week" | "ms">, time: number) {
+    public static begins(kind: Exclude<DateTimeKind, "ms">, time: number) {
         assert(kind in begins);
         return begins[kind](time);
     }
 
-    public static ends(kind: Exclude<DateTimeKind, "week" | "ms">, time: number) {
+    public static ends(kind: Exclude<DateTimeKind, "ms">, time: number) {
         assert(kind in begins);
         return ends[kind](time);
     }

@@ -23,6 +23,11 @@ Array [
     "kind": "day",
   },
   Object {
+    "begins": 2020-02-09T21:00:00.000Z,
+    "ends": 2020-02-16T20:59:59.999Z,
+    "kind": "week",
+  },
+  Object {
     "begins": 2020-01-30T21:00:00.000Z,
     "ends": 2020-02-29T20:59:59.999Z,
     "kind": "month",

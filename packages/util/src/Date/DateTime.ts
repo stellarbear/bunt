@@ -26,11 +26,11 @@ export class DateTime {
         return this.date;
     }
 
-    public begins(kind: Exclude<DateTimeKind, "week" | "ms">) {
+    public begins(kind: Exclude<DateTimeKind, "ms">) {
         return new DateTime(DateTimeMutation.begins(kind, this.getTime()));
     }
 
-    public ends(kind: Exclude<DateTimeKind, "week" | "ms">) {
+    public ends(kind: Exclude<DateTimeKind, "ms">) {
         return new DateTime(DateTimeMutation.ends(kind, this.getTime()));
     }
 

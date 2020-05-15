@@ -16,3 +16,9 @@ export enum TimeMultiply {
     HOUR = MIN * 60,
     DAY = HOUR * 24,
 }
+
+export type DateConfig = {
+    locale: string;
+    timeZone: string;
+    weekBegins: number;
+};

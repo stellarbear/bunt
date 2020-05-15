@@ -44,7 +44,7 @@ describe("DateTime", () => {
 
     test("begins/ends()", () => {
         const result = [];
-        const begins: Exclude<DateTimeKind, "ms" | "week">[] = ["sec", "min", "hour", "day", "month", "year"];
+        const begins: Exclude<DateTimeKind, "ms">[] = ["sec", "min", "hour", "day", "week", "month", "year"];
         for (const kind of begins) {
             result.push({
                 kind,
