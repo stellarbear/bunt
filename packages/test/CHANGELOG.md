@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.6.27](https://github.com/izatop/typesafeunit/compare/v0.6.26...v0.6.27) (2020-05-15)
+
+
+### Bug Fixes
+
+* add locale, tz and calc begins/ends of a week ([ec31622](https://github.com/izatop/typesafeunit/commit/ec31622223b4680f0d7bebc36b99d65d366e0269))
+
+
+
+
+
 ## [0.6.26](https://github.com/izatop/typesafeunit/compare/v0.6.25...v0.6.26) (2020-05-12)
 
 **Note:** Version bump only for package @typesafeunit/test
