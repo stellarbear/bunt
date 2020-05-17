@@ -9,8 +9,9 @@ const day = (time: number) => new Date(time).setHours(0, 0, 0, 0);
 const month = (time: number) => day(new Date(time).setDate(0));
 const year = (time: number) => month(new Date(time).setMonth(0));
 const week = (time: number) => {
-    const dt = new Date(time);
-    return day(dt.setDate(dt.getDate() - dt.getDay() + weekBegins));
+    const date = new Date(time);
+    const weekDay = date.getDay() - weekBegins < 0 ? 7 - weekBegins : date.getDay() - weekBegins;
+    return day(date.setDate(date.getDate() - weekDay));
 };
 
 export default {

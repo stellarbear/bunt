@@ -10,12 +10,12 @@ export class DateTime {
         assert(this.#date.getTime() > 0);
     }
 
-    public static from(date: string | number | Date = new Date()) {
-        return new this(date);
-    }
-
     public get date() {
         return new Date(this.#date);
+    }
+
+    public static from(date: string | number | Date = new Date()) {
+        return new this(date);
     }
 
     public getTime() {
@@ -24,6 +24,10 @@ export class DateTime {
 
     public getDate() {
         return this.date;
+    }
+
+    public toString() {
+        return this.date.toString();
     }
 
     public begins(kind: Exclude<DateTimeKind, "ms">) {

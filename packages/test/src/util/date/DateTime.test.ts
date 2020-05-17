@@ -44,7 +44,7 @@ describe("DateTime", () => {
 
     test("begins/ends()", () => {
         const result = [];
-        const begins: Exclude<DateTimeKind, "ms">[] = ["sec", "min", "hour", "day", "week", "month", "year"];
+        const begins: Exclude<DateTimeKind, "ms">[] = ["sec", "min", "hour", "day", "month", "year"];
         for (const kind of begins) {
             result.push({
                 kind,
@@ -54,5 +54,15 @@ describe("DateTime", () => {
         }
 
         expect(result).toMatchSnapshot();
+    });
+
+    const tests: [number, DateTime][] = new Array(7)
+        .fill(new Date(2020, 4, 11))
+        .map((d: Date, index) => new DateTime(d).mutate(["day", index]).date)
+        .map((d: Date) => [d.getDate(), new DateTime(d)]);
+    test.each(tests)("begins/ends ( %d )", (...args) => {
+        const dt = args.pop() as DateTime;
+        expect(dt.begins("week").date.getDate()).toBe(11);
+        expect(dt.ends("week").date.getDate()).toBe(17);
     });
 });
