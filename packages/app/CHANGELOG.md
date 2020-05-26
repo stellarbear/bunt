@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.7.0](https://github.com/izatop/typesafeunit/compare/v0.6.28...v0.7.0) (2020-05-26)
+
+
+### Features
+
+* new eslint rules ([62417eb](https://github.com/izatop/typesafeunit/commit/62417eb1385862c93108991075f864536b90a748))
+
+
+
+
+
 ## [0.6.28](https://github.com/izatop/typesafeunit/compare/v0.6.27...v0.6.28) (2020-05-17)
 
 **Note:** Version bump only for package @typesafeunit/app
