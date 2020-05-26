@@ -7,9 +7,9 @@ const month: TimeMutateFn = (time, value) => new Date(time).setDate(value);
 const year: TimeMutateFn = (time, value) => new Date(time).setFullYear(value);
 
 export default new Map<DateTimeKind, TimeMutateFn>([
-    ["ms", (time, value) => new Date(time).setMilliseconds(value)],
-    ["sec", (time, value) => new Date(time).setSeconds(value)],
-    ["min", (time, value) => new Date(time).setMinutes(value)],
+    ["ms", (time: number, value: number): number => new Date(time).setMilliseconds(value)],
+    ["sec", (time: number, value: number): number => new Date(time).setSeconds(value)],
+    ["min", (time: number, value: number): number => new Date(time).setMinutes(value)],
     ["hour", hour],
     ["day", day],
     ["week", week],

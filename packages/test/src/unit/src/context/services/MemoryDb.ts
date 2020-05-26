@@ -11,7 +11,7 @@ export class MemoryDb {
         this.prefix = prefix;
     }
 
-    public static async connect(prefix = "db") {
+    public static async connect(prefix = "db"): Promise<MemoryDb> {
         const map = storage.get(prefix) || new Map();
         if (!storage.has(prefix)) {
             storage.set(prefix, map);
@@ -20,23 +20,23 @@ export class MemoryDb {
         return new this(map, prefix);
     }
 
-    public get(key: string) {
+    public get(key: string): any {
         return this.ref.get(key);
     }
 
-    public set(key: string, value: any) {
+    public set(key: string, value: unknown): void {
         this.ref.set(key, value);
     }
 
-    public delete(key: string) {
+    public delete(key: string): void {
         this.ref.delete(key);
     }
 
-    public entries() {
+    public entries(): IterableIterator<[string, any]> {
         return this.ref.entries();
     }
 
-    public deleteAll() {
+    public deleteAll(): void {
         this.ref.clear();
     }
 }

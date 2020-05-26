@@ -32,31 +32,31 @@ export class Runtime {
         }
     }
 
-    public static get runtime() {
+    public static get runtime(): Runtime {
         return this[RuntimeRef];
     }
 
-    public get online() {
+    public get online(): boolean {
         return !this.#disposed;
     }
 
-    public static isDebugEnable() {
+    public static isDebugEnable(): boolean {
         return DEBUG;
     }
 
-    public static isProduction() {
+    public static isProduction(): boolean {
         return ENV === "production";
     }
 
-    public static isDevelopment() {
+    public static isDevelopment(): boolean {
         return ENV !== "production";
     }
 
-    public static isTest() {
+    public static isTest(): boolean {
         return ENV === "test";
     }
 
-    public static initialize(before?: () => any) {
+    public static initialize(before?: () => any): void {
         if (this[RuntimeRef]) {
             return;
         }
@@ -68,12 +68,12 @@ export class Runtime {
         }
     }
 
-    public static run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
+    public static run(fn: (runtime: Runtime) => Promisify<void | IRunnable>): Promise<void> {
         this.initialize();
         return this.runtime.run(fn);
     }
 
-    public async run(fn: (runtime: Runtime) => Promisify<void | IRunnable>) {
+    public async run(fn: (runtime: Runtime) => Promisify<void | IRunnable>): Promise<void> {
         const finish = this.logger.perf("run");
         try {
             this.accept(await fn(this));
@@ -89,7 +89,7 @@ export class Runtime {
         }
     }
 
-    public accept(item: any) {
+    public accept(item: unknown): void {
         if (isUndefined(item) || isNull(item)) {
             return;
         }
@@ -103,7 +103,7 @@ export class Runtime {
         }
     }
 
-    private async release() {
+    private async release(): Promise<void> {
         this.logger.info("release");
         assert(this.online, "Runtime has been already released");
         this.#disposed = true;

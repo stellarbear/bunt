@@ -16,7 +16,7 @@ export class Request extends RequestAbstract {
         this.body = body;
     }
 
-    public createReadableStream() {
+    public createReadableStream(): Readable {
         return Readable.from(this.body);
     }
 

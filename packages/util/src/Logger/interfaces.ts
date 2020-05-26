@@ -1,4 +1,4 @@
-import {Promisify} from "../interfaces";
+import {Func, Promisify} from "../interfaces";
 import {Logger} from "./Logger";
 
 export enum SeverityLevel {
@@ -16,6 +16,7 @@ export interface ILoggerTransport {
     readonly writable: boolean;
 
     write(log: LogMessage): Promisify<void>;
+
     close(): Promisify<void>;
 }
 
@@ -27,9 +28,9 @@ export interface ILogger {
     getLogGroupId?(): string | number;
 }
 
-export type LoggerOwner = object | ILogger | Function;
+export type LoggerOwner = Record<any, any> | ILogger | Func;
 export type LogableType = string
-    | object
+    | Record<any, any>
     | number
     | bigint
     | null
@@ -44,6 +45,7 @@ export interface ILogable<T extends LogableType> {
 export type Logable = ILogable<LogableType> | LogableType | Logable[];
 
 export type LogFn = (message: string, ...args: Logable[]) => void;
+export type LogWrapFn = (logger: Logger, message: string, ...args: LogableType[]) => void;
 export type LogFormat = (log: LogMessage) => string;
 
 export type LogSystemInfo = {

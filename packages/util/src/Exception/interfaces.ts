@@ -1,4 +1,5 @@
 export interface ISafeReadableError {
     toSafeString(): string;
-    toSafeJSON(): object;
+
+    toSafeJSON(): Record<any, any>;
 }

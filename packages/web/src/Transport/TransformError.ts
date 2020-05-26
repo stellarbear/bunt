@@ -54,7 +54,7 @@ export class TransformError {
         return this.#error.message;
     }
 
-    private getResponseJSON(): object {
+    private getResponseJSON(): Record<any, any> {
         if (isSafeReadableError(this.#error)) {
             return this.#error.toSafeJSON();
         }

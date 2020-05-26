@@ -12,3 +12,4 @@ export * from "./Exception";
 export * from "./Console";
 export * from "./Node";
 export * from "./Perf";
+export * from "./interfaces";

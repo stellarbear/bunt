@@ -1,27 +1,36 @@
-export const isNull = (value: any): value is null => value === null;
-export const isUndefined = (value: any): value is undefined => typeof value === "undefined";
-export const isDefined = <T>(value: T | undefined): value is T => typeof value !== "undefined";
-export const isBoolean = (value: any): value is boolean => typeof value === "boolean";
-export const isString = (value: any): value is string => typeof value === "string";
-export const isArray = <T>(value: any): value is T[] => Array.isArray(value);
-export const isNumber = (value: any): value is number => value === +value;
+import {Ctor, Newable} from "./interfaces";
 
-export const isFunction = (value: any): value is (...args: any[]) => any => {
+export const isNull = (value: unknown): value is null => value === null;
+export const isUndefined = (value: unknown): value is undefined => typeof value === "undefined";
+export const isDefined = <T>(value: T | undefined): value is T => typeof value !== "undefined";
+export const isBoolean = (value: unknown): value is boolean => typeof value === "boolean";
+export const isString = (value: unknown): value is string => typeof value === "string";
+export const isArray = <T>(value: unknown): value is T[] => Array.isArray(value);
+export const isNumber = (value: unknown): value is number => {
+    return typeof value === "number" && value === +value;
+};
+
+export const isFunction = <T extends (...args: any) => any>(value: unknown): value is T => {
+    return typeof value === "function" && !isClass(value);
+};
+
+export const isArrowFunction = <T, A extends any[]>(value: unknown): value is (...args: A[]) => T => {
     return typeof value === "function" && isUndefined(value.prototype);
 };
 
-export type Ctor<T, A extends any[] = any[]> = {
-    new(...args: A): T;
-    prototype: T;
+export const isClass = (value: unknown): value is () => any => {
+    return typeof value === "function" && value.toString().startsWith("class");
 };
 
-export type InstanceType<T, A extends any[] = any[]> = Function & { prototype: T };
+export const isObject = <T extends Record<any, any>>(value: T | any): value is T => {
+    return typeof value === "object" && !isNull(value) && !Array.isArray(value);
+};
 
+export const isError = (value: unknown): value is Error => {
+    return typeof value === "object" && isInstanceOf(value, Error);
+};
 
-export const isObject = <T extends object>(value: any): value is T => typeof value === "object" && !isNull(value);
-export const isClass = (value: any): value is () => any => typeof value === "function" && isObject(value.prototype);
-export const isError = (value: any): value is Error => typeof value === "object" && value instanceof Error;
-
-export function isInstanceOf<T extends any>(value: any, type: InstanceType<T>): value is T {
+export type IIS<T> = T extends Ctor<infer S> ? S : T extends Newable<infer S> ? S : T;
+export const isInstanceOf = <C extends (Ctor | Newable)>(value: unknown, type: C): value is IIS<C> => {
     return isObject(value) && value instanceof type;
-}
+};

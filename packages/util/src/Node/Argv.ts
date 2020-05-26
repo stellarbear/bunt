@@ -5,6 +5,12 @@ const OPTION_REGEX = /^--([a-z0-9_-]+)=(.+)$/i;
 const FLAG_ON_REGEX = /^-([a-z0-9]+)$/i;
 const FLAG_OFF_REGEX = /^!-([a-z0-9]+)$/i;
 
+export type ArgvParse = {
+    args: Set<string>;
+    options: Map<string, string>;
+    flags: Map<string, boolean>;
+};
+
 export class Argv {
     public readonly args: Set<string>;
     public readonly options: Map<string, string>;
@@ -34,11 +40,11 @@ export class Argv {
         return value || defaultValue;
     }
 
-    public getArgs() {
+    public getArgs(): string[] {
         return [...this.args.values()];
     }
 
-    protected parse(input: string[]) {
+    protected parse(input: string[]): ArgvParse {
         const flags = new Map<string, boolean>();
         const options = new Map<string, string>();
         const args = new Set<string>();
@@ -68,7 +74,7 @@ export class Argv {
         };
     }
 
-    protected getMatch(value: string, re: RegExp, index = 1) {
+    protected getMatch(value: string, re: RegExp, index = 1): string {
         const res = value.match(re);
         assert(res && res[index]);
 

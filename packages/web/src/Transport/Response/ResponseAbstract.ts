@@ -25,7 +25,7 @@ export abstract class ResponseAbstract<T> {
         this.#headers = headers || {};
     }
 
-    public getHeaders() {
+    public getHeaders(): Record<any, string> {
         return {
             ...this.#headers,
             "Content-Type": this.getContentType(),
@@ -34,7 +34,7 @@ export abstract class ResponseAbstract<T> {
 
     public abstract stringify(): string;
 
-    public getContentType() {
+    public getContentType(): string {
         return `${this.type}; charset=${this.encoding}`;
     }
 }

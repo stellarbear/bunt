@@ -7,9 +7,9 @@ export default new PathRoute(
     {
         route: "/u/:id",
         state: {
-            id: ({args}) => pass(args.get("id"), (v) => parseInt(v, 10), isNumber),
-            payload: ({request}) => JSONTransform(request),
-            option: () => true,
+            id: ({args}): number => pass(args.get("id"), (v) => parseInt(v, 10), isNumber),
+            payload: ({request}): any => JSONTransform(request),
+            option: (): boolean => true,
         },
     },
 );

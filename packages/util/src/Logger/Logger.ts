@@ -11,6 +11,7 @@ import {
     LogFn,
     LoggerOwner,
     LogMessage,
+    LogWrapFn,
     SeverityLevel,
 } from "./interfaces";
 
@@ -43,11 +44,11 @@ export class Logger {
             : groupId;
     }
 
-    public get severity() {
+    public get severity(): SeverityLevel {
         return Logger.severity;
     }
 
-    public static setSeverity(severity: SeverityLevel) {
+    public static setSeverity(severity: SeverityLevel): void {
         this.severity = severity;
         const severities = [
             ["debug", SeverityLevel.DEBUG],
@@ -65,34 +66,34 @@ export class Logger {
         }
     }
 
-    public static add(transport: ILoggerTransport, unref = true) {
+    public static add(transport: ILoggerTransport, unref = true): void {
         transports.push(transport);
-        const safeFn = fn.safe((log: LogMessage) => {
+        const safeFn = fn.safe(async (log: LogMessage) => {
             if (transport.writable) {
-                transport.write(log);
+                await transport.write(log);
             }
         });
 
         writers.push(unref ? fn.isolate(safeFn) : safeFn);
     }
 
-    public static set(list: ILoggerTransport[]) {
+    public static set(list: ILoggerTransport[]): void {
         this.reset();
         for (const item of list) {
             this.add(item);
         }
     }
 
-    public static reset() {
+    public static reset(): void {
         writers.splice(0, transports.length);
         transports.splice(0, transports.length);
     }
 
-    public static factory(target: LoggerOwner) {
+    public static factory(target: LoggerOwner): Logger {
         return loggers.get(target) || this.createLogger(target);
     }
 
-    protected static createLogger(target: LoggerOwner) {
+    protected static createLogger(target: LoggerOwner): Logger {
         const label = isFunction(target) ? target.name : target.constructor.name;
         if (isLoggerOwner(target)) {
             const logger = new this(target.getLogLabel?.() ?? label, target.getLogGroupId?.());
@@ -105,7 +106,7 @@ export class Logger {
         return logger;
     }
 
-    protected static write(logger: Logger, severity: SeverityLevel, message: string, ...args: LogableType[]) {
+    protected static write(logger: Logger, severity: SeverityLevel, message: string, ...args: LogableType[]): void {
         const {label} = logger;
         const timestamp = Date.now();
         const log: LogMessage = {pid, host, label, severity, message, timestamp};
@@ -146,22 +147,22 @@ export class Logger {
         writers.forEach((write) => write(log));
     }
 
-    protected static make(severity: SeverityLevel) {
+    protected static make(severity: SeverityLevel): LogWrapFn {
         if (severity > this.severity) {
-            return () => void 0;
+            return (): void => void 0;
         }
 
-        return (logger: Logger, message: string, ...args: LogableType[]) => {
+        return (logger: Logger, message: string, ...args: LogableType[]): void => {
             this.write(logger, severity, message, ...args);
         };
     }
 
-    public dispose() {
+    public async dispose(): Promise<void> {
         writers.splice(0, writers.length);
-        return Promise.allSettled(transports.map((transport) => transport.close()));
+        await Promise.allSettled(transports.map((transport) => transport.close()));
     }
 
-    public add(child: ILogger) {
+    public add(child: ILogger): void {
         if (child.logger === this || isDefined(child.logger.groupId) || isUndefined(this.groupId)) {
             return;
         }
@@ -169,13 +170,13 @@ export class Logger {
         child.logger.groupId = this.groupId;
     }
 
-    public perf(message: string, ...args: Logable[]) {
+    public perf(message: string, ...args: Logable[]): () => void {
         if (this.severity < SeverityLevel.DEBUG) {
-            return () => void 0;
+            return (): void => void 0;
         }
 
         const perf = new Perf(this.label, message);
-        return () => {
+        return (): void => {
             perf.finish();
             this.debug("perf", perf, ...args);
         };

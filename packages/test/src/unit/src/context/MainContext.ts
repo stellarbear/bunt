@@ -1,21 +1,22 @@
 import {Context, resolve} from "@typesafeunit/unit";
 import * as crypto from "crypto";
 import {BaseContext} from "./BaseContext";
+import {MemoryDb} from "./services/MemoryDb";
 import {MemoryDbServiceResolver} from "./services/MemoryDbServiceResolver";
 
 export class MainContext extends BaseContext {
     protected readonly prefix = "db";
 
     @resolve
-    public get memoryDb() {
+    public get memoryDb(): MemoryDbServiceResolver {
         return new MemoryDbServiceResolver(this.prefix);
     }
 
-    public get randomBytes() {
+    public get randomBytes(): Buffer {
         return crypto.randomBytes(8);
     }
 
-    public async getMemoryDb() {
+    public async getMemoryDb(): Promise<MemoryDb> {
         return Context.resolve(this.memoryDb);
     }
 }

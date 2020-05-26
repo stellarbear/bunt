@@ -20,7 +20,7 @@ export class ValidationSchema<T> {
         }
     }
 
-    public add<K extends keyof T>(key: K, options: ValidatorArg<T, K>) {
+    public add<K extends keyof T>(key: K, options: ValidatorArg<T, K>): ValidationSchema<T> {
         const rule = this.ensure(key);
         if (isFunction(options) || options instanceof ValidationSchema) {
             rule.add(options);
@@ -41,7 +41,7 @@ export class ValidationSchema<T> {
         return this;
     }
 
-    public assert(description: ValidationDescription<T>, message?: string) {
+    public assert(description: ValidationDescription<T>, message?: string): void {
         if (!description.valid) {
             throw new ValidationError(message || "Validation failed", description);
         }
@@ -65,7 +65,7 @@ export class ValidationSchema<T> {
         }
     }
 
-    protected ensure<K extends keyof T>(key: K, attributes: ValidationAttributes = {}) {
+    protected ensure<K extends keyof T>(key: K, attributes: ValidationAttributes = {}): ValidationRule<T, K> {
         const rule = this.rules.get(key) || new ValidationRule<T, K>(key, this.attributes);
         if (!this.rules.has(key)) {
             this.rules.set(key, rule);

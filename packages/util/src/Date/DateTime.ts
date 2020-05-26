@@ -10,39 +10,39 @@ export class DateTime {
         assert(this.#date.getTime() > 0);
     }
 
-    public get date() {
+    public get date(): Date {
         return new Date(this.#date);
     }
 
-    public static from(date: string | number | Date = new Date()) {
+    public static from(date: string | number | Date = new Date()): DateTime {
         return new this(date);
     }
 
-    public getTime() {
+    public getTime(): number {
         return this.#date.getTime();
     }
 
-    public getDate() {
+    public getDate(): Date {
         return this.date;
     }
 
-    public toString() {
+    public toString(): string {
         return this.date.toString();
     }
 
-    public begins(kind: Exclude<DateTimeKind, "ms">) {
+    public begins(kind: Exclude<DateTimeKind, "ms">): DateTime {
         return new DateTime(DateTimeMutation.begins(kind, this.getTime()));
     }
 
-    public ends(kind: Exclude<DateTimeKind, "ms">) {
+    public ends(kind: Exclude<DateTimeKind, "ms">): DateTime {
         return new DateTime(DateTimeMutation.ends(kind, this.getTime()));
     }
 
-    public mutate(...mutations: [DateTimeKind, number][]) {
+    public mutate(...mutations: [DateTimeKind, number][]): DateTime {
         return new DateTime(DateTimeMutation.mutate(this.getTime(), ...mutations));
     }
 
-    public set(...intervals: [DateTimeKind, number][]) {
+    public set(...intervals: [DateTimeKind, number][]): DateTime {
         return new DateTime(DateTimeMutation.set(this.getTime(), ...intervals));
     }
 }

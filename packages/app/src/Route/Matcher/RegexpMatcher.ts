@@ -12,7 +12,7 @@ export class RegexpMatcher implements IRouteMatcher {
         this.matcher = match(route);
     }
 
-    public match(route: string): object {
+    public match(route: string): Record<string, any> {
         return (this.matcher(route) || {params: {}}).params;
     }
 

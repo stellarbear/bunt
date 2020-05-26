@@ -8,7 +8,7 @@ export abstract class RequestAbstract implements IRequest, ILogable<{ route: str
 
     #complete = false;
 
-    public get complete() {
+    public get complete(): boolean {
         return this.#complete;
     }
 
@@ -30,7 +30,7 @@ export abstract class RequestAbstract implements IRequest, ILogable<{ route: str
         return transformer.transform(this);
     }
 
-    public async respond(response: RouteResponse) {
+    public async respond(response: RouteResponse): Promise<void> {
         assert(!this.complete, `Response was already sent`);
         try {
             await this.write(response);
@@ -41,7 +41,7 @@ export abstract class RequestAbstract implements IRequest, ILogable<{ route: str
 
     public abstract createReadableStream(): Promisify<NodeJS.ReadableStream>;
 
-    public getLogValue() {
+    public getLogValue(): { route: string } {
         return {route: this.route};
     }
 

@@ -11,11 +11,11 @@ export class Heartbeat<T = unknown> {
         });
     }
 
-    public get beats() {
+    public get beats(): boolean {
         return this.#beats;
     }
 
-    public waitUntilStop() {
+    public waitUntilStop(): Promise<T | Error> {
         return this.#defer;
     }
 }

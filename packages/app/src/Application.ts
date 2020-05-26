@@ -15,12 +15,13 @@ export class Application<U extends Unit<C>, C> {
         this.unit = u;
     }
 
-    public get size() {
+    public get size(): number {
         return this.route.length;
     }
 
-    public static async factory<C extends Context>(context: ContextArg<C>,
-                                                   routes: MatchRoute<C, RouteAbstract<RouteAction>>[] = []) {
+    public static async factory<C extends Context>(
+        context: ContextArg<C>,
+        routes: MatchRoute<C, RouteAbstract<RouteAction>>[] = []): Promise<Application<Unit<C>, C>> {
         const app = new this<Unit<C>, C>(await unit(context));
         if (routes.length > 0) {
             routes.forEach((route) => app.add(route));
@@ -29,7 +30,7 @@ export class Application<U extends Unit<C>, C> {
         return app;
     }
 
-    public add<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>) {
+    public add<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>): this {
         this.logger.debug("add", route);
         assert(!this.unit.has(route.action), `This route was already added`);
         this.unit.add(route.action);
@@ -37,7 +38,7 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public remove<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>) {
+    public remove<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>): this {
         if (this.unit.has(route.action)) {
             this.logger.debug("remove", route);
             this.unit.remove(route.action);
@@ -48,7 +49,7 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public async handle(request: RequestAbstract) {
+    public async handle(request: RequestAbstract): Promise<void> {
         const finish = this.logger.perf("handle", request);
         try {
             await request.respond(await this.run(request));

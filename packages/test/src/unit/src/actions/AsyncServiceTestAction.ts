@@ -6,10 +6,10 @@ export class AsyncServiceTestAction extends Action<IResolveAsyncContext, { key: 
     public static get hooks(): ActionHooks<AsyncServiceTestAction> {
         return {
             validate: (schema) => schema.add("key", (v) => assert(isString(v))),
-        };
+        } as ActionHooks<AsyncServiceTestAction>;
     }
 
-    public async run() {
+    public async run(): Promise<string> {
         const {key} = this.state;
         const {memoryDb, randomBytes} = this.context;
         const value = randomBytes.toString("hex");

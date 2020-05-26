@@ -1,3 +1,4 @@
+import {DecoratorTarget} from "./interfaces";
 import {isObject} from "./is";
 
 export const freeze = <S extends { [key: string]: any }>(source: S): S => {
@@ -12,6 +13,8 @@ export const freeze = <S extends { [key: string]: any }>(source: S): S => {
     return target;
 };
 
+// @TODO
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export const entriesReverse = <V>(entries: [string | number | symbol, V][]) => {
     return Object.assign(
         {},
@@ -21,7 +24,7 @@ export const entriesReverse = <V>(entries: [string | number | symbol, V][]) => {
     );
 };
 
-export const getClassName = (target: object, prefix?: string) => {
+export const getClassName = (target: DecoratorTarget, prefix?: string): string => {
     prefix = prefix ? `${prefix}:` : "";
     return `${prefix}${target.constructor.name}`;
 };

@@ -1,12 +1,15 @@
 import {Promisify} from "../interfaces";
 import {isArray, isFunction, isObject} from "../is";
-import {JSONInput, Transformable, TransformSchema} from "./interfaces";
+import {JSONInput, Transformable, TransformOut, TransformSchema} from "./interfaces";
 
 export class TransformInput<T, K extends keyof T> {
-    public static transform<T extends Transformable>(data: JSONInput<T>, scheme: TransformSchema<T>): Promise<T>;
-    public static async transform<T extends Transformable>(data: JSONInput<T>, schema: TransformSchema<T>) {
+    public static transform<T extends Transformable>(data: JSONInput<T>,
+                                                     scheme: TransformSchema<T>): Promise<TransformOut<T>>;
+
+    public static async transform<T extends Transformable>(data: JSONInput<T>,
+                                                           schema: TransformSchema<T>): Promise<TransformOut<T>> {
         if (isArray(data)) {
-            return Promise.all(data.map((item: any) => this.transform(item, schema)));
+            return Promise.all(data.map((item: any) => this.transform<T>(item, schema))) as any;
         }
 
         for (const [property, transform] of Object.entries(schema)) {
@@ -25,11 +28,11 @@ export class TransformInput<T, K extends keyof T> {
             }
         }
 
-        return data;
+        return data as TransformOut<T>;
     }
 
-    public static create<T>(schema: TransformSchema<T>) {
-        return async (data: Promisify<JSONInput<T>>) => {
+    public static create<T extends Transformable>(schema: TransformSchema<T>) {
+        return async (data: Promisify<JSONInput<T>>): Promise<TransformOut<T>> => {
             return this.transform(await data, schema);
         };
     }

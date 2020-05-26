@@ -18,6 +18,7 @@ export type RouteStateSure<C extends Context, T> = |
     ((context: IRouteContext<C>) => Promisify<T>);
 
 export type RouteConfigState<A> = A extends Action<infer C, infer S, RouteResponse>
+    // eslint-disable-next-line @typescript-eslint/ban-types
     ? S extends object
         ? RouteStateSure<C, S>
         : never
@@ -40,5 +41,5 @@ export interface RouteConfigInner<A> {
 export interface IRouteMatcher {
     test(route: string): boolean;
 
-    match(route: string): object;
+    match(route: string): Record<string, string>;
 }

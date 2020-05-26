@@ -8,11 +8,11 @@ export class LoggerTestTransport implements ILoggerTransport {
         this.logs = logs;
     }
 
-    public write(log: LogMessage) {
+    public write(log: LogMessage): void {
         this.logs.push(log);
     }
 
-    public close() {
+    public close(): void {
         this.logs.length = 0;
     }
 }

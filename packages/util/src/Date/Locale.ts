@@ -9,7 +9,7 @@ function normalizeLocale(locale: string) {
     return locale;
 }
 
-export function getDefaultConfig() {
+export function getDefaultConfig(): DateConfig {
     const system = Intl.DateTimeFormat().resolvedOptions();
     const timeZone = process.env.TZ ?? process.env.TIMEZONE ?? system.timeZone;
     const locale = normalizeLocale(process.env.LANG ?? process.env.LANGUAGE ?? system.locale);
@@ -23,24 +23,24 @@ export function getDefaultConfig() {
 
 const config: DateConfig = getDefaultConfig();
 
-export function setLocale(locale: string | string[]) {
+export function setLocale(locale: string | string[]): void {
     const [supported] = Intl.DateTimeFormat.supportedLocalesOf(locale);
     assert(supported, `Incorrect locale information provided: ${locale}`);
     config.locale = supported;
 }
 
-export function setTimeZone(timeZone: string) {
+export function setTimeZone(timeZone: string): void {
     config.timeZone = timeZone;
 }
 
-export function getLocale() {
+export function getLocale(): string {
     return config.locale;
 }
 
-export function getTimeZone() {
+export function getTimeZone(): string {
     return config.timeZone;
 }
 
-export function getWeekBegins() {
+export function getWeekBegins(): number {
     return config.weekBegins;
 }

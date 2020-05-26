@@ -46,3 +46,5 @@ export type ValidationSafeValue = {
     field: string;
     validation?: ValidationSafeValue[];
 };
+
+export type ValidationSafeJSON = { error: string; validation: ValidationSafeValue[] };

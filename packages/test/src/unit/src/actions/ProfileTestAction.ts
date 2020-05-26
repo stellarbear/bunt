@@ -9,10 +9,10 @@ export class ProfileTestAction extends Action<IBaseContext> {
             success: noop,
             validate: (s) => s,
             create: noop,
-        };
+        } as ActionHooks<ProfileTestAction>;
     }
 
-    public run() {
+    public run(): boolean {
         return true;
     }
 }

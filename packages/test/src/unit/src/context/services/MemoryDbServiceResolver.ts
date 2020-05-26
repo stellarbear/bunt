@@ -9,7 +9,7 @@ export class MemoryDbServiceResolver extends Service<MemoryDb> {
         this.prefix = prefix;
     }
 
-    public async resolve(prefix?: string) {
+    public async resolve(prefix?: string): Promise<MemoryDb> {
         return MemoryDb.connect(prefix || this.prefix);
     }
 }

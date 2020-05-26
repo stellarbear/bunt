@@ -12,19 +12,19 @@ export class ValidationRule<T, K extends keyof T> {
         this.attributes = {...attributes};
     }
 
-    public get required() {
+    public get required(): boolean | undefined {
         return this.attributes.required;
     }
 
-    public get nullable() {
+    public get nullable(): boolean | undefined {
         return this.attributes.nullable;
     }
 
-    public setAttributes(attributes: ValidationAttributes = {}) {
+    public setAttributes(attributes: ValidationAttributes = {}): void {
         Object.assign(this.attributes, {...attributes});
     }
 
-    public add(validator: ValidationFunction<T, K>, message?: string) {
+    public add(validator: ValidationFunction<T, K>, message?: string): void {
         this.validators.push([validator, message]);
     }
 
@@ -86,7 +86,7 @@ export class ValidationRule<T, K extends keyof T> {
         return {value, valid: true};
     }
 
-    protected isNull(value: any) {
+    protected isNull(value: unknown): boolean {
         return isNull(value) || (Array.isArray(value) && value.length === 0);
     }
 }

@@ -24,15 +24,15 @@ export abstract class RouteAbstract<A extends RouteAction = RouteAction> impleme
         return Reflect.has(config, "state");
     }
 
-    public getLogValue() {
+    public getLogValue(): { route: string } {
         return {route: this.route};
     }
 
-    public test(route: string) {
+    public test(route: string): boolean {
         return this.matcher.test(route);
     }
 
-    public match(route: string) {
+    public match(route: string): Record<string, string> {
         return this.matcher.match(route);
     }
 }

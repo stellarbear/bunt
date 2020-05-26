@@ -1,7 +1,7 @@
 import {Action} from "@typesafeunit/unit";
 
 export class EmptyStateAction extends Action {
-    public run() {
+    public run(): void {
         return;
     }
 }

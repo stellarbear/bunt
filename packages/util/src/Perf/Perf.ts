@@ -14,15 +14,15 @@ export class Perf implements ILogable<IPerfValue> {
             .join(" -> ");
     }
 
-    public get time() {
+    public get time(): number {
         return this.#finish > 0 ? this.#finish - this.start : -1;
     }
 
-    public static make(label: string | object) {
+    public static make(label: string | Record<any, any>): Perf {
         return new Perf(label);
     }
 
-    public finish() {
+    public finish(): this {
         this.#finish = performance.now();
         return this;
     }

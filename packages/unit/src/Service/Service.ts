@@ -1,8 +1,9 @@
+import {Ctor, DecoratorTarget} from "@typesafeunit/util";
 import {IServiceResolver} from "../interfaces";
 import {ServiceRef} from "./ServiceRef";
 
 export abstract class Service<T> implements IServiceResolver<T> {
-    public static getReferences(target: object, base: Function | null = null) {
+    public static getReferences(target: unknown, base: Ctor | null = null): PropertyKey[] {
         const references = [];
         for (const proto of this.getPrototypes(target, base)) {
             references.push(...ServiceRef.get(proto));
@@ -12,12 +13,14 @@ export abstract class Service<T> implements IServiceResolver<T> {
     }
 
     public static resolve(): PropertyDecorator {
-        return (target, key) => {
+        const fn = (target: DecoratorTarget, key: PropertyKey): void => {
             ServiceRef.set(target, key);
         };
+
+        return fn as PropertyDecorator;
     }
 
-    protected static* getPrototypes(target: object, base: Function | null = null) {
+    protected static* getPrototypes(target: unknown, base: Ctor<any> | null = null): Generator<any> {
         let proto = Object.getPrototypeOf(target);
         const baseProto = base === null ? null : base.prototype;
         while (baseProto !== proto) {

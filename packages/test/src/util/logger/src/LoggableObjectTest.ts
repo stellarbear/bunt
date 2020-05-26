@@ -10,7 +10,7 @@ export class LoggableObjectTest<T extends LogableType> implements ILogger, ILoga
         this.value = value;
     }
 
-    public getLogValue = () => this.value;
+    public getLogValue = (): T => this.value;
 
-    public getLogLabel = () => "LoggableObjectTest:#1";
+    public getLogLabel = (): string => "LoggableObjectTest:#1";
 }

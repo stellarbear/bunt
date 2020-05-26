@@ -1,7 +1,9 @@
 import {assert, isBoolean} from "@typesafeunit/util";
 import {ValidationAttributes} from "./interfaces";
 
-export function createAssertion(fn: (v: any) => boolean, options?: ValidationAttributes | boolean) {
+// @TODO
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function createAssertion(fn: (v: unknown) => boolean, options?: ValidationAttributes | boolean) {
     const validator = (v: any) => assert(fn(v));
     if (isBoolean(options)) {
         return {required: options, validator};

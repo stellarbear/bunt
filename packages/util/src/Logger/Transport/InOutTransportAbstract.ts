@@ -11,11 +11,11 @@ export abstract class InOutTransportAbstract implements ILoggerTransport {
         this.#format = formatter || defaultLogFormat;
     }
 
-    public get writable() {
+    public get writable(): boolean {
         return this.stream.writable;
     }
 
-    public write(log: LogMessage) {
+    public write(log: LogMessage): void {
         if (this.test(log)) {
             this.stream.write(
                 this.#format(log) + "\n",

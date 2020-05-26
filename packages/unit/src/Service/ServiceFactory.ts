@@ -10,7 +10,7 @@ export class ServiceFactory<T> extends Service<T> {
         this.resolver = resolver;
     }
 
-    public static create<T>(resolver: ResolvableValue<T>) {
+    public static create<T>(resolver: ResolvableValue<T>): Service<T> {
         return new ServiceFactory(resolver);
     }
 

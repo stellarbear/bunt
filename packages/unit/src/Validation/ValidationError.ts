@@ -1,5 +1,5 @@
 import {ILogable, ISafeReadableError} from "@typesafeunit/util";
-import {ValidationDescription, ValidationResult, ValidationSafeValue} from "./interfaces";
+import {ValidationDescription, ValidationResult, ValidationSafeJSON, ValidationSafeValue} from "./interfaces";
 
 export interface IValidationLogValue {
     error: string;
@@ -20,7 +20,7 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
         return description.message || message || this.message;
     }
 
-    public toSafeJSON() {
+    public toSafeJSON(): ValidationSafeJSON {
         return {
             error: this.toSafeString(),
             validation: this.getValidationErrors(this.description),

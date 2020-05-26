@@ -5,4 +5,4 @@ export interface IPerfValue {
     time: number;
 }
 
-export type PerfLabel = (string | object);
+export type PerfLabel = (string | Record<any, any>);

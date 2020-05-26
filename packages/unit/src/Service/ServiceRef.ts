@@ -1,21 +1,21 @@
-const refs = new WeakMap<object, ServiceRef>();
+import {DecoratorTarget} from "@typesafeunit/util";
 
-export type RefPropertyType = string | symbol | number;
+// eslint-disable-next-line @typescript-eslint/ban-types
+const refs = new WeakMap<Function, ServiceRef>();
 
-export class ServiceRef implements Iterable<RefPropertyType> {
-    protected readonly target: object;
-    protected readonly properties = new Set<RefPropertyType>();
+export class ServiceRef implements Iterable<PropertyKey> {
+    protected readonly target: DecoratorTarget;
+    protected readonly properties = new Set<PropertyKey>();
 
-    constructor(target: object) {
+    constructor(target: DecoratorTarget) {
         this.target = target;
     }
 
-    public static set(target: object, property: RefPropertyType) {
-        this.get(target)
-            .add(property);
+    public static set(target: DecoratorTarget, property: PropertyKey): void {
+        this.get(target).add(property);
     }
 
-    public static get(target: object) {
+    public static get(target: DecoratorTarget): ServiceRef {
         const ref = refs.get(target.constructor) || new ServiceRef(target);
         if (!refs.has(target.constructor)) {
             refs.set(target.constructor, ref);
@@ -24,18 +24,18 @@ export class ServiceRef implements Iterable<RefPropertyType> {
         return ref;
     }
 
-    public static getProperties(target: object) {
+    public static getProperties(target: DecoratorTarget): (PropertyKey)[] {
         return [
             ...this.get(target)
                 .properties.values(),
         ];
     }
 
-    public add(key: RefPropertyType) {
+    public add(key: PropertyKey): void {
         this.properties.add(key);
     }
 
-    [Symbol.iterator]() {
+    [Symbol.iterator](): Iterator<PropertyKey> {
         return this.properties.values();
     }
 }

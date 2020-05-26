@@ -9,10 +9,10 @@ export class TestExceptionAction extends Action<IBaseContext, string> {
             success: noop,
             validate: (s) => s,
             create: noop,
-        };
+        } as ActionHooks<TestExceptionAction>;
     }
 
-    public run() {
+    public run(): void {
         assert(false, this.state);
     }
 }

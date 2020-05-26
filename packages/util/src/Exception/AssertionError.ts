@@ -1,10 +1,10 @@
 import {isFunction} from "../is";
 import {ILogable} from "../Logger";
 
-export class AssertionError extends Error implements ILogable<object> {
+export class AssertionError extends Error implements ILogable<Record<any, any>> {
     public readonly details?: any;
 
-    constructor(message?: string, details?: any) {
+    constructor(message?: string, details?: unknown | (() => unknown)) {
         super(message || "Assertion fails");
 
         this.details = isFunction(details)
@@ -12,7 +12,7 @@ export class AssertionError extends Error implements ILogable<object> {
             : details;
     }
 
-    public getLogValue(): object {
+    public getLogValue(): Record<any, any> {
         return {error: this.message, details: this.details};
     }
 }

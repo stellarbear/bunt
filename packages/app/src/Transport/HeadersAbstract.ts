@@ -26,7 +26,7 @@ export abstract class HeadersAbstract extends KeyValueReadonlyMap
         }
     }
 
-    public getLogValue() {
+    public getLogValue(): Record<any, any> {
         return this.toJSON();
     }
 }

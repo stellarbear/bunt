@@ -1,23 +1,23 @@
 import {AssertionError} from "./Exception";
 import {isFunction} from "./is";
 
-export type AssertionDetailsAllowType = string | object | null | number;
+export type AssertionDetailsAllowType = string | Record<any, any> | null | number;
 export type AssertionDetails = (() => AssertionDetailsAllowType) | AssertionDetailsAllowType;
 export type AssertionMessage = string | (() => string);
 
-export function assert(expr: any, message?: AssertionMessage, details?: AssertionDetails): asserts expr {
+export function assert(expr: unknown, message?: AssertionMessage, details?: AssertionDetails): asserts expr {
     if (!expr) {
         throw new AssertionError(isFunction(message) ? message() : message, details);
     }
 }
 
-export function fails(expr: any, message?: AssertionMessage, details?: AssertionDetails) {
+export function fails(expr: unknown, message?: AssertionMessage, details?: AssertionDetails): void {
     if (!!expr) {
         throw new AssertionError(isFunction(message) ? message() : message, details);
     }
 }
 
-export function pass<T>(value: any, transform: (v: any) => T, validator: (v: any) => boolean, label?: string): T {
+export function pass<T>(value: unknown, transform: (v: any) => T, validator: (v: any) => boolean, label?: string): T {
     assert(value, `${label || "Value"} should be defined`);
 
     const nextValue = transform(value);

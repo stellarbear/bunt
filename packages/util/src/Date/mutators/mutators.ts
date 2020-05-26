@@ -19,9 +19,9 @@ const year: TimeMutateFn = (time, value) => {
 };
 
 export default new Map<DateTimeKind, TimeMutateFn>([
-    ["ms", (time, value) => time + value],
-    ["sec", (time, value) => time + (value * TimeMultiply.SEC)],
-    ["min", (time, value) => time + (value * TimeMultiply.MIN)],
+    ["ms", (time: number, value: number): number => time + value],
+    ["sec", (time: number, value: number): number => time + (value * TimeMultiply.SEC)],
+    ["min", (time: number, value: number): number => time + (value * TimeMultiply.MIN)],
     ["hour", hour],
     ["day", day],
     ["week", week],

@@ -7,7 +7,7 @@ export class EqualMatcher implements IRouteMatcher {
         this.route = route;
     }
 
-    public match(route: string): object {
+    public match(route: string): { route: string } {
         return {route};
     }
 

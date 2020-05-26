@@ -2,15 +2,15 @@ import {LogMessage, SeverityLevel} from "../interfaces";
 import {InOutTransportAbstract} from "./InOutTransportAbstract";
 
 export class StdOutTransport extends InOutTransportAbstract {
-    protected get stream() {
+    protected get stream(): NodeJS.WritableStream {
         return process.stdout;
     }
 
-    protected test(log: LogMessage) {
-        return log.severity >= SeverityLevel.NOTICE;
+    public close(): void {
+        return;
     }
 
-    public close() {
-        return void 0;
+    protected test(log: LogMessage): boolean {
+        return log.severity >= SeverityLevel.NOTICE;
     }
 }

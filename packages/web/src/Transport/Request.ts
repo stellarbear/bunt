@@ -45,7 +45,7 @@ export class Request extends RequestAbstract {
         return this.message;
     }
 
-    protected getRoute() {
+    protected getRoute(): string {
         const {pathname} = parse(this.message.url || "/", true);
         const {method = "GET"} = this.message;
         return `${method} ${pathname}`;
@@ -54,7 +54,7 @@ export class Request extends RequestAbstract {
     /**
      * @param response
      */
-    protected async write(response: RouteResponse) {
+    protected async write(response: RouteResponse): Promise<void> {
         // @TODO Validate types in the Accept header before send a response.
 
         if (isUndefined(response) || isNull(response)) {
@@ -105,7 +105,7 @@ export class Request extends RequestAbstract {
      * @param body
      * @param options
      */
-    protected send(body: string | undefined | Buffer, options: IRequestSendOptions = {code: 200}) {
+    protected send(body: string | undefined | Buffer, options: IRequestSendOptions = {code: 200}): void {
         try {
             const {code, status} = options;
             const headers = new KeyValueMap(Object.entries(options.headers || {}));
@@ -126,14 +126,14 @@ export class Request extends RequestAbstract {
         }
     }
 
-    protected applyServerOptions() {
+    protected applyServerOptions(): void {
         const headers = this.getServerHeaders();
         for (const [header, value] of Object.entries(headers)) {
             this.response.setHeader(header, value);
         }
     }
 
-    protected getServerHeaders() {
+    protected getServerHeaders(): Record<any, string> {
         const headers = this.options.headers ?? {};
         if (isFunction(headers)) {
             return headers(this);

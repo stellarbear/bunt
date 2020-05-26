@@ -24,11 +24,11 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
         this.options = options ?? {};
     }
 
-    public getHeartbeat() {
+    public getHeartbeat(): Heartbeat {
         return new Heartbeat((resolve) => this.server.once("close", resolve));
     }
 
-    public listen(port: number) {
+    public listen(port: number): this {
         assert(!this.server.listening, "Server already in listening mode");
 
         this.server.on(
@@ -59,11 +59,11 @@ export class Server implements IDisposableSync, IRunnable, IDestroyable {
         return this;
     }
 
-    public async dispose() {
+    public async dispose(): Promise<void> {
         await this.destroy();
     }
 
-    public destroy() {
+    public destroy(): Promise<void> {
         this.logger.info("destroy");
         assert(this.server.listening, "Server was destroyed");
         return new Promise<void>((resolve) => this.server.close(() => resolve));

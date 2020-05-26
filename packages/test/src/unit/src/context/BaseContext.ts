@@ -6,7 +6,7 @@ export class BaseContext extends Context {
     public startAt = new Date();
 
     @resolve
-    public get parentDb() {
+    public get parentDb(): MemoryDbServiceResolver {
         return new MemoryDbServiceResolver("parent");
     }
 }
