@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/izatop/typesafeunit/compare/v0.8.0...v0.9.0) (2020-08-15)
+
+
+### Bug Fixes
+
+* ci ([2f0511d](https://github.com/izatop/typesafeunit/commit/2f0511d8c0b7dccfa0cb068bb48b1f170199d7db))
+* ci ([aa6be56](https://github.com/izatop/typesafeunit/commit/aa6be563f68d5ca3adecca24e47c9a9e767c80e3))
+* ci ([8c3da99](https://github.com/izatop/typesafeunit/commit/8c3da99a3056449a050657a6b8e0a7c36c7b4f27))
+* cors ([5ac872b](https://github.com/izatop/typesafeunit/commit/5ac872b96ffbe365e31339f1019b65943571e385))
+* lint ([70a60aa](https://github.com/izatop/typesafeunit/commit/70a60aa14e3214d28b81039926954d7c2777f2bd))
+* scripts ([b2844f3](https://github.com/izatop/typesafeunit/commit/b2844f3482a46e7e0e2b2e9b5d7caaf5caf48a84))
+* tests ([ebe0a61](https://github.com/izatop/typesafeunit/commit/ebe0a61bfd5604cd7ea486db301fa423556facef))
+* update deps ([d31b6a1](https://github.com/izatop/typesafeunit/commit/d31b6a1f424401d55796cc51fefbb0505051871d))
+* yarn.lock ([df9246b](https://github.com/izatop/typesafeunit/commit/df9246bca7f16c2b912d24be54ba75b26452f566))
+
+
+### Features
+
+* upgrade tests, deps and the web package ([6e8ba95](https://github.com/izatop/typesafeunit/commit/6e8ba958f0a215af2f9c8582b67d77e8a6df7c23))
+
+
+
+
+
 # [0.8.0](https://github.com/izatop/typesafeunit/compare/v0.7.1...v0.8.0) (2020-08-03)
 
 
