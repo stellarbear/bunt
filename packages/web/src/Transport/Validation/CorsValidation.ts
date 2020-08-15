@@ -49,7 +49,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         }
 
         const setHeaders: [string, string][] = [
-            ["Access-Control-Allow-Origin", this.getAccessControlOrigin(request)],
+            ["access-control-allow-origin", this.getAccessControlOrigin(request)],
         ];
 
         const vary = this.getVary();
@@ -62,15 +62,15 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
 
     protected getAccessControlHeaders(request: Request, methods: string[]): [string, string][] {
         const acRequestHeaders = request.headers.get(
-            "Access-Control-Request-Headers",
-            "Content-Type, Accept, Authorization",
+            "access-control-request-headers",
+            "content-type, accept, authorization",
         );
 
         const headers: [string, string][] = [
-            ["Access-Control-Allow-Origin", this.getAccessControlOrigin(request)],
-            ["Access-Control-Allow-Headers", acRequestHeaders],
-            ["Access-Control-Allow-Methods", methods.join(", ")],
-            ["Access-Control-Max-Age", "86400"],
+            ["access-control-allow-origin", this.getAccessControlOrigin(request)],
+            ["access-control-allow-headers", acRequestHeaders],
+            ["access-control-allow-methods", methods.join(", ")],
+            ["access-control-max-age", "86400"],
         ];
 
         const vary = this.getVary();
@@ -79,7 +79,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         }
 
         if (isDefined(this.options.credentials)) {
-            headers.push(["Access-Control-Allow-Credentials", this.options.credentials ? "true" : "false"]);
+            headers.push(["access-control-allow-credentials", this.options.credentials ? "true" : "false"]);
         }
 
         return headers;
