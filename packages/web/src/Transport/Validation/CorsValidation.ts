@@ -65,7 +65,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         }
 
         return "*";
-    };
+    }
 
     protected updateRoutes(app: Application<any, any>): void {
         const transform = (route: RouteAbstract): [IRouteMatcher, string] => [
