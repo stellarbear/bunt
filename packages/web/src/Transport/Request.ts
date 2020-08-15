@@ -49,6 +49,10 @@ export class Request extends RequestAbstract {
         }
     }
 
+    public get origin(): string {
+        return this.headers.get("origin", "");
+    }
+
     public validate(): boolean {
         this.#validators.forEach((validator) => validator.validate(this));
         return true;

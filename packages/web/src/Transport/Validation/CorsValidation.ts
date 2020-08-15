@@ -1,5 +1,12 @@
-import {Application, IRouteMatcher, PathRoute, RequestValidatorAbstract, RouteAbstract} from "@typesafeunit/app";
-import {isFunction, isInstanceOf, isString} from "@typesafeunit/util";
+import {
+    Application,
+    IRouteMatcher,
+    PathRoute,
+    RequestValidatorAbstract,
+    RouteAbstract,
+    RouteNotFound,
+} from "@typesafeunit/app";
+import {assert, isDefined, isFunction, isInstanceOf, isString} from "@typesafeunit/util";
 import {Headers} from "../Headers";
 import {ICorsOptions} from "../interfaces";
 import {Request} from "../Request";
@@ -12,8 +19,8 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         return this.options.origin;
     }
 
-    public factory(app: Application<any, any>, options: ICorsOptions): CorsValidation {
-        const validator = new CorsValidation(options);
+    public static factory(app: Application<any, any>, options: ICorsOptions = {}): CorsValidation {
+        const validator = new this(options);
         validator.updateRoutes(app);
         return validator;
     }
@@ -26,19 +33,31 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
                 return;
             }
 
+            let found = false;
             for (const [matcher, method] of this.#table) {
                 const route = request.route.replace("OPTIONS", method);
                 if (matcher.test(route)) {
                     AccessControlAllowMethods.add(method);
+                    found = true;
                 }
             }
 
+            assert(found, () => new RouteNotFound("Not Found"));
             const methods = [...AccessControlAllowMethods.values()];
             const headers = this.getAccessControlHeaders(request, methods);
             throw new NoContentResponse({headers: new Headers(headers)});
         }
 
-        request.setResponseHeaders([["Access-Control-Allow-Origin", this.getOrigin(request)]]);
+        const setHeaders: [string, string][] = [
+            ["Access-Control-Allow-Origin", this.getAccessControlOrigin(request)],
+        ];
+
+        const vary = this.getVary();
+        if (vary) {
+            setHeaders.push(["Vary", vary]);
+        }
+
+        request.setResponseHeaders(setHeaders);
     }
 
     protected getAccessControlHeaders(request: Request, methods: string[]): [string, string][] {
@@ -47,17 +66,36 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
             "Content-Type, Accept, Authorization",
         );
 
-        return [
-            ["Access-Control-Allow-Origin", this.getOrigin(request)],
+        const headers: [string, string][] = [
+            ["Access-Control-Allow-Origin", this.getAccessControlOrigin(request)],
             ["Access-Control-Allow-Headers", acRequestHeaders],
             ["Access-Control-Allow-Methods", methods.join(", ")],
             ["Access-Control-Max-Age", "86400"],
         ];
+
+        const vary = this.getVary();
+        if (vary) {
+            headers.push(["Vary", vary]);
+        }
+
+        if (isDefined(this.options.credentials)) {
+            headers.push(["Access-Control-Allow-Credentials", this.options.credentials ? "true" : "false"]);
+        }
+
+        return headers;
     }
 
-    protected getOrigin(request: Request): string {
+    protected getVary(): string | undefined {
+        if (isString(this.options.origin) && this.options.origin === "origin") {
+            return "Origin";
+        }
+
+        return;
+    }
+
+    protected getAccessControlOrigin(request: Request): string {
         if (isString(this.origin)) {
-            return this.origin;
+            return this.origin === "origin" ? request.origin : this.origin;
         }
 
         if (isFunction(this.origin)) {

@@ -6,7 +6,8 @@ export type ServerHeadersResolver = (request: Request) => { [key: string]: strin
 export type ServerRequestHandler<T = void> = (request: Request) => T;
 
 export interface ICorsOptions {
-    origin: string | ServerRequestHandler<string>;
+    origin?: string | ServerRequestHandler<string> | "origin";
+    credentials?: boolean;
 }
 
 export interface IServerOptions {
