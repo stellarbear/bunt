@@ -2,7 +2,6 @@ import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
 import {assert, isDefined, isFunction, isInstanceOf, isObject, logger, Logger} from "@typesafeunit/util";
 import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
 import {RouteAbstract, RouteNotFound} from "./Route";
-import {RequestAbstract} from "./Transport";
 
 export class Application<U extends Unit<C>, C> {
     @logger
@@ -49,7 +48,7 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public async handle(request: RequestAbstract): Promise<void> {
+    public async handle<R extends IRequest>(request: R): Promise<void> {
         const finish = this.logger.perf("handle", request);
         try {
             if (request.validate()) {
@@ -68,7 +67,7 @@ export class Application<U extends Unit<C>, C> {
         }
     }
 
-    public async run(request: IRequest): Promise<RouteResponse> {
+    public async run<R extends IRequest>(request: R): Promise<RouteResponse> {
         for (const route of this.route) {
             if (route.test(request.route)) {
                 this.logger.debug("match", route);

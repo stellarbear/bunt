@@ -11,7 +11,7 @@
         "build": "yarn run clean && tsc -b packages",
         "watch": "tsc -b packages -w",
         "release": "lerna publish",
-        "ci": "yarn lint && yarn build && yarn test --coverage"
+        "ci": "yarn lint && yarn build && yarn test"
     },
     "workspaces": [
         "packages/*"

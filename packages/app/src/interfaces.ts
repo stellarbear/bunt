@@ -52,6 +52,7 @@ export type RequestTransformType<T> = IRequestBodyTransform<T> | ((request: IReq
 export interface IRequest {
     readonly route: string;
     readonly headers: IHeaders;
+    readonly complete: boolean;
 
     getBuffer(): Promise<Buffer>;
 
@@ -60,6 +61,8 @@ export interface IRequest {
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
 
     respond(response: RouteResponse): Promise<void>;
+
+    validate(): boolean;
 }
 
 export type HeaderAssertValue = |
