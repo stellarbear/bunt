@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0](https://github.com/izatop/typesafeunit/compare/v0.8.0...v0.9.0) (2020-08-15)
+
+
+### Bug Fixes
+
+* ci ([2f0511d](https://github.com/izatop/typesafeunit/commit/2f0511d8c0b7dccfa0cb068bb48b1f170199d7db))
+
+
+### Features
+
+* upgrade tests, deps and the web package ([6e8ba95](https://github.com/izatop/typesafeunit/commit/6e8ba958f0a215af2f9c8582b67d77e8a6df7c23))
+
+
+
+
+
 # [0.8.0](https://github.com/izatop/typesafeunit/compare/v0.7.1...v0.8.0) (2020-08-03)
 
 **Note:** Version bump only for package @typesafeunit/app
