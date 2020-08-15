@@ -7,16 +7,20 @@ export class RequestCommand extends RequestAbstract {
     public readonly headers = new Headers([]);
     public readonly route: string;
 
-    constructor() {
+    constructor(defaultCommand?: string) {
         super();
         const console = new Console();
-        const [command] = console.argv.getArgs();
+        const [command = defaultCommand] = console.argv.getArgs();
         assert(command, `Command should be defined`);
         this.route = command;
     }
 
     public createReadableStream(): ReadStream {
         return new ReadStream();
+    }
+
+    public validate(): boolean {
+        return true;
     }
 
     protected async write(response: string): Promise<void> {

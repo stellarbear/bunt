@@ -1,5 +1,5 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
-import {assert, isDefined, isFunction, isObject, logger, Logger} from "@typesafeunit/util";
+import {assert, isDefined, isFunction, isInstanceOf, isObject, logger, Logger} from "@typesafeunit/util";
 import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
 import {RouteAbstract, RouteNotFound} from "./Route";
 import {RequestAbstract} from "./Transport";
@@ -52,13 +52,17 @@ export class Application<U extends Unit<C>, C> {
     public async handle(request: RequestAbstract): Promise<void> {
         const finish = this.logger.perf("handle", request);
         try {
-            await request.respond(await this.run(request));
+            if (request.validate()) {
+                await request.respond(await this.run(request));
+            }
         } catch (error) {
             if (!request.complete) {
                 await request.respond(error);
             }
 
-            throw error;
+            if (isInstanceOf(error, Error)) {
+                throw error;
+            }
         } finally {
             finish();
         }
@@ -95,5 +99,9 @@ export class Application<U extends Unit<C>, C> {
         }
 
         throw new RouteNotFound(request.route);
+    }
+
+    public getRoutes(): RouteAbstract[] {
+        return this.route;
     }
 }

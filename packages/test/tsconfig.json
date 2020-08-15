@@ -1,12 +1,18 @@
 {
     "extends": "../../tsconfig.test.json",
     "compilerOptions": {
-        "noEmit": true
+        "experimentalDecorators": true
     },
     "references": [
-        {"path": "../util"},
-        {"path": "../unit"},
-        {"path": "../app"}
+        {
+            "path": "../util"
+        },
+        {
+            "path": "../unit"
+        },
+        {
+            "path": "../app"
+        }
     ],
     "include": [
         "src"

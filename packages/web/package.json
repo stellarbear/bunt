@@ -28,6 +28,7 @@
     "dependencies": {
         "@typesafeunit/app": "^0.8.0",
         "@typesafeunit/util": "^0.8.0",
+        "http-status": "^1.4.2",
         "path-to-regexp": "^6.1.0"
     },
     "license": "MIT"

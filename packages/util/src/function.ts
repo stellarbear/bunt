@@ -1,3 +1,5 @@
+import {isArray} from "./is";
+
 export const noop = (): void => void 0;
 
 export function not<A extends any[]>(fn: (...args: A) => boolean) {
@@ -26,6 +28,15 @@ export function isolate<A extends any[], R>(fn: (...args: A) => any) {
     return (...args: A): void => {
         process.nextTick(() => fn(...args));
     };
+}
+
+export type ValueToArray<T> = T extends any[] ? T : T[];
+export function toArray<T>(value: T): ValueToArray<T> {
+    if (isArray(value)) {
+        return value as ValueToArray<T>;
+    }
+
+    return [value] as ValueToArray<T>;
 }
 
 export const fn = {

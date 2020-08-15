@@ -39,6 +39,8 @@ export abstract class RequestAbstract implements IRequest, ILogable<{ route: str
         }
     }
 
+    public abstract validate(): boolean;
+
     public abstract createReadableStream(): Promisify<NodeJS.ReadableStream>;
 
     public getLogValue(): { route: string } {

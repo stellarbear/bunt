@@ -1,9 +1,11 @@
-import {isNumber} from "@typesafeunit/util";
+import {isInstanceOf, isNumber} from "@typesafeunit/util";
+import * as HTTP from "http-status";
+import {Headers} from "../Headers";
 
 export interface IResponseOptions {
     code?: number;
     status?: string;
-    headers?: { [key: string]: string };
+    headers?: { [key: string]: string } | Headers;
 }
 
 export abstract class ResponseAbstract<T> {
@@ -22,7 +24,15 @@ export abstract class ResponseAbstract<T> {
         }
 
         this.status = status;
-        this.#headers = headers || {};
+        if (!this.status && this.code in HTTP) {
+            this.status = Reflect.get(HTTP, this.code);
+        }
+
+        if (isInstanceOf(headers, Headers)) {
+            this.#headers = headers.toJSON();
+        } else {
+            this.#headers = headers || {};
+        }
     }
 
     public getHeaders(): Record<any, string> {

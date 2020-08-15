@@ -3,3 +3,4 @@ export * from "./ServerError";
 export * from "./Headers";
 export * from "./Request";
 export * from "./Server";
+export * from "./Validation/CorsValidation";

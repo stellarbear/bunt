@@ -1,4 +1,4 @@
-import {IHeaders, KeyValueMap, RequestAbstract, RouteResponse} from "@typesafeunit/app";
+import {IHeaders, KeyValueMap, RequestAbstract, RequestValidatorAbstract, RouteResponse} from "@typesafeunit/app";
 import {
     isBoolean,
     isError,
@@ -9,6 +9,7 @@ import {
     isReadableStream,
     isString,
     isUndefined,
+    toArray,
 } from "@typesafeunit/util";
 import {IncomingMessage, ServerResponse} from "http";
 import {parse} from "url";
@@ -20,18 +21,22 @@ import {TransformError} from "./TransformError";
 export class Request extends RequestAbstract {
     public readonly headers: IHeaders;
     public readonly route: string;
-    protected readonly options: IServerOptions;
-    private readonly message: IncomingMessage;
-    private readonly response: ServerResponse;
+
+    readonly #method: string;
+    readonly #options: IServerOptions;
+    readonly #message: IncomingMessage;
+    readonly #response: ServerResponse;
+    readonly #validators: RequestValidatorAbstract<any>[] = [];
 
     constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IServerOptions) {
         super();
-        this.message = incomingMessage;
-        this.response = serverResponse;
-        this.options = options ?? {};
+        this.#message = incomingMessage;
+        this.#response = serverResponse;
+        this.#options = options ?? {};
+        this.#method = incomingMessage.method?.toUpperCase() ?? "GET";
 
         const headers: [string, string][] = [];
-        for (const [key, value] of Object.entries(this.message.headers)) {
+        for (const [key, value] of Object.entries(this.#message.headers)) {
             if (isString(value)) {
                 headers.push([key, value]);
             }
@@ -39,23 +44,45 @@ export class Request extends RequestAbstract {
 
         this.route = this.getRoute();
         this.headers = new Headers(headers);
+        if (this.#options.validators) {
+            this.#validators = toArray(this.#options.validators);
+        }
+    }
+
+    public validate(): boolean {
+        this.#validators.forEach((validator) => validator.validate(this));
+        return true;
+    }
+
+    public isOptionsRequest(): boolean {
+        return this.#method.startsWith("OPTIONS");
     }
 
     public createReadableStream(): NodeJS.ReadableStream {
-        return this.message;
+        return this.#message;
+    }
+
+    public getRequestMethod(): string {
+        return this.#method;
+    }
+
+    public setResponseHeaders(headers: [string, string][]): void {
+        for (const [header, value] of headers) {
+            this.#response.setHeader(header, value);
+        }
     }
 
     protected getRoute(): string {
-        const {pathname} = parse(this.message.url || "/", true);
-        const {method = "GET"} = this.message;
-        return `${method} ${pathname}`;
+        const {pathname} = parse(this.#message.url || "/", true);
+        const {method = "GET"} = this.#message;
+        return `${method.toUpperCase()} ${pathname}`;
     }
 
     /**
      * @param response
      */
     protected async write(response: RouteResponse): Promise<void> {
-        // @TODO Validate types in the Accept header before send a response.
+        // @TODO Validate types in the Accept header before send a #response.
 
         if (isUndefined(response) || isNull(response)) {
             return this.send("");
@@ -71,7 +98,7 @@ export class Request extends RequestAbstract {
             }
 
             if (isReadableStream(response)) {
-                response.pipe(this.response);
+                response.pipe(this.#response);
                 return;
             }
 
@@ -114,27 +141,27 @@ export class Request extends RequestAbstract {
             }
 
             for (const [header, value] of headers.entries()) {
-                this.response.setHeader(header, value);
+                this.#response.setHeader(header, value);
             }
 
             this.applyServerOptions();
 
-            this.response.writeHead(code, status);
-            this.response.write(body);
+            this.#response.writeHead(code, status);
+            this.#response.write(body);
         } finally {
-            this.response.end();
+            this.#response.end();
         }
     }
 
     protected applyServerOptions(): void {
         const headers = this.getServerHeaders();
         for (const [header, value] of Object.entries(headers)) {
-            this.response.setHeader(header, value);
+            this.#response.setHeader(header, value);
         }
     }
 
     protected getServerHeaders(): Record<any, string> {
-        const headers = this.options.headers ?? {};
+        const headers = this.#options.headers ?? {};
         if (isFunction(headers)) {
             return headers(this);
         }
