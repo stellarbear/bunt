@@ -4,7 +4,7 @@ import {ServerError} from "./ServerError";
 export interface IErrorResponse {
     code: number;
     status?: string;
-    response: string;
+    body: string;
 }
 
 const map = new Map([
@@ -22,14 +22,14 @@ export class TransformError {
 
     public toString(): IErrorResponse {
         return {
-            response: this.getResponse(),
+            body: this.getResponse(),
             ...this.getStatus(),
         };
     }
 
     public toJSON(): IErrorResponse {
         return {
-            response: JSON.stringify(this.getResponseJSON()),
+            body: JSON.stringify(this.getResponseJSON()),
             ...this.getStatus(),
         };
     }

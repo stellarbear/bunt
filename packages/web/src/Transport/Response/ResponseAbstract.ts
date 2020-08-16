@@ -1,6 +1,7 @@
-import {isInstanceOf, isNumber} from "@typesafeunit/util";
+import {isInstanceOf, isNumber, Promisify, isFunction} from "@typesafeunit/util";
 import * as HTTP from "http-status";
 import {Headers} from "../Headers";
+import {TransformError} from "../TransformError";
 
 export interface IResponseOptions {
     code?: number;
@@ -8,16 +9,24 @@ export interface IResponseOptions {
     headers?: { [key: string]: string } | Headers;
 }
 
+export interface IResponseAnswer {
+    code: number;
+    status?: string;
+    body: string;
+    headers: { [key: string]: string };
+}
+
 export abstract class ResponseAbstract<T> {
     public readonly code: number = 200;
     public readonly status?: string;
     public readonly type: string = "text/plain";
     public readonly encoding: string = "utf-8";
-    protected readonly data: T;
+    readonly #data: Promisify<T>;
     readonly #headers: { [key: string]: string };
 
-    constructor(data: T, options: IResponseOptions = {}) {
-        this.data = data;
+    constructor(data: Promisify<T> | (() => Promisify<T>), options: IResponseOptions = {}) {
+        this.#data = isFunction(data) ? data() : data;
+
         const {code, status, headers} = options;
         if (isNumber(code) && code > 0) {
             this.code = code;
@@ -42,9 +51,28 @@ export abstract class ResponseAbstract<T> {
         };
     }
 
-    public abstract stringify(): string;
+    public async getResponse(): Promise<IResponseAnswer> {
+        const {status, code} = this;
+        const headers = this.getHeaders();
+        try {
+            return {
+                code,
+                status,
+                headers,
+                body: this.stringify(await this.#data),
+            };
+        } catch (error) {
+            const transform = new TransformError(error);
+            return {
+                ...transform.toJSON(),
+                headers,
+            };
+        }
+    }
 
     public getContentType(): string {
         return `${this.type}; charset=${this.encoding}`;
     }
+
+    protected abstract stringify(data: T): string;
 }

@@ -30,9 +30,9 @@ export class Request extends RequestAbstract {
 
     constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IServerOptions) {
         super();
+        this.#options = options ?? {};
         this.#message = incomingMessage;
         this.#response = serverResponse;
-        this.#options = options ?? {};
         this.#method = incomingMessage.method?.toUpperCase() ?? "GET";
 
         const headers: [string, string][] = [];
@@ -109,7 +109,7 @@ export class Request extends RequestAbstract {
             if (isError(response)) {
                 const transform = new TransformError(response);
                 const accept = this.headers.get("accept");
-                const {response: transformed, ...status} = accept.includes("application/json")
+                const {body: transformed, ...status} = accept.includes("application/json")
                     ? transform.toJSON()
                     : transform.toString();
 
@@ -121,11 +121,8 @@ export class Request extends RequestAbstract {
             }
 
             if (response instanceof ResponseAbstract) {
-                const {code, status} = response;
-                return this.send(
-                    response.stringify(),
-                    {code, status, headers: response.getHeaders()},
-                );
+                const {code, status, body, headers} = await response.getResponse();
+                return this.send(body, {code, status, headers});
             }
 
             return this.send(JSON.stringify(response));

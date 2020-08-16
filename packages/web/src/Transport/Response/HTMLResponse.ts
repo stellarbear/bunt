@@ -1,5 +1,5 @@
-import {TextResponse} from "./TextResponse";
+import {TextPlainResponse} from "./TextPlainResponse";
 
-export class HTMLResponse extends TextResponse {
+export class HTMLResponse extends TextPlainResponse {
     public readonly type = "text/html";
 }
