@@ -1,8 +1,7 @@
 import {IServiceResolver} from "../interfaces";
-import {Service} from "../Service";
 import {Context} from "./Context";
 
-export type ResolveService<T extends any> = T extends Service<infer S> ? Promise<S> : T;
+export type ResolveService<T extends any> = T extends IServiceResolver<infer S> ? Promise<S> : T;
 
 export type ApplyContext<C extends Context> = {
     [K in keyof C]: C[K] extends IServiceResolver<infer M>
