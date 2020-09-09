@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.4](https://github.com/izatop/typesafeunit/compare/v0.9.3...v0.9.4) (2020-09-09)
+
+
+### Bug Fixes
+
+* lint ([f3095bc](https://github.com/izatop/typesafeunit/commit/f3095bc78a58fa765bbeff02114a9ca84619a682))
+* update deps ([d3cddce](https://github.com/izatop/typesafeunit/commit/d3cddceb9733c3cf3009f8e766198ba1ed4c49fe))
+
+
+
+
+
 ## [0.9.3](https://github.com/izatop/typesafeunit/compare/v0.9.2...v0.9.3) (2020-08-19)
 
 
