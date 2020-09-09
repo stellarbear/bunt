@@ -47,7 +47,7 @@ export interface IActionHooks<C extends Context, S = null, T = any> {
 
 export type ActionHooks<A> = A extends Action<infer X, infer S, infer T>
     ? IActionHooks<X, S, T>
-    : A extends ActionCtor<infer C>
+    : A extends ActionCtor<any>
         ? A extends Action<infer X, infer S, infer T>
             ? IActionHooks<X, S, T>
             : never

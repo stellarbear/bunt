@@ -2,7 +2,7 @@ import {Promisify} from "../interfaces";
 import {isArray, isFunction, isObject} from "../is";
 import {JSONInput, Transformable, TransformOut, TransformSchema} from "./interfaces";
 
-export class TransformInput<T, K extends keyof T> {
+export class TransformInput {
     public static transform<T extends Transformable>(data: JSONInput<T>,
                                                      scheme: TransformSchema<T>): Promise<TransformOut<T>>;
 

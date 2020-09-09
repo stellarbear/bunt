@@ -24,7 +24,7 @@ export function safe<A extends any[], R extends Promise<any>>(fn: (...args: A) =
     };
 }
 
-export function isolate<A extends any[], R>(fn: (...args: A) => any) {
+export function isolate<A extends any[]>(fn: (...args: A) => any) {
     return (...args: A): void => {
         process.nextTick(() => fn(...args));
     };
