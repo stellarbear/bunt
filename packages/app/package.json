@@ -28,7 +28,7 @@
     "dependencies": {
         "@typesafeunit/unit": "^0.9.4",
         "@typesafeunit/util": "^0.9.4",
-        "path-to-regexp": "^6.1.0"
+        "path-to-regexp": "^6.2.0"
     },
     "license": "MIT"
 }
