@@ -1,10 +1,10 @@
 {
     "name": "@typesafeunit/test",
-    "version": "0.9.4",
+    "version": "0.9.5",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@typesafeunit/app": "^0.9.4",
+        "@typesafeunit/app": "^0.9.5",
         "@typesafeunit/unit": "^0.9.4",
         "@typesafeunit/util": "^0.9.4"
     },

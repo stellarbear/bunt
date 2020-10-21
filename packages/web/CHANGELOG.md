@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.5](https://github.com/izatop/typesafeunit/compare/v0.9.4...v0.9.5) (2020-10-21)
+
+
+### Bug Fixes
+
+* update deps ([e06365c](https://github.com/izatop/typesafeunit/commit/e06365cb4389afb7dcaedda729f0f2b89a832e93))
+
+
+
+
+
 ## [0.9.4](https://github.com/izatop/typesafeunit/compare/v0.9.3...v0.9.4) (2020-09-09)
 
 **Note:** Version bump only for package @typesafeunit/web
