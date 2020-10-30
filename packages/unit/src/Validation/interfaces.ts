@@ -3,7 +3,7 @@ import {ValidationSchema} from "./ValidationSchema";
 export type ValidationValue<T> = T extends Array<infer V> ? V : T;
 
 export type ValidationFunction<T, K extends keyof T> = |
-    ((value: T[K]) => void) | ValidationSchema<ValidationValue<T[K]>>;
+    ((value: T[K]) => void) | ValidationSchema<Exclude<ValidationValue<T[K]>, null | undefined>>;
 
 export type ValidationAttributes = {
     required?: boolean;
