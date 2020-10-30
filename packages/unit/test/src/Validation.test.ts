@@ -11,7 +11,9 @@ interface ISample {
     b: boolean;
     str: string;
     child: IChildSample;
+    child2?: IChildSample[];
     arrayReq: number[];
+    emptyStrArr: string[];
     array: string[];
     nullable: string | null;
 }
@@ -24,6 +26,7 @@ const validSample: ISample = {
         name: "Bob",
         date: "2020-01-01T00:00:00.000Z",
     },
+    emptyStrArr: [],
     arrayReq: [1, 2, 3],
     array: ["foo"],
     nullable: null,
@@ -41,6 +44,15 @@ const invalidSample = {
     nullable: true,
 };
 
+class IChildSampleValidation extends ValidationSchema<IChildSample> {
+    constructor() {
+        super();
+        this.add("date", {validator: (v: any) => assert(!!new Date(v)), required: false})
+            .add("name", (v) => assert(isString(v)));
+    }
+
+}
+
 test("Validation", async () => {
     const validateDate = (v: any) => assert(!!new Date(v));
     const childValidationSchema = new ValidationSchema<IChildSample>();
@@ -56,7 +68,9 @@ test("Validation", async () => {
         .add("arrayReq", (v) => assert(isNumber(v)))
         .add("array", {validator: (v) => assert(isString(v)), required: true, nullable: true})
         .add("nullable", {validator: validateDate, nullable: true})
-        .add("child", childValidationSchema);
+        .add("emptyStrArr", {validator: isString, nullable: true, required: false})
+        .add("child", childValidationSchema)
+        .add("child2", {required: false, validator: new IChildSampleValidation()});
 
     const success = await validationSchema.validate(validSample);
     expect(success).toMatchSnapshot();

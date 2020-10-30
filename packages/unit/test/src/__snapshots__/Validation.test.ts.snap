@@ -34,6 +34,18 @@ Object {
         "name": "Bob",
       },
     },
+    "child2": Object {
+      "nullable": false,
+      "required": false,
+      "valid": true,
+      "value": undefined,
+    },
+    "emptyStrArr": Object {
+      "nullable": true,
+      "required": false,
+      "valid": true,
+      "value": Array [],
+    },
     "nullable": Object {
       "nullable": true,
       "required": true,
@@ -100,6 +112,18 @@ Object {
         "date": "2020-01-01T00:00:00.000Z",
         "name": 123,
       },
+    },
+    "child2": Object {
+      "nullable": false,
+      "required": false,
+      "valid": true,
+      "value": undefined,
+    },
+    "emptyStrArr": Object {
+      "nullable": true,
+      "required": false,
+      "valid": true,
+      "value": undefined,
     },
     "nullable": Object {
       "valid": true,

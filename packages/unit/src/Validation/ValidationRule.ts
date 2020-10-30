@@ -34,6 +34,10 @@ export class ValidationRule<T, K extends keyof T> {
             return {value, valid: true, ...attributes};
         }
 
+        if (!this.required && this.nullable && this.isNull(value)) {
+            return {value, valid: true, ...attributes};
+        }
+
         if (this.required && this.nullable && this.isNull(value)) {
             return {value, valid: true, ...attributes};
         }
