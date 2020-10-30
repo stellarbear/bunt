@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.6](https://github.com/izatop/typesafeunit/compare/v0.9.5...v0.9.6) (2020-10-30)
+
+
+### Bug Fixes
+
+* update deps, validation child ([9762383](https://github.com/izatop/typesafeunit/commit/9762383c022102de081f4c68af67105e586ca791))
+
+
+
+
+
 ## [0.9.5](https://github.com/izatop/typesafeunit/compare/v0.9.4...v0.9.5) (2020-10-21)
 
 
