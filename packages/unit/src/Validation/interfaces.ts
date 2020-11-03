@@ -8,6 +8,7 @@ export type ValidationFunction<T, K extends keyof T> = |
 export type ValidationAttributes = {
     required?: boolean;
     nullable?: boolean;
+    clear?: boolean;
 };
 
 export type ValidatorArg<T, K extends keyof T> = ValidationFunction<T, K>
@@ -32,6 +33,7 @@ export type ValidationDescription<T> = {
     valid: boolean;
     message?: string;
     validation: { [K in keyof T]: ValidationResult<T, K> };
+    state: T;
 };
 
 export type ValidationResult<T, K extends keyof T> = { valid: true } |

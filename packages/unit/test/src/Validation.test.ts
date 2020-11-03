@@ -18,7 +18,7 @@ interface ISample {
     nullable: string | null;
 }
 
-const validSample: ISample = {
+const validSample: ISample & Record<string, any> = {
     v: 1,
     b: true,
     str: "foo",
@@ -30,6 +30,7 @@ const validSample: ISample = {
     arrayReq: [1, 2, 3],
     array: ["foo"],
     nullable: null,
+    alien: "should be removed",
 };
 
 const invalidSample = {
@@ -42,6 +43,7 @@ const invalidSample = {
     arrayReq: [],
     array: [],
     nullable: true,
+    alien: "should not be removed",
 };
 
 class IChildSampleValidation extends ValidationSchema<IChildSample> {
@@ -76,7 +78,10 @@ test("Validation", async () => {
     expect(success).toMatchSnapshot();
     expect(success.valid).toBe(true);
 
-    const fails = await validationSchema.validate(invalidSample);
+    const fails = await validationSchema
+        .setAttribute("clear", false)
+        .validate(invalidSample);
+
     expect(fails).toMatchSnapshot();
     expect(fails.valid).toBe(false);
 

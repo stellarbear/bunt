@@ -3,9 +3,29 @@
 exports[`Validation 1`] = `
 Object {
   "message": undefined,
+  "state": Object {
+    "array": Array [
+      "foo",
+    ],
+    "arrayReq": Array [
+      1,
+      2,
+      3,
+    ],
+    "b": true,
+    "child": Object {
+      "date": "2020-01-01T00:00:00.000Z",
+      "name": "Bob",
+    },
+    "emptyStrArr": Array [],
+    "nullable": null,
+    "str": "foo",
+    "v": 1,
+  },
   "valid": true,
   "validation": Object {
     "array": Object {
+      "clear": true,
       "nullable": true,
       "required": true,
       "valid": true,
@@ -14,6 +34,7 @@ Object {
       ],
     },
     "arrayReq": Object {
+      "clear": true,
       "nullable": false,
       "required": true,
       "valid": true,
@@ -35,18 +56,21 @@ Object {
       },
     },
     "child2": Object {
+      "clear": true,
       "nullable": false,
       "required": false,
       "valid": true,
       "value": undefined,
     },
     "emptyStrArr": Object {
+      "clear": true,
       "nullable": true,
       "required": false,
       "valid": true,
       "value": Array [],
     },
     "nullable": Object {
+      "clear": true,
       "nullable": true,
       "required": true,
       "valid": true,
@@ -67,15 +91,29 @@ Object {
 exports[`Validation 2`] = `
 Object {
   "message": undefined,
+  "state": Object {
+    "alien": "should not be removed",
+    "array": Array [],
+    "arrayReq": Array [],
+    "b": true,
+    "child": Object {
+      "date": "2020-01-01T00:00:00.000Z",
+      "name": 123,
+    },
+    "nullable": true,
+    "v": null,
+  },
   "valid": false,
   "validation": Object {
     "array": Object {
+      "clear": true,
       "nullable": true,
       "required": true,
       "valid": true,
       "value": Array [],
     },
     "arrayReq": Object {
+      "clear": true,
       "nullable": false,
       "required": true,
       "valid": false,
@@ -86,12 +124,17 @@ Object {
       "value": true,
     },
     "child": Object {
+      "clear": true,
       "message": undefined,
       "nullable": false,
       "required": true,
       "valid": false,
       "validation": Object {
         "message": undefined,
+        "state": Object {
+          "date": "2020-01-01T00:00:00.000Z",
+          "name": 123,
+        },
         "valid": false,
         "validation": Object {
           "date": Object {
@@ -99,6 +142,7 @@ Object {
             "value": "2020-01-01T00:00:00.000Z",
           },
           "name": Object {
+            "clear": true,
             "error": [Error: Assertion fails],
             "message": undefined,
             "nullable": false,
@@ -114,12 +158,14 @@ Object {
       },
     },
     "child2": Object {
+      "clear": true,
       "nullable": false,
       "required": false,
       "valid": true,
       "value": undefined,
     },
     "emptyStrArr": Object {
+      "clear": true,
       "nullable": true,
       "required": false,
       "valid": true,
@@ -130,12 +176,14 @@ Object {
       "value": true,
     },
     "str": Object {
+      "clear": true,
       "nullable": false,
       "required": false,
       "valid": true,
       "value": undefined,
     },
     "v": Object {
+      "clear": true,
       "error": [Error: Assertion fails],
       "message": "The value of \\"v\\" shouldn't be null",
       "nullable": false,
