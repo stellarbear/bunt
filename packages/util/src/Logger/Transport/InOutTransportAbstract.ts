@@ -2,8 +2,15 @@ import {Promisify} from "../../interfaces";
 import {ILoggerTransport, LogFormat, LogMessage} from "../interfaces";
 import {defaultLogFormat} from "./formatters";
 
+export interface ILoggerStreamCallback {
+    write(log: string, encoding?: string): void;
+    writable: boolean;
+}
+
+export type LoggerWritableStream = ILoggerStreamCallback;
+
 export abstract class InOutTransportAbstract implements ILoggerTransport {
-    protected abstract readonly stream: NodeJS.WritableStream;
+    protected abstract readonly stream: LoggerWritableStream;
 
     readonly #format: LogFormat;
 
