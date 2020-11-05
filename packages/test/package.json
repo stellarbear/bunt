@@ -1,12 +1,12 @@
 {
     "name": "@typesafeunit/test",
-    "version": "0.9.11",
+    "version": "0.9.12",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@typesafeunit/app": "^0.9.11",
-        "@typesafeunit/unit": "^0.9.11",
-        "@typesafeunit/util": "^0.9.11"
+        "@typesafeunit/app": "^0.9.12",
+        "@typesafeunit/unit": "^0.9.12",
+        "@typesafeunit/util": "^0.9.12"
     },
     "private": true,
     "license": "MIT"
