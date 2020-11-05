@@ -130,13 +130,12 @@ export class Logger {
         if (args.length > 0) {
             log.args = [];
             for (const arg of args) {
-                if (isLogable(arg)) {
-                    log.args.push(arg.getLogValue());
-                    continue;
-                }
-
                 if (isInstanceOf(arg, Error)) {
                     log.args.push(arg.stack);
+                }
+
+                if (isLogable(arg)) {
+                    log.args.push(arg.getLogValue());
                     continue;
                 }
 

@@ -3,7 +3,6 @@ import {ValidationDescription, ValidationResult, ValidationSafeJSON, ValidationS
 
 export interface IValidationLogValue {
     error: string;
-    stack: string | undefined;
     validation: ValidationSafeValue[];
 }
 
@@ -24,11 +23,12 @@ export class ValidationError<T> extends Error implements ISafeReadableError, ILo
         return {
             error: this.toSafeString(),
             validation: this.getValidationErrors(this.description),
+            payload: this.description.state,
         };
     }
 
     public getLogValue(): IValidationLogValue {
-        return {...this.toSafeJSON(), stack: this.stack};
+        return this.toSafeJSON();
     }
 
     private getValidationErrors(description: ValidationDescription<T>): ValidationSafeValue[] {

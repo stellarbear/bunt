@@ -49,4 +49,4 @@ export type ValidationSafeValue = {
     validation?: ValidationSafeValue[];
 };
 
-export type ValidationSafeJSON = { error: string; validation: ValidationSafeValue[] };
+export type ValidationSafeJSON = { error: string; validation: ValidationSafeValue[]; payload: any };

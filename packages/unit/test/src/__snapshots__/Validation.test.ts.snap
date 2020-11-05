@@ -198,6 +198,18 @@ Object {
 exports[`Validation 3`] = `
 Object {
   "error": "Validation failed",
+  "payload": Object {
+    "alien": "should not be removed",
+    "array": Array [],
+    "arrayReq": Array [],
+    "b": true,
+    "child": Object {
+      "date": "2020-01-01T00:00:00.000Z",
+      "name": 123,
+    },
+    "nullable": true,
+    "v": null,
+  },
   "validation": Array [
     Object {
       "field": "v",
