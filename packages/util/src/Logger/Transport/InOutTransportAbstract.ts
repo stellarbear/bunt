@@ -1,21 +1,21 @@
 import {Promisify} from "../../interfaces";
 import {ILoggerTransport, LogFormat, LogMessage} from "../interfaces";
-import {defaultLogFormat} from "./formatters";
 
-export interface ILoggerStreamCallback {
-    write(log: string, encoding?: string): void;
+export interface ILoggerStreamCallback<T> {
+    write(log: T, encoding?: string): void;
+
     writable: boolean;
 }
 
-export type LoggerWritableStream = ILoggerStreamCallback;
+export type LoggerWritableStream<T> = ILoggerStreamCallback<T>;
 
-export abstract class InOutTransportAbstract implements ILoggerTransport {
-    protected abstract readonly stream: LoggerWritableStream;
+export abstract class InOutTransportAbstract<T> implements ILoggerTransport {
+    protected abstract readonly stream: LoggerWritableStream<T>;
 
-    readonly #format: LogFormat;
+    readonly #format: LogFormat<T>;
 
-    constructor(formatter?: LogFormat) {
-        this.#format = formatter || defaultLogFormat;
+    constructor(formatter: LogFormat<T>) {
+        this.#format = formatter;
     }
 
     public get writable(): boolean {
@@ -24,10 +24,7 @@ export abstract class InOutTransportAbstract implements ILoggerTransport {
 
     public write(log: LogMessage): void {
         if (this.test(log)) {
-            this.stream.write(
-                this.#format(log) + "\n",
-                "utf-8",
-            );
+            this.stream.write(this.#format(log));
         }
     }
 

@@ -1,7 +1,12 @@
-import {LogMessage, SeverityLevel} from "../interfaces";
+import {LogFormat, LogMessage, SeverityLevel} from "../interfaces";
+import {defaultLogFormat} from "./formatters";
 import {InOutTransportAbstract} from "./InOutTransportAbstract";
 
-export class StdOutTransport extends InOutTransportAbstract {
+export class StdOutTransport extends InOutTransportAbstract<string> {
+    constructor(format?: LogFormat<string>) {
+        super(format ?? defaultLogFormat);
+    }
+
     protected get stream(): NodeJS.WritableStream {
         return process.stdout;
     }

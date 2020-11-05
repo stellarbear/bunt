@@ -1,10 +1,10 @@
 import {isDefined} from "../../is";
-import {LogFormat, SeverityLevel} from "../interfaces";
+import {LogFormat, LogMessage, SeverityLevel} from "../interfaces";
 
-export const defaultLogFormat: LogFormat = (log) => JSON.stringify(log);
-export const readableJSONLogFormat: LogFormat = (log) => JSON.stringify(log, null, 2);
+export const defaultLogFormat: LogFormat<string> = (log) => JSON.stringify(log);
+export const readableJSONLogFormat: LogFormat<string> = (log) => JSON.stringify(log, null, 2);
 
-export const debugLogFormat: LogFormat = (log) => {
+export const debugLogFormat: LogFormat<string> = (log: LogMessage) => {
     const {pid, label, message, timestamp, host, severity, groupId, system, args} = log;
 
     const info: (string | undefined)[] = [

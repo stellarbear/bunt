@@ -46,7 +46,7 @@ export type Logable = ILogable<LogableType> | LogableType | Logable[];
 
 export type LogFn = (message: string, ...args: Logable[]) => void;
 export type LogWrapFn = (logger: Logger, message: string, ...args: LogableType[]) => void;
-export type LogFormat = (log: LogMessage) => string;
+export type LogFormat<T> = (log: LogMessage) => T;
 
 export type LogSystemInfo = {
     arch: string;
