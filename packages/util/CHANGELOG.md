@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.11](https://github.com/izatop/typesafeunit/compare/v0.9.10...v0.9.11) (2020-11-05)
+
+
+### Bug Fixes
+
+* logger transport ([3ee4439](https://github.com/izatop/typesafeunit/commit/3ee44395193db16d65c0d59ea887960999c42e25))
+
+
+
+
+
 ## [0.9.10](https://github.com/izatop/typesafeunit/compare/v0.9.9...v0.9.10) (2020-11-04)
 
 
