@@ -1,5 +1,5 @@
 import {Action, Context, MatchContext, Promisify} from "@typesafeunit/unit";
-import {IRoute, RouteAbstract} from "./Route";
+import {IRoute} from "./Route";
 
 export type RouteResponse = Error
     | { stringify(): string }

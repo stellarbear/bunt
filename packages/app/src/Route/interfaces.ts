@@ -2,7 +2,6 @@ import {Action, ActionCtor, Context, IContext, Promisify} from "@typesafeunit/un
 import {IRequest, RouteAction, RouteResponse} from "../interfaces";
 import {Payload} from "../Payload";
 import {Route} from "./Route";
-import {RouteAbstract} from "./RouteAbstract";
 
 export interface IRoute<A extends RouteAction = RouteAction> {
     readonly route: string;
