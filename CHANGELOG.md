@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.10.0](https://github.com/izatop/typesafeunit/compare/v0.9.12...v0.10.0) (2020-11-08)
+
+
+### Bug Fixes
+
+* deps ([6e9f23e](https://github.com/izatop/typesafeunit/commit/6e9f23e9a9f299c4913cf493fad3531a435a790a))
+* update deps ([b9cd263](https://github.com/izatop/typesafeunit/commit/b9cd2630f420ab8cf2c248ea12f82324e2380d9e))
+
+
+### Features
+
+* input package and new route system ([2914121](https://github.com/izatop/typesafeunit/commit/29141214a4dbfd0738f69dacf7aeda06578d12cf))
+
+
+
+
+
 ## [0.9.12](https://github.com/izatop/typesafeunit/compare/v0.9.11...v0.9.12) (2020-11-05)
 
 
