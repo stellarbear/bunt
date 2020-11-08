@@ -8,4 +8,5 @@ export * from "./NonNull";
 export * from "./ObjectType";
 export * from "./Text";
 export * from "./Varchar";
+export * from "./Union";
 export * from "./Bool";

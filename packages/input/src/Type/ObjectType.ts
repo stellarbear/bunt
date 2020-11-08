@@ -5,16 +5,16 @@ import {TypeAbstract} from "../TypeAbstract";
 
 export class ObjectType<TValue extends Record<string, any>> extends TypeAbstract<TValue, Record<string, any>> {
     readonly #fields: ObjectFields<TValue>;
-    readonly #name?: string;
+    readonly #name: string;
 
-    constructor(fields: ObjectFields<TValue>, name?: string) {
+    constructor(fields: ObjectFields<TValue>, name = "Object") {
         super();
         this.#fields = fields;
         this.#name = name;
     }
 
     public get name(): string {
-        return this.#name ?? super.name;
+        return this.#name;
     }
 
     public async validate(payload: MayNullable<Record<string, any>>): Promise<TValue> {

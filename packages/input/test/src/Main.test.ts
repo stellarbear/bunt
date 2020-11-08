@@ -1,10 +1,36 @@
+import {DateTime} from "@typesafeunit/input";
 import {isInstanceOf} from "@typesafeunit/util";
-import {Bool, Float, Int, List, NonNull, Nullable, ObjectType, Text, TypeAbstract, validate, Varchar} from "../../src";
+import {
+    Bool,
+    Float,
+    Int,
+    List,
+    NonNull,
+    Nullable,
+    ObjectType,
+    Text,
+    TypeAbstract,
+    Union,
+    validate,
+    Varchar,
+} from "../../src";
 import {AssertionObjectError} from "../../src/Assertion";
 import {ITestType} from "./interfaces";
 
 describe("Test Input", () => {
     const rand = Math.random();
+    const union = new Union<Date | boolean, string | number | boolean>(
+        (input) => {
+            switch (typeof input) {
+                case "string":
+                case "number":
+                    return DateTime;
+                case "boolean":
+                    return Bool;
+            }
+        },
+    );
+
     const samples: [any, any, TypeAbstract<any, any>][] = [
         [1, 1, Int],
         [false, false, Bool],
@@ -18,6 +44,9 @@ describe("Test Input", () => {
         ["text", "text", new Varchar({min: 0, max: 4})],
         [{v: 1, b: true, n: []}, {v: 1, b: true}, new ObjectType({v: Int, b: Bool})],
         [[1, 2, 3], [1, 2, 3], new List(Int)],
+        [false, false, union],
+        ["2020-01-01", new Date("2020-01-01"), union],
+        [new Date("2020-01-01").getTime(), new Date("2020-01-01"), union],
     ];
 
     test.each(samples)(
