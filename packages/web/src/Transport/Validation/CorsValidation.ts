@@ -1,19 +1,20 @@
 import {
     Application,
+    IRoute,
     IRouteMatcher,
-    PathRoute,
+    RegexpMatcher,
     RequestValidatorAbstract,
-    RouteAbstract,
     RouteNotFound,
 } from "@typesafeunit/app";
-import {assert, isDefined, isFunction, isInstanceOf, isString} from "@typesafeunit/util";
+import {assert, isDefined, isFunction, isString} from "@typesafeunit/util";
 import {Headers} from "../Headers";
 import {ICorsOptions} from "../interfaces";
 import {Request} from "../Request";
 import {NoContentResponse} from "../Response";
 
 export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
-    #table: [IRouteMatcher, string][] = [];
+    #routes: IRoute[] = [];
+    #table: [method: string, matcher: IRouteMatcher][] = [];
 
     public get origin(): ICorsOptions["origin"] {
         return this.options.origin;
@@ -29,14 +30,13 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         const AccessControlAllowMethods = new Set<string>();
         if (request.isOptionsRequest()) {
             // Test route for the current OPTIONS request
-            if (this.#table.some(([matcher]) => matcher.test(request.route))) {
+            if (this.#routes.some((route) => route.test(request.route))) {
                 return;
             }
 
             let found = false;
-            for (const [matcher, method] of this.#table) {
-                const route = request.route.replace("OPTIONS", method);
-                if (matcher.test(route)) {
+            for (const [method, matcher] of this.#table) {
+                if (matcher.test(request.route)) {
                     AccessControlAllowMethods.add(method);
                     found = true;
                 }
@@ -106,13 +106,10 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
     }
 
     protected updateRoutes(app: Application<any, any>): void {
-        const transform = (route: RouteAbstract): [IRouteMatcher, string] => [
-            route.matcher,
-            route.route.replace(/\s+.+/, ""),
-        ];
-
+        this.#routes = app.getRoutes();
         this.#table = app.getRoutes()
-            .filter((route) => isInstanceOf(route, PathRoute))
-            .map(transform);
+            .filter((route) => /^(GET|POST|PUT|PATCH|DELETE)\s/i.test(route.route))
+            .map(({route}) => route.split(/\s/))
+            .map(([method, route]) => [method, new RegexpMatcher(`OPTIONS ${route}`)]);
     }
 }

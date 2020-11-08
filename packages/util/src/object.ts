@@ -15,7 +15,7 @@ export const freeze = <S extends { [key: string]: any }>(source: S): S => {
 
 // @TODO
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export const entriesReverse = <V>(entries: [string | number | symbol, V][]) => {
+export const entriesReverse = <V>(entries: [string | number | symbol, V][] = []) => {
     return Object.assign(
         {},
         ...entries.map(([key, value]) => ({

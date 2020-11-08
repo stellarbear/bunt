@@ -14,7 +14,14 @@ export type ActionCtor<A extends Action<any, any, any>> = {
     prototype: A;
 };
 
+export type ActionStateCtor<S extends any, A extends Action<any, S, any>> = {
+    new(context: ActionCtx<A>, state: null): A;
+    readonly hooks?: IActionHooks<any, any, any>;
+    prototype: A;
+};
+
 export type ActionCtx<A> = A extends Action<infer T, any, any> ? T : never;
+export type ActionContext<A> = A extends Action<infer T, any, any> ? T : never;
 export type ActionState<A> = A extends Action<any, infer T, any> ? T : never;
 export type ActionReturn<A> = A extends Action<any, any, infer T> ? T : never;
 

@@ -1,9 +1,10 @@
 import {ActionCtor} from "@typesafeunit/unit";
 import {ILogable} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
-import {IRouteMatcher, RouteConfig, RouteConfigState, RouteConfigValidate} from "./interfaces";
+import {IRoute, IRouteMatcher, RouteConfig, RouteConfigState, RouteConfigValidate} from "./interfaces";
 
-export abstract class RouteAbstract<A extends RouteAction = RouteAction> implements ILogable<{ route: string }> {
+export abstract class RouteAbstract<A extends RouteAction = RouteAction>
+    implements IRoute, ILogable<{ route: string }> {
     public readonly action: ActionCtor<A>;
     public readonly route: string;
     public readonly validate?: RouteConfigValidate<A>;

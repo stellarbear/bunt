@@ -1,6 +1,7 @@
 import {Promisify} from "@typesafeunit/unit";
 import {assert, ILogable, isFunction} from "@typesafeunit/util";
-import {IHeaders, IRequest, RequestTransformType, RouteResponse} from "../interfaces";
+import {IHeaders, IRequest, IRequestTransform, RequestTransformType, RouteResponse} from "../interfaces";
+import {fromJsonRequest} from "./Request";
 
 export abstract class RequestAbstract implements IRequest, ILogable<{ route: string }> {
     public abstract readonly route: string;
@@ -28,6 +29,15 @@ export abstract class RequestAbstract implements IRequest, ILogable<{ route: str
         }
 
         return transformer.transform(this);
+    }
+
+    public async to<T>(transform: IRequestTransform<T>): Promise<T> {
+        this.headers.assert("content-type", [transform.type].flat(1));
+        return transform(await this.getBuffer());
+    }
+
+    public toObject<T = unknown>(): Promise<T> {
+        return this.to<unknown>(fromJsonRequest) as Promise<T>;
     }
 
     public async respond(response: RouteResponse): Promise<void> {

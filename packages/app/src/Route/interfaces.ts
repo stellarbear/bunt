@@ -1,9 +1,29 @@
 import {Action, ActionCtor, Context, IContext, Promisify} from "@typesafeunit/unit";
 import {IRequest, RouteAction, RouteResponse} from "../interfaces";
+import {Payload} from "../Payload";
+import {Route} from "./Route";
 import {RouteAbstract} from "./RouteAbstract";
 
-export type RouteFactory<A extends RouteAction> = (action: ActionCtor<A>, config: RouteConfig<A>)
-    => RouteAbstract<A>;
+export interface IRoute<A extends RouteAction = RouteAction> {
+    readonly route: string;
+
+    readonly action: ActionCtor<A>;
+
+    readonly payload?: Payload<A>;
+
+    test(route: string): boolean;
+
+    match(route: string): Record<string, string>;
+}
+
+export type RouteNewArgs<A extends RouteAction> = A extends Action<IContext, infer S>
+    ? S extends null | undefined | never
+        ? [route: string, action: ActionCtor<A>]
+        : [route: string, action: ActionCtor<A>, payload: Payload<A>]
+    : never;
+
+export type RouteNew = <A extends RouteAction>(...args: RouteNewArgs<A>) => Route<A>;
+export type RouteMatcherFactory = (route: string) => IRouteMatcher;
 
 export type RouteArgs<A extends RouteAction> = [ActionCtor<A>, RouteConfig<A>];
 
@@ -30,7 +50,7 @@ export type RouteConfigValidate<A> = A extends Action<infer C, any, RouteRespons
 
 export type RouteConfig<A> = RouteConfigState<A> extends never
     ? Pick<RouteConfigInner<A>, "route" | "validate">
-    : RouteConfigInner<A>;
+    : Pick<RouteConfigInner<A>, "route" | "state" | "validate">;
 
 export interface RouteConfigInner<A> {
     readonly route: string;

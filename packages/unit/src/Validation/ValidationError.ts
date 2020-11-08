@@ -1,4 +1,4 @@
-import {ILogable, ISafeReadableError} from "@typesafeunit/util";
+import {ILogable, IReadableError} from "@typesafeunit/util";
 import {ValidationDescription, ValidationResult, ValidationSafeJSON, ValidationSafeValue} from "./interfaces";
 
 export interface IValidationLogValue {
@@ -6,7 +6,7 @@ export interface IValidationLogValue {
     validation: ValidationSafeValue[];
 }
 
-export class ValidationError<T> extends Error implements ISafeReadableError, ILogable<IValidationLogValue> {
+export class ValidationError<T> extends Error implements IReadableError, ILogable<IValidationLogValue> {
     public readonly description: ValidationDescription<T>;
 
     constructor(message: string, description: ValidationDescription<T>) {

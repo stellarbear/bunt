@@ -1,0 +1,101 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test Input AssertionError 1`] = `
+Object {
+  "fields": Object {
+    "children": Object {
+      "fields": Array [
+        Object {
+          "fields": Object {
+            "children": Object {
+              "message": "Wrong payload: Human[] expected",
+              "payload": 1,
+              "type": "List",
+            },
+          },
+          "index": 1,
+          "message": "Assertion failed",
+          "payload": Object {
+            "age": 12,
+            "children": 1,
+            "name": "Bob",
+          },
+          "type": "Human",
+        },
+        Object {
+          "fields": Object {
+            "name": Object {
+              "message": "Wrong payload: Text expected",
+              "payload": undefined,
+              "type": "Text",
+            },
+          },
+          "index": 2,
+          "message": "Assertion failed",
+          "payload": Object {
+            "age": 3,
+          },
+          "type": "Human",
+        },
+      ],
+      "message": "Assertion failed",
+      "payload": Array [
+        Object {
+          "age": 8,
+          "name": "Lisa",
+        },
+        Object {
+          "age": 12,
+          "children": 1,
+          "name": "Bob",
+        },
+        Object {
+          "age": 3,
+        },
+      ],
+      "type": "List",
+    },
+    "name": Object {
+      "message": "Wrong payload: Text expected",
+      "payload": undefined,
+      "type": "Text",
+    },
+    "parent": Object {
+      "fields": Object {
+        "age": Object {
+          "message": "Wrong payload: Int expected",
+          "payload": undefined,
+          "type": "Int",
+        },
+      },
+      "message": "Assertion failed",
+      "payload": Object {
+        "name": "Parent",
+      },
+      "type": "Human",
+    },
+  },
+  "message": "Assertion failed",
+  "payload": Object {
+    "age": 32,
+    "children": Array [
+      Object {
+        "age": 8,
+        "name": "Lisa",
+      },
+      Object {
+        "age": 12,
+        "children": 1,
+        "name": "Bob",
+      },
+      Object {
+        "age": 3,
+      },
+    ],
+    "parent": Object {
+      "name": "Parent",
+    },
+  },
+  "type": "Human",
+}
+`;

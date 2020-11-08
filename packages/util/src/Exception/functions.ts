@@ -1,5 +1,5 @@
-import {ISafeReadableError} from "./interfaces";
+import {IReadableError} from "./interfaces";
 
-export const isSafeReadableError = (error: Error): error is ISafeReadableError & Error => {
+export const isReadableError = (error: Error): error is IReadableError & Error => {
     return "toSafeJSON" in error && "toSafeString" in error;
 };

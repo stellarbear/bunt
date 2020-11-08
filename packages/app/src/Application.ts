@@ -1,14 +1,14 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
 import {assert, isDefined, isFunction, isInstanceOf, isObject, logger, Logger} from "@typesafeunit/util";
-import {IRequest, MatchRoute, RouteAction, RouteResponse} from "./interfaces";
-import {RouteAbstract, RouteNotFound} from "./Route";
+import {IRequest, MatchRoute, RouteResponse} from "./interfaces";
+import {IRoute, RouteAbstract, RouteNotFound} from "./Route";
 
 export class Application<U extends Unit<C>, C> {
     @logger
     public logger!: Logger;
 
     protected readonly unit: U;
-    protected readonly route: RouteAbstract<RouteAction>[] = [];
+    protected readonly route: IRoute[] = [];
 
     constructor(u: U) {
         this.unit = u;
@@ -20,7 +20,7 @@ export class Application<U extends Unit<C>, C> {
 
     public static async factory<C extends Context>(
         context: ContextArg<C>,
-        routes: MatchRoute<C, RouteAbstract<RouteAction>>[] = []): Promise<Application<Unit<C>, C>> {
+        routes: MatchRoute<C, IRoute>[] = []): Promise<Application<Unit<C>, C>> {
         const app = new this<Unit<C>, C>(await unit(context));
         if (routes.length > 0) {
             routes.forEach((route) => app.add(route));
@@ -29,7 +29,7 @@ export class Application<U extends Unit<C>, C> {
         return app;
     }
 
-    public add<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>): this {
+    public add<R extends IRoute>(route: MatchRoute<C, R>): this {
         this.logger.debug("add", route);
         assert(!this.unit.has(route.action), `This route was already added`);
         this.unit.add(route.action);
@@ -37,7 +37,7 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public remove<R extends RouteAbstract<RouteAction>>(route: MatchRoute<C, R>): this {
+    public remove<R extends RouteAbstract>(route: MatchRoute<C, R>): this {
         if (this.unit.has(route.action)) {
             this.logger.debug("remove", route);
             this.unit.remove(route.action);
@@ -73,22 +73,27 @@ export class Application<U extends Unit<C>, C> {
                 this.logger.debug("match", route);
 
                 const state = {};
-                const requestArgs = new Map<string, string>();
+                const requestArgs = new Map<string, string>(Object.entries(route.match(request.route)));
                 const context = await this.unit.getContext();
-                Object.entries(route.match(request.route))
-                    .forEach(([key, value]) => requestArgs.set(key, value));
-
                 const routeContext = {request, context, args: requestArgs};
-                if (isFunction(route.validate)) {
-                    await route.validate(routeContext);
+                const {payload} = route;
+
+                if (isDefined(payload)) {
+                    Object.assign(state, await payload.validate(routeContext));
                 }
 
-                if (isDefined(route.state)) {
-                    if (isFunction(route.state)) {
-                        Object.assign(state, await route.state(routeContext));
-                    } else if (isObject(route.state)) {
-                        for (const [name, factory] of Object.entries(route.state)) {
-                            Reflect.set(state, name, await factory(routeContext));
+                if (this.isRouteStateStyle(route)) {
+                    if (isFunction(route.validate)) {
+                        await route.validate(routeContext);
+                    }
+
+                    if (isDefined(route.state)) {
+                        if (isFunction(route.state)) {
+                            Object.assign(state, await route.state(routeContext));
+                        } else if (isObject(route.state)) {
+                            for (const [name, factory] of Object.entries(route.state)) {
+                                Reflect.set(state, name, await factory(routeContext));
+                            }
                         }
                     }
                 }
@@ -100,7 +105,17 @@ export class Application<U extends Unit<C>, C> {
         throw new RouteNotFound(request.route);
     }
 
-    public getRoutes(): RouteAbstract[] {
+    public getRoutes(): IRoute[] {
         return this.route;
+    }
+
+    /**
+     * @param route
+     *
+     * @deprecated see Route/Route.ts, @typesafeunit/input and InputState.test.ts
+     * @protected
+     */
+    protected isRouteStateStyle(route: RouteAbstract | IRoute): route is RouteAbstract {
+        return "state" in route;
     }
 }

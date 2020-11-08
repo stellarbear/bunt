@@ -79,8 +79,8 @@ export class Unit<C extends IContext = IContext> {
         assert(this.registry.has(ctor), `Unknown action ${ctor.name}`);
 
         const hooks = ctor.hooks || {};
-        const [state] = stateArgs;
         const context = await this.getContext();
+        const [state] = stateArgs;
 
         try {
             if (isFunction(hooks.validate)) {

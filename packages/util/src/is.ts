@@ -2,7 +2,7 @@ import {Ctor, Newable} from "./interfaces";
 
 export const isNull = (value: unknown): value is null => value === null;
 export const isUndefined = (value: unknown): value is undefined => typeof value === "undefined";
-export const isDefined = <T>(value: T | undefined): value is T => typeof value !== "undefined";
+export const isDefined = <T>(value: T | undefined): value is Exclude<T, undefined> => typeof value !== "undefined";
 export const isBoolean = (value: unknown): value is boolean => typeof value === "boolean";
 export const isString = (value: unknown): value is string => typeof value === "string";
 export const isArray = <T>(value: unknown): value is T[] => Array.isArray(value);

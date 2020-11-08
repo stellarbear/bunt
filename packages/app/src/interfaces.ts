@@ -1,5 +1,5 @@
 import {Action, Context, MatchContext, Promisify} from "@typesafeunit/unit";
-import {RouteAbstract} from "./Route";
+import {IRoute, RouteAbstract} from "./Route";
 
 export type RouteResponse = Error
     | { stringify(): string }
@@ -15,7 +15,7 @@ export type RouteResponse = Error
 
 export type RouteAction = Action<any, any, RouteResponse>;
 
-export type MatchRoute<C extends Context, R> = R extends RouteAbstract<infer A>
+export type MatchRoute<C extends Context, R> = R extends IRoute<infer A>
     ? A extends Action<infer AC, any, RouteResponse>
         ? MatchContext<C, AC> extends AC
             ? R
@@ -49,10 +49,20 @@ export interface IRequestBodyTransform<T> {
 
 export type RequestTransformType<T> = IRequestBodyTransform<T> | ((request: IRequest) => Promise<T>);
 
+export interface IRequestTransform<T> {
+    type: string | string[];
+
+    (buffer: Buffer): T;
+}
+
 export interface IRequest {
     readonly route: string;
     readonly headers: IHeaders;
     readonly complete: boolean;
+
+    to<T>(transform: IRequestTransform<T>): Promise<T>;
+
+    toObject<T = unknown>(): Promise<T>;
 
     getBuffer(): Promise<Buffer>;
 

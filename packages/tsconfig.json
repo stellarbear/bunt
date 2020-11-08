@@ -6,6 +6,7 @@
         {"path": "./app"},
         {"path": "./web"},
         {"path": "./cli"},
+        {"path": "./input"},
         {"path": "./util"}
     ]
 }

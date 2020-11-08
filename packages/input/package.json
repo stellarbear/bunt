@@ -1,6 +1,6 @@
 {
-    "name": "@typesafeunit/app",
-    "version": "0.9.12",
+    "name": "@typesafeunit/input",
+    "version": "0.1.0",
     "keywords": [
         "typescript"
     ],
@@ -13,7 +13,7 @@
     "files": [
         "dist/"
     ],
-    "description": "Application Server",
+    "description": "Input Schema Validation",
     "repository": "git@github.com:izatop/typesafeunit.git",
     "scripts": {
         "clean": "yarn build:clean",
@@ -26,10 +26,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/unit": "^0.9.12",
-        "@typesafeunit/input": "^0.1.0",
-        "@typesafeunit/util": "^0.9.12",
-        "path-to-regexp": "^6.2.0"
+        "@typesafeunit/util": "^0.9.12"
     },
     "license": "MIT"
 }

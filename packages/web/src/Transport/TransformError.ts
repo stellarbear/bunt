@@ -1,4 +1,4 @@
-import {isSafeReadableError} from "@typesafeunit/util/dist/Exception/functions";
+import {isReadableError} from "@typesafeunit/util/dist/Exception/functions";
 import {ServerError} from "./ServerError";
 
 export interface IErrorResponse {
@@ -47,7 +47,7 @@ export class TransformError {
     }
 
     private getResponse(): string {
-        if (isSafeReadableError(this.#error)) {
+        if (isReadableError(this.#error)) {
             return this.#error.toSafeString();
         }
 
@@ -55,7 +55,7 @@ export class TransformError {
     }
 
     private getResponseJSON(): Record<any, any> {
-        if (isSafeReadableError(this.#error)) {
+        if (isReadableError(this.#error)) {
             return this.#error.toSafeJSON();
         }
 

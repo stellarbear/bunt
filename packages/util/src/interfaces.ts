@@ -7,3 +7,6 @@ export type ConstructorFunction<T, A extends any[] = any[]> = (...args: A) => T;
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 export type DecoratorTarget = Object;
+
+export type MaybeArray<T> = T | T[];
+export type MayNullable<T> = T | null | undefined;

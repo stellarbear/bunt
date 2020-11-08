@@ -1,0 +1,27 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Route Payload 1`] = `
+Object {
+  "payload": Object {
+    "bd": 2020-11-08T12:18:06.051Z,
+    "name": "Peter",
+  },
+  "session": "s5sChdDmOPmFLtEEsq4L",
+}
+`;
+
+exports[`Route Success 1`] = `
+Request {
+  "body": "{\\"bd\\":\\"2020-11-08T12:18:06.051Z\\",\\"name\\":\\"Peter\\"}",
+  "headers": Object {
+    "authorization": "s5sChdDmOPmFLtEEsq4L",
+    "content-type": "application/json",
+  },
+  "response": Object {
+    "bd": 2020-11-08T12:18:06.051Z,
+    "session": "s5sChdDmOPmFLtEEsq4L",
+    "welcome": "Hello, Peter (age: Sun Nov 08 2020)!",
+  },
+  "route": "/test",
+}
+`;
