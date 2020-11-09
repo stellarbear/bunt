@@ -12,7 +12,7 @@ interface ITestTypeValidationState {
     };
 }
 
-class TestInputStateValidationRoute extends Action<IContext, ITestTypeValidationState> {
+class TestInputStateValidationAction extends Action<IContext, ITestTypeValidationState> {
     public run(): Record<string, any> {
         const {session, payload} = this.state;
         return {
@@ -29,13 +29,13 @@ export const type = new ObjectType<ITestTypeValidationState>({
     payload: new ObjectType({name: Text, bd: DateTime}),
 });
 
-export const resolver = new Resolver<TestInputStateValidationRoute>({
+export const resolver = new Resolver<TestInputStateValidationAction>({
     session: ({request: {headers}}) => headers.get("authorization"),
     payload: ({request}) => request.toObject(),
 });
 
 export default route(
     "/test",
-    TestInputStateValidationRoute,
+    TestInputStateValidationAction,
     new Payload(type, resolver),
 );

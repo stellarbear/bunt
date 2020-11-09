@@ -1,8 +1,5 @@
 import {Payload} from "@typesafeunit/app";
-import TestInputStateValidationRoute, {
-    resolver,
-    type,
-} from "@typesafeunit/test/src/actions/TestInputStateValidationRoute";
+import TestInputStateValidationRoute, {resolver, type} from "../../../test/src/actions/TestInputStateValidationRoute";
 import {MainContext} from "../../../test/src/context/MainContext";
 import {Request} from "../../../test/src/transport/Request";
 import {Application} from "../../src";

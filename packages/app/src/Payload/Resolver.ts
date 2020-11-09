@@ -10,10 +10,13 @@ type ResolverList<A extends RouteAction> = {
     [K in keyof ActionState<A>]-?: ResolverType<A>;
 };
 
-export class Resolver<A extends RouteAction> {
-    readonly resolvers: ResolverList<A>;
+type ResolverResolvers<A extends RouteAction> = ResolverFn<A>
+    | ResolverList<A>;
 
-    constructor(resolvers: ResolverList<A>) {
+export class Resolver<A extends RouteAction> {
+    readonly resolvers: ResolverResolvers<A>;
+
+    constructor(resolvers: ResolverResolvers<A>) {
         this.resolvers = resolvers;
     }
 
