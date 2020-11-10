@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.6](https://github.com/izatop/typesafeunit/compare/v0.10.5...v0.10.6) (2020-11-10)
+
+
+### Bug Fixes
+
+* interfaces ([a931656](https://github.com/izatop/typesafeunit/commit/a9316563a5b1fc77d66b48765391a60e0b983267))
+* interfaces ([aa496a1](https://github.com/izatop/typesafeunit/commit/aa496a1f29bcb2423ef835957c7e927744884638))
+
+
+
+
+
 ## [0.10.5](https://github.com/izatop/typesafeunit/compare/v0.10.4...v0.10.5) (2020-11-10)
 
 **Note:** Version bump only for package @typesafeunit/app

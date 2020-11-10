@@ -1,6 +1,6 @@
 {
     "name": "@typesafeunit/cli",
-    "version": "0.10.5",
+    "version": "0.10.6",
     "keywords": [
         "typescript"
     ],
@@ -26,7 +26,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/app": "^0.10.5",
+        "@typesafeunit/app": "^0.10.6",
         "@typesafeunit/util": "^0.10.0",
         "path-to-regexp": "^6.2.0"
     },
