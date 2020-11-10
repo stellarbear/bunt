@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.5](https://github.com/izatop/typesafeunit/compare/v0.10.4...v0.10.5) (2020-11-10)
+
+
+### Bug Fixes
+
+* object type merge ([f690a04](https://github.com/izatop/typesafeunit/commit/f690a04389bb732df373d5f6cbd795b007a6b78d))
+
+
+
+
+
 ## [0.10.3](https://github.com/izatop/typesafeunit/compare/v0.10.2...v0.10.3) (2020-11-08)
 
 
