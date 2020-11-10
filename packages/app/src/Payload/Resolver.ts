@@ -2,16 +2,7 @@ import {ActionContext, ActionState} from "@typesafeunit/unit";
 import {isFunction, isObject} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
 import {IRouteContext} from "../Route";
-
-type ResolverFn<A extends RouteAction> = (context: IRouteContext<ActionContext<A>>) => ActionState<A> | unknown;
-type ResolverType<A extends RouteAction> = ActionState<A> | ResolverFn<A>;
-
-type ResolverList<A extends RouteAction> = {
-    [K in keyof ActionState<A>]-?: ResolverType<A>;
-};
-
-type ResolverResolvers<A extends RouteAction> = ResolverFn<A>
-    | ResolverList<A>;
+import {ResolverResolvers} from "./interfaces";
 
 export class Resolver<A extends RouteAction> {
     readonly resolvers: ResolverResolvers<A>;
