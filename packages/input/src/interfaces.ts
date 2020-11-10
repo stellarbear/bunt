@@ -31,3 +31,5 @@ export type FieldSelectType<T> = T extends Record<string, any>
     : T extends Array<infer I>
         ? List<I>
         : TypeAbstract<T>;
+
+export type ObjectTypeMerge<T extends Record<string, any>> = ObjectType<T> | ObjectFields<T>;

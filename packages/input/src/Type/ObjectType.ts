@@ -1,6 +1,6 @@
 import {entriesReverse, isFunction, isInstanceOf, isObject, MayNullable} from "@typesafeunit/util";
 import {AssertionObjectError, AssertionTypeError, IReadableTypeError} from "../Assertion";
-import {ObjectFields} from "../interfaces";
+import {ObjectFields, ObjectTypeMerge} from "../interfaces";
 import {TypeAbstract} from "../TypeAbstract";
 
 export class ObjectType<TValue extends Record<string, any>> extends TypeAbstract<TValue, Record<string, any>> {
@@ -15,6 +15,22 @@ export class ObjectType<TValue extends Record<string, any>> extends TypeAbstract
 
     public get name(): string {
         return this.#name;
+    }
+
+    public get fields(): ObjectFields<TValue> {
+        return this.#fields;
+    }
+
+    public merge<F extends Record<string, any>>(from: ObjectTypeMerge<F>): ObjectType<TValue & F> {
+        if (isInstanceOf(from, ObjectType)) {
+            return new ObjectType<TValue & F>(
+                Object.assign({}, this.fields, from) as any,
+            );
+        }
+
+        return new ObjectType<TValue & F>(
+            Object.assign({}, this.fields, from.fields) as any,
+        );
     }
 
     public async validate(payload: MayNullable<Record<string, any>>): Promise<TValue> {
