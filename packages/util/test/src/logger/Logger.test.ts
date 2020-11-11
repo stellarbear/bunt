@@ -45,6 +45,7 @@ describe("Logger", () => {
         const value = {test: "value"};
         const logger = new Logger("Test");
         logger.error("Error", new AssertionError("Error", {value}));
-        expect(readableJSONLogFormat(logs.pop() as any)).toMatchSnapshot();
+        const {args} = logs.pop() as LogMessage;
+        expect(args).toMatchSnapshot();
     });
 });
