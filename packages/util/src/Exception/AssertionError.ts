@@ -13,6 +13,6 @@ export class AssertionError extends Error implements ILogable<Record<any, any>> 
     }
 
     public getLogValue(): Record<any, any> {
-        return {error: this.message, details: this.details};
+        return this.details;
     }
 }

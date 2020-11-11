@@ -132,6 +132,14 @@ export class Logger {
             for (const arg of args) {
                 if (isInstanceOf(arg, Error)) {
                     log.args.push(arg.stack);
+                    if (isLogable(arg)) {
+                        const logValue = arg.getLogValue();
+                        if (isDefined(logValue)) {
+                            log.args.push(arg.getLogValue());
+                        }
+                    }
+
+                    continue;
                 }
 
                 if (isLogable(arg)) {

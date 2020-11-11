@@ -20,5 +20,5 @@ export const debugLogFormat: LogFormat<string> = (log: LogMessage) => {
     isDefined(system) && debug.push(JSON.stringify(system, null, 2));
     isDefined(args) && debug.push(JSON.stringify(args, null, 2));
 
-    return debug.join("\n");
+    return debug.join("\n") + "\n";
 };
