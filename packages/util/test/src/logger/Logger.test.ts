@@ -1,5 +1,5 @@
-import {Logger, LogMessage, SeverityLevel} from "../../../src";
 import * as os from "os";
+import {AssertionError, Logger, LogMessage, readableJSONLogFormat, SeverityLevel} from "../../../src";
 import {LoggableObjectTest} from "./src/LoggableObjectTest";
 import {LoggerTestTransport} from "./src/LoggerTestTransport";
 
@@ -39,5 +39,12 @@ describe("Logger", () => {
         loggable.logger.warning("warning", loggable);
         expect(logs.length).toBe(1);
         expect(logs.pop()?.args).toEqual([value]);
+    });
+
+    test("should log logable error", () => {
+        const value = {test: "value"};
+        const logger = new Logger("Test");
+        logger.error("Error", new AssertionError("Error", {value}));
+        expect(readableJSONLogFormat(logs.pop() as any)).toMatchSnapshot();
     });
 });

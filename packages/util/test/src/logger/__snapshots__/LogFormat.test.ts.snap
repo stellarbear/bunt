@@ -8,7 +8,8 @@ Log message
   {
     \\"foo\\": \\"123\\"
   }
-]"
+]
+"
 `;
 
 exports[`Log format test default log formatter 1`] = `"{\\"pid\\":5761,\\"label\\":\\"Test\\",\\"message\\":\\"Log message\\",\\"args\\":[1,{\\"foo\\":\\"123\\"}],\\"groupId\\":\\"groupId\\",\\"host\\":\\"srv1\\",\\"timestamp\\":1585574245816,\\"severity\\":0}"`;

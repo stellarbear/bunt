@@ -1,0 +1,33 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logger should log logable error 1`] = `
+"{
+  \\"pid\\": 54467,
+  \\"host\\": \\"MacBook-Pro-Artur.local\\",
+  \\"label\\": \\"Test\\",
+  \\"severity\\": 3,
+  \\"message\\": \\"Error\\",
+  \\"timestamp\\": 1605098675417,
+  \\"system\\": {
+    \\"freemem\\": 7972794368,
+    \\"loadavg\\": [
+      2.64501953125,
+      2.6279296875,
+      2.58935546875
+    ],
+    \\"arch\\": \\"x64\\",
+    \\"platform\\": \\"darwin\\",
+    \\"cpus\\": 16,
+    \\"version\\": \\"v14.14.0\\",
+    \\"uptime\\": 535218
+  },
+  \\"args\\": [
+    \\"Error: Error\\\\n    at Object.<anonymous> (/Users/abir/dev/public/typesafeunit/packages/util/test/src/logger/Logger.test.ts:47:31)\\\\n    at Object.asyncJestTest (/Users/abir/dev/public/typesafeunit/node_modules/jest-jasmine2/build/jasmineAsyncInstall.js:106:37)\\\\n    at /Users/abir/dev/public/typesafeunit/node_modules/jest-jasmine2/build/queueRunner.js:45:12\\\\n    at new Promise (<anonymous>)\\\\n    at mapper (/Users/abir/dev/public/typesafeunit/node_modules/jest-jasmine2/build/queueRunner.js:28:19)\\\\n    at /Users/abir/dev/public/typesafeunit/node_modules/jest-jasmine2/build/queueRunner.js:75:41\\\\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)\\",
+    {
+      \\"value\\": {
+        \\"test\\": \\"value\\"
+      }
+    }
+  ]
+}"
+`;
