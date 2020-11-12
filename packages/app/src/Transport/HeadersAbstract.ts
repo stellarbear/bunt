@@ -1,4 +1,4 @@
-import {assert, compare, curry, ILogable, isBoolean, isFunction} from "@typesafeunit/util";
+import {assert, ILogable, isBoolean, isFunction} from "@typesafeunit/util";
 import {HeaderAssertValue, IHeaders} from "../interfaces";
 import {KeyValueReadonlyMap} from "./KeyValueReadonlyMap";
 
@@ -10,10 +10,9 @@ export abstract class HeadersAbstract extends KeyValueReadonlyMap
 
     public assert(header: string, expected: HeaderAssertValue): void {
         const clientValue = this.get(header.toLowerCase());
-        const cmp = curry(compare, clientValue);
         if (Array.isArray(expected)) {
             assert(
-                expected.some(cmp),
+                expected.some((e) => clientValue.includes(e)),
                 `Wrong header "${header}" value, allowed: ${expected.join(", ")}`,
             );
         }
