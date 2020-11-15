@@ -1,4 +1,4 @@
-import {isInstanceOf, isNumber, Promisify, isFunction} from "@typesafeunit/util";
+import {isFunction, isInstanceOf, isNumber, Promisify} from "@typesafeunit/util";
 import * as HTTP from "http-status";
 import {Headers} from "../Headers";
 import {TransformError} from "../TransformError";
@@ -12,7 +12,7 @@ export interface IResponseOptions {
 export interface IResponseAnswer {
     code: number;
     status?: string;
-    body: string;
+    body: string | Buffer;
     headers: { [key: string]: string };
 }
 
@@ -74,5 +74,5 @@ export abstract class ResponseAbstract<T> {
         return `${this.type}; charset=${this.encoding}`;
     }
 
-    protected abstract stringify(data: T): string;
+    protected abstract stringify(data: T): string | Buffer;
 }
