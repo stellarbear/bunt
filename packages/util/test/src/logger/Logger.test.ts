@@ -1,5 +1,5 @@
 import * as os from "os";
-import {AssertionError, Logger, LogMessage, readableJSONLogFormat, SeverityLevel} from "../../../src";
+import {AssertionError, Logger, LogMessage, SeverityLevel} from "../../../src";
 import {LoggableObjectTest} from "./src/LoggableObjectTest";
 import {LoggerTestTransport} from "./src/LoggerTestTransport";
 
