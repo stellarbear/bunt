@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.10.10](https://github.com/izatop/typesafeunit/compare/v0.10.9...v0.10.10) (2020-11-17)
+
+
+### Bug Fixes
+
+* formatters ([a2a01c6](https://github.com/izatop/typesafeunit/commit/a2a01c6698cb827ce0fecc03c31b5b704a9591c2))
+* lint ([29a736b](https://github.com/izatop/typesafeunit/commit/29a736bf10587f41da49618a1bc7886ee9719f62))
+* update ([d10e804](https://github.com/izatop/typesafeunit/commit/d10e804338153f07410ed2484b929f77a75c1b95))
+
+
+
+
+
 ## [0.10.9](https://github.com/izatop/typesafeunit/compare/v0.10.8...v0.10.9) (2020-11-15)
 
 
