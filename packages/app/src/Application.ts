@@ -72,9 +72,9 @@ export class Application<U extends Unit<C>, C> {
             if (route.test(request.route)) {
                 this.logger.debug("match", route);
 
-                const state = {};
-                const requestArgs = new Map<string, string>(Object.entries(route.match(request.route)));
+                const state: Record<string, any> = {};
                 const context = await this.unit.getContext();
+                const requestArgs = new Map<string, string>(Object.entries(route.match(request.route)));
                 const routeContext = {request, context, args: requestArgs};
                 const {payload} = route;
 
