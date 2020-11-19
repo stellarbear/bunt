@@ -1,5 +1,6 @@
 import {assert} from "../assert";
 import {isDefined, isNumber} from "../is";
+import {entriesReverse} from "../object";
 
 const OPTION_REGEX = /^--([a-z0-9_-]+)=(.+)$/i;
 const FLAG_ON_REGEX = /^-([a-z0-9]+)$/i;
@@ -21,6 +22,15 @@ export class Argv {
         this.flags = flags;
         this.args = args;
         this.options = options;
+    }
+
+    public toObject(): Record<string, string | boolean> {
+        const entries: [string, boolean | string][] = [
+            ...this.flags.entries(),
+            ...this.options.entries(),
+        ];
+
+        return entriesReverse(entries);
     }
 
     public getFlag(name: string, defaultValue = false): boolean {

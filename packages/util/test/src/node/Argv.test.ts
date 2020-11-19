@@ -10,6 +10,8 @@ describe("Cli", () => {
             options: new Map(Object.entries({kv: "value", port: "123"})),
             args: new Set(["argument1", "argument2"]),
         });
+
+        expect(args.toObject()).toMatchSnapshot();
     });
 
     test("Options normalization should work", () => {
