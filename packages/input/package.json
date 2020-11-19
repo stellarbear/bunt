@@ -1,6 +1,6 @@
 {
     "name": "@typesafeunit/input",
-    "version": "0.10.10",
+    "version": "0.10.11",
     "keywords": [
         "typescript"
     ],
@@ -26,7 +26,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/util": "^0.10.10"
+        "@typesafeunit/util": "^0.10.11"
     },
     "license": "MIT"
 }
