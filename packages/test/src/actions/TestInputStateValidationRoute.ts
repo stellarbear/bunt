@@ -1,6 +1,4 @@
-import {Payload, RegexpMatcher} from "@typesafeunit/app";
-import {Resolver} from "@typesafeunit/app/dist/Payload";
-import {Route} from "@typesafeunit/app/dist/Route/Route";
+import {Payload, RegexpMatcher, Resolver, Route} from "@typesafeunit/app";
 import {DateTime, ObjectType, Text, Varchar} from "@typesafeunit/input";
 import {Action, IContext} from "../../../unit";
 
@@ -34,8 +32,4 @@ export const resolver = new Resolver<TestInputStateValidationAction>({
     payload: ({request}) => request.toObject(),
 });
 
-export default route(
-    "/test",
-    TestInputStateValidationAction,
-    new Payload(type, resolver),
-);
+export default route(TestInputStateValidationAction, "/test", new Payload(type, resolver));

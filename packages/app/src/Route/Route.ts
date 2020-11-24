@@ -2,7 +2,7 @@ import {ActionCtor} from "@typesafeunit/unit";
 import {ILogable} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
 import {Payload} from "../Payload";
-import {IRoute, IRouteMatcher, RouteMatcherFactory, RouteNew, RouteNewArgs} from "./interfaces";
+import {IRoute, IRouteMatcher, MayPayload, RouteMatcherFactory, RouteNew} from "./interfaces";
 
 export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, ILogable<{ route: string }> {
     public readonly route: string;
@@ -10,15 +10,17 @@ export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, IL
     public readonly payload?: Payload<A>;
     readonly #matcher: IRouteMatcher;
 
-    constructor(matcher: RouteMatcherFactory, ...[route, action, payload]: RouteNewArgs<A>) {
+    constructor(matcher: RouteMatcherFactory, action: ActionCtor<A>, route: string, payload?: Payload<A>) {
         this.route = route;
-        this.action = action as ActionCtor<A>;
-        this.payload = payload as Payload<A>;
+        this.action = action;
+        this.payload = payload;
         this.#matcher = matcher(route);
     }
 
     public static create(matcher: RouteMatcherFactory): RouteNew {
-        return <A extends RouteAction>(...args: RouteNewArgs<A>) => new Route<A>(matcher, ...args);
+        return <A extends RouteAction>(action: ActionCtor<A>, route: string, payload: MayPayload<A>) => (
+            new Route<A>(matcher, action, route, payload)
+        );
     }
 
     public getLogValue(): { route: string } {

@@ -15,14 +15,17 @@ export interface IRoute<A extends RouteAction = RouteAction> {
     match(route: string): Record<string, string>;
 }
 
-export type RouteNewArgs<A extends RouteAction> = A extends Action<IContext, infer S>
-    ? S extends null | undefined | never
-        ? [route: string, action: ActionCtor<A>]
-        : [route: string, action: ActionCtor<A>, payload: Payload<A>]
-    : never;
-
-export type RouteNew = <A extends RouteAction>(...args: RouteNewArgs<A>) => Route<A>;
 export type RouteMatcherFactory = (route: string) => IRouteMatcher;
+
+export type MayPayload<A extends RouteAction> = A extends Action<IContext, infer S>
+    ? S extends null | undefined | never
+        ? undefined
+        : Payload<A>
+    : undefined;
+
+export type RouteNew = <A extends RouteAction>(action: ActionCtor<A>,
+                                               route: string,
+                                               payload: MayPayload<A>) => Route<A>;
 
 export type RouteArgs<A extends RouteAction> = [ActionCtor<A>, RouteConfig<A>];
 
