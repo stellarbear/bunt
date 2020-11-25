@@ -14,9 +14,16 @@ describe("Route", () => {
             JSON.stringify({name: "World"}),
         );
 
-        await app.handle(request);
-        expect(request).toMatchSnapshot();
+        try {
+            await app.handle(request);
+            expect(request).toMatchSnapshot();
+        } catch (error) {
+            console.log(error.toSafeJSON());
+        }
+    });
 
+    test("Fails", async () => {
+        const app = await Application.factory(new MainContext(), [HelloWorldRoute]);
         const wrongRequest = new Request(
             "/u/123",
             headers,
@@ -25,7 +32,7 @@ describe("Route", () => {
 
         await expect(app.handle(wrongRequest))
             .rejects
-            .toThrow("HelloWorldAction validation failed");
+            .toThrow("Assertion failed");
     });
 
     test("Not found", async () => {

@@ -4,7 +4,7 @@ exports[`Route Not found 1`] = `
 Request {
   "body": "",
   "headers": Object {},
-  "response": [Error: Route Not Found "/wrong-uri"],
+  "response": [Error: Route "/wrong-uri" not found],
   "route": "/wrong-uri",
 }
 `;

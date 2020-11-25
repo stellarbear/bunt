@@ -12,6 +12,10 @@ export class RegexpMatcher implements IRouteMatcher {
         this.matcher = match(route);
     }
 
+    public static factory = (route: string): RegexpMatcher => {
+        return new RegexpMatcher(route);
+    };
+
     public match(route: string): Record<string, any> {
         return (this.matcher(route) || {params: {}}).params;
     }

@@ -1,18 +1,7 @@
-import {
-    assert,
-    fails,
-    isClass,
-    isDefined,
-    isFunction,
-    isInstanceOf,
-    isUndefined,
-    logger,
-    Logger,
-} from "@typesafeunit/util";
+import {assert, fails, isClass, isFunction, isInstanceOf, isUndefined, logger, Logger} from "@typesafeunit/util";
 import {Action} from "./Action";
 import {ApplyContext, Context} from "./Context";
 import {ActionCtor, ActionReturn, ActionStateArgs, ContextArg, IContext, UnitAction} from "./interfaces";
-import {ValidationSchema} from "./Validation";
 
 export class Unit<C extends IContext = IContext> {
     @logger
@@ -72,52 +61,17 @@ export class Unit<C extends IContext = IContext> {
         return Context.apply(this.context);
     }
 
-    public async run<T extends Action<any, any, any>>(ctor: UnitAction<C, ActionCtor<T>>,
-                                                      ...stateArgs: ActionStateArgs<T>): Promise<ActionReturn<T>> {
-        const finish = this.logger.perf("run", {action: ctor.name});
+    public async run<A extends Action<any, any>>(ctor: UnitAction<C, ActionCtor<A>>,
+                                                 ...args: ActionStateArgs<A>): Promise<ActionReturn<A>> {
+        const finish = this.logger.perf("action", {action: ctor.name});
         assert(isClass(ctor), "First argument isn't a class constructor");
         assert(this.registry.has(ctor), `Unknown action ${ctor.name}`);
 
-        const hooks = ctor.hooks || {};
+        const [state = null] = args;
         const context = await this.getContext();
-        const [state] = stateArgs;
-
-        try {
-            if (isFunction(hooks.validate)) {
-                const staticValidationSchema = await hooks.validate(new ValidationSchema(), context);
-                const validationDescription = await staticValidationSchema.validate(state);
-                await staticValidationSchema.assert(validationDescription, `${ctor.name} validation failed`);
-            }
-
-            const action = new ctor(context, state);
-            const validationSchema = await action.createValidationSchema();
-            if (isDefined(validationSchema)) {
-                const validationDescription = await validationSchema.validate(state);
-                validationSchema.assert(validationDescription, `${ctor.name} validation failed`);
-            }
-
-            if (isFunction(hooks.create)) {
-                await hooks.create(context, state);
-            }
-
-            const finishActionRun = this.logger.perf("execute", {action: action.name});
-            const result = await action.run();
-            finishActionRun();
-
-            if (isFunction(hooks.success)) {
-                await hooks.success(result, context);
-            }
-
-            return result as ActionReturn<T>;
-        } catch (error) {
-            if (isFunction(hooks.fails)) {
-                await hooks.fails(error, context);
-            }
-
-            throw error;
-        } finally {
-            finish();
-        }
+        const action = new ctor(context, state);
+        return Promise.resolve(action.run())
+            .finally(finish);
     }
 }
 

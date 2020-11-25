@@ -1,14 +1,19 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`Route 1`] = `
-PathRoute {
+Route {
   "action": [Function],
-  "route": "/u/:id",
-  "state": Object {
-    "id": [Function],
-    "option": [Function],
-    "payload": [Function],
+  "payload": RouteRule {
+    "resolver": Resolver {
+      "resolvers": Object {
+        "id": [Function],
+        "option": [Function],
+        "payload": [Function],
+      },
+    },
+    "route": "/u/:id",
+    "type": [Function],
   },
-  "validate": undefined,
+  "route": "/u/:id",
 }
 `;

@@ -1,13 +1,19 @@
-import {Application, PathRoute} from "@typesafeunit/app";
+import {Application, Resolver, RouteRule} from "@typesafeunit/app";
+import {Fields, Text} from "@typesafeunit/input";
 import {Runtime} from "@typesafeunit/unit";
 import {debugLogFormat, Logger, StdErrorTransport, StdOutTransport} from "@typesafeunit/util";
 import {CorsValidation, Server} from "@typesafeunit/web";
 import {BaseTestAction} from "./actions/BaseTestAction";
 import {BaseContext} from "./context/BaseContext";
+import {pathRoute} from "./route";
 
 async function main() {
     const app = await Application.factory(new BaseContext(), [
-        new PathRoute(BaseTestAction, {route: "GET /test", state: () => ({name: "test"})}),
+        pathRoute(BaseTestAction, new RouteRule(
+            "GET /test",
+            new Fields({name: Text}),
+            new Resolver({name: () => "test"}),
+        )),
     ]);
 
     const validators = CorsValidation.factory(app);

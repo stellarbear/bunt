@@ -1,7 +1,9 @@
 import {IContext, Promisify} from "./interfaces";
-import {ValidationSchema} from "./Validation";
 
-export abstract class Action<C extends IContext = Record<any, any>, S extends any = null, T extends any = any> {
+export abstract class Action<C extends IContext = Record<any, any>,
+    S extends Record<string, any> | null = null,
+    T extends any = any> {
+
     public readonly state!: S;
     protected readonly context: C;
 
@@ -12,10 +14,6 @@ export abstract class Action<C extends IContext = Record<any, any>, S extends an
 
     public get name(): string {
         return this.constructor.name;
-    }
-
-    public createValidationSchema(): Promisify<ValidationSchema<S>> | undefined {
-        return;
     }
 
     public abstract run(): Promisify<T>;

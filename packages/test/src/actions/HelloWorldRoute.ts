@@ -1,15 +1,21 @@
-import {JSONTransform, PathRoute} from "../../../app";
-import {isNumber, pass} from "../../../util";
+import {Resolver, RouteRule} from "@typesafeunit/app";
+import {Bool, Fields, Int, Text, ToNumber} from "@typesafeunit/input";
+import {pathRoute} from "../route";
 import {HelloWorldAction} from "./HelloWorldAction";
 
-export default new PathRoute(
+export default pathRoute(
     HelloWorldAction,
-    {
-        route: "/u/:id",
-        state: {
-            id: ({args}): number => pass(args.get("id"), (v) => parseInt(v, 10), isNumber),
-            payload: ({request}): any => JSONTransform(request),
-            option: (): boolean => true,
-        },
-    },
+    new RouteRule(
+        "/u/:id",
+        () => new Fields({
+            id: new ToNumber(Int),
+            payload: new Fields({name: Text}),
+            option: Bool,
+        }),
+        new Resolver({
+            id: ({args}) => args.get("id"),
+            payload: ({request}) => request.toObject(),
+            option: () => false,
+        }),
+    ),
 );

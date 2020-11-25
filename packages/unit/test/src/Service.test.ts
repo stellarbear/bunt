@@ -1,8 +1,7 @@
 import {ServiceFactory} from "@typesafeunit/unit";
 import {MemoryDb} from "../../../test/src/context/services/MemoryDb";
 import {MemoryDbServiceResolver} from "../../../test/src/context/services/MemoryDbServiceResolver";
-import {Context} from "../../src/Context";
-import {SERVICE_KIND} from "../../src/Service";
+import {Context, SERVICE_KIND} from "../../src";
 
 describe("Service", () => {
     const table: [string, (v: string) => any][] = [

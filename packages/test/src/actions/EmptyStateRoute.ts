@@ -1,9 +1,7 @@
-import {PathRoute} from "../../../app";
+import {pathRoute} from "../route";
 import {EmptyStateAction} from "./EmptyStateAction";
 
-export default new PathRoute(
+export default pathRoute(
     EmptyStateAction,
-    {
-        route: "/noop",
-    },
+    "/noop",
 );

@@ -1,7 +1,7 @@
 import {Context, ContextArg, unit, Unit} from "@typesafeunit/unit";
-import {assert, isDefined, isFunction, isInstanceOf, isObject, logger, Logger} from "@typesafeunit/util";
+import {assert, isDefined, isInstanceOf, logger, Logger} from "@typesafeunit/util";
 import {IRequest, MatchRoute, RouteResponse} from "./interfaces";
-import {IRoute, RouteAbstract, RouteNotFound} from "./Route";
+import {IRoute, RouteNotFound} from "./Route";
 
 export class Application<U extends Unit<C>, C> {
     @logger
@@ -37,7 +37,7 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public remove<R extends RouteAbstract>(route: MatchRoute<C, R>): this {
+    public remove<R extends IRoute>(route: MatchRoute<C, R>): this {
         if (this.unit.has(route.action)) {
             this.logger.debug("remove", route);
             this.unit.remove(route.action);
@@ -50,10 +50,10 @@ export class Application<U extends Unit<C>, C> {
 
     public async handle<R extends IRequest>(request: R): Promise<void> {
         const finish = this.logger.perf("handle", request);
+
         try {
-            if (request.validate()) {
-                await request.respond(await this.run(request));
-            }
+            assert(request.validate(), "Invalid Request");
+            await request.respond(await this.run(request));
         } catch (error) {
             if (!request.complete) {
                 await request.respond(error);
@@ -74,28 +74,16 @@ export class Application<U extends Unit<C>, C> {
 
                 const state: Record<string, any> = {};
                 const context = await this.unit.getContext();
-                const requestArgs = new Map<string, string>(Object.entries(route.match(request.route)));
-                const routeContext = {request, context, args: requestArgs};
-                const {payload} = route;
+                const matches = route.match(request.route);
+                const routeContext = {
+                    request,
+                    context,
+                    args: new Map<string, string>(Object.entries(matches)),
+                };
 
-                if (isDefined(payload)) {
+                if (isDefined(route.payload)) {
+                    const {payload} = route;
                     Object.assign(state, await payload.validate(routeContext));
-                }
-
-                if (this.isRouteStateStyle(route)) {
-                    if (isFunction(route.validate)) {
-                        await route.validate(routeContext);
-                    }
-
-                    if (isDefined(route.state)) {
-                        if (isFunction(route.state)) {
-                            Object.assign(state, await route.state(routeContext));
-                        } else if (isObject(route.state)) {
-                            for (const [name, factory] of Object.entries(route.state)) {
-                                Reflect.set(state, name, await factory(routeContext));
-                            }
-                        }
-                    }
                 }
 
                 return this.unit.run(route.action, state);
@@ -107,15 +95,5 @@ export class Application<U extends Unit<C>, C> {
 
     public getRoutes(): IRoute[] {
         return this.route;
-    }
-
-    /**
-     * @param route
-     *
-     * @deprecated see Route/Route.ts, @typesafeunit/input and InputState.test.ts
-     * @protected
-     */
-    protected isRouteStateStyle(route: RouteAbstract | IRoute): route is RouteAbstract {
-        return "state" in route;
     }
 }

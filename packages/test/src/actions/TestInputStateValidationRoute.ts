@@ -1,5 +1,5 @@
-import {Payload, RegexpMatcher, Resolver, Route} from "@typesafeunit/app";
-import {DateTime, ObjectType, Text, Varchar} from "@typesafeunit/input";
+import {RegexpMatcher, Resolver, Route, RouteRule} from "@typesafeunit/app";
+import {DateTime, Fields, Text, Varchar} from "@typesafeunit/input";
 import {Action, IContext} from "../../../unit";
 
 interface ITestTypeValidationState {
@@ -21,10 +21,10 @@ class TestInputStateValidationAction extends Action<IContext, ITestTypeValidatio
     }
 }
 
-const route = Route.create((route: string) => new RegexpMatcher(route));
-export const type = new ObjectType<ITestTypeValidationState>({
+const route = Route.create(RegexpMatcher.factory);
+export const type = new Fields<ITestTypeValidationState>({
     session: new Varchar({min: 8, max: 256}),
-    payload: new ObjectType({name: Text, bd: DateTime}),
+    payload: new Fields({name: Text, bd: DateTime}),
 });
 
 export const resolver = new Resolver<TestInputStateValidationAction>({
@@ -32,4 +32,4 @@ export const resolver = new Resolver<TestInputStateValidationAction>({
     payload: ({request}) => request.toObject(),
 });
 
-export default route(TestInputStateValidationAction, "/test", new Payload(type, resolver));
+export default route(TestInputStateValidationAction, new RouteRule("/test", type, resolver));

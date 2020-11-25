@@ -1,8 +1,9 @@
 import {ActionCtor} from "@typesafeunit/unit";
-import {ILogable} from "@typesafeunit/util";
+import {ILogable, isFunction, isString} from "@typesafeunit/util";
 import {RouteAction} from "../interfaces";
 import {Payload} from "../Payload";
-import {IRoute, IRouteMatcher, MayPayload, RouteMatcherFactory, RouteNew} from "./interfaces";
+import {IRoute, IRouteMatcher, RouteFactory, RouteMatcherFactory, RouteRuleArg} from "./interfaces";
+import {RouteRule} from "./RouteRule";
 
 export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, ILogable<{ route: string }> {
     public readonly route: string;
@@ -10,17 +11,27 @@ export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, IL
     public readonly payload?: Payload<A>;
     readonly #matcher: IRouteMatcher;
 
-    constructor(matcher: RouteMatcherFactory, action: ActionCtor<A>, route: string, payload?: Payload<A>) {
+    constructor(matcher: RouteMatcherFactory, action: ActionCtor<A>, rule: RouteRuleArg<A>) {
+        const {route, payload} = this.getRuleArgs(rule);
         this.route = route;
         this.action = action;
         this.payload = payload;
-        this.#matcher = matcher(route);
+
+        this.#matcher = isFunction(matcher) ? matcher(this.route) : matcher;
     }
 
-    public static create(matcher: RouteMatcherFactory): RouteNew {
-        return <A extends RouteAction>(action: ActionCtor<A>, route: string, payload: MayPayload<A>) => (
-            new Route<A>(matcher, action, route, payload)
+    public static create(matcher: RouteMatcherFactory): RouteFactory {
+        return <A extends RouteAction>(action: ActionCtor<A>, rule: RouteRuleArg<A>) => (
+            new Route<A>(matcher, action, rule)
         );
+    }
+
+    private getRuleArgs(rule: string | RouteRule<A>): { route: string, payload?: Payload<A> } {
+        if (isString(rule)) {
+            return {route: rule, payload: undefined};
+        }
+
+        return {route: rule.route, payload: rule};
     }
 
     public getLogValue(): { route: string } {

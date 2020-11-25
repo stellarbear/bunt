@@ -1,6 +1,4 @@
-import {Action, ActionHooks, IContext} from "../../../unit";
-import {ValidationChild} from "../../../unit/dist/Validation/ValidationChild";
-import {assert, isNumber, isString} from "../../../util";
+import {Action, IContext} from "../../../unit";
 
 interface IHelloWorldActionState {
     id: number;
@@ -11,20 +9,8 @@ interface IHelloWorldActionState {
 }
 
 export class HelloWorldAction extends Action<IContext, IHelloWorldActionState> {
-    public static get hooks(): ActionHooks<HelloWorldAction> {
-        return {
-            // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-            validate: (validationSchema) => validationSchema
-                .add("id", (v) => assert(isNumber(v)))
-                .add("payload", new ValidationChild<IHelloWorldActionState, "payload">()
-                    .add("name", (v) => assert(isString(v))),
-                ),
-        };
-    }
-
     public run(): string {
         const {payload} = this.state;
         return `Hello, ${payload.name}!`;
     }
 }
-

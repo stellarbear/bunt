@@ -1,18 +1,9 @@
-import {Action, ActionHooks} from "../../../unit";
-import {assert, noop} from "../../../util";
+import {Action} from "../../../unit";
+import {assert} from "../../../util";
 import {IBaseContext} from "../interfaces";
 
-export class TestExceptionAction extends Action<IBaseContext, string> {
-    public static get hooks(): ActionHooks<TestExceptionAction> {
-        return {
-            fails: noop,
-            success: noop,
-            validate: (s) => s,
-            create: noop,
-        } as ActionHooks<TestExceptionAction>;
-    }
-
+export class TestExceptionAction extends Action<IBaseContext, { error: string }> {
     public run(): void {
-        assert(false, this.state);
+        assert(false, this.state.error);
     }
 }

@@ -21,7 +21,5 @@ test("Context", async () => {
 
     const unit = await Unit.factory(() => context, [AsyncServiceTestAction]);
     const res = await unit.run(AsyncServiceTestAction, state);
-
-    await expect(unit.run(AsyncServiceTestAction, {} as any)).rejects.toThrow();
     expect(memoryDb.get(state.key)).toBe(res);
 });

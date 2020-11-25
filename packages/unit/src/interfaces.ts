@@ -1,32 +1,30 @@
 import {Action} from "./Action";
 import {Context, MatchContext} from "./Context";
-import {ValidationSchema} from "./Validation";
 
 export interface IContext {}
 
 export type Promisify<T> = T | Promise<T>;
 export type ContextArg<C extends Context> = (() => Promisify<C>) | Promisify<C>;
+export type AllowState = Record<string, any> | null;
 
 export type ActionStateArgs<A> = ActionState<A> extends null ? [] : [ActionState<A>];
-export type ActionCtor<A extends Action<any, any, any>> = {
+export type ActionCtor<A extends Action<any, any>> = {
     new(context: ActionCtx<A>, state: any): A;
-    readonly hooks?: IActionHooks<any, any, any>;
     prototype: A;
 };
 
-export type ActionStateCtor<S extends any, A extends Action<any, S, any>> = {
+export type ActionStateCtor<S extends AllowState, A extends Action<any, S>> = {
     new(context: ActionCtx<A>, state: null): A;
-    readonly hooks?: IActionHooks<any, any, any>;
     prototype: A;
 };
 
-export type ActionCtx<A> = A extends Action<infer T, any, any> ? T : never;
-export type ActionContext<A> = A extends Action<infer T, any, any> ? T : never;
-export type ActionState<A> = A extends Action<any, infer T, any> ? T : never;
+export type ActionCtx<A> = A extends Action<infer T, any> ? T : never;
+export type ActionState<A> = A extends Action<any, infer T> ? T : never;
 export type ActionReturn<A> = A extends Action<any, any, infer T> ? T : never;
+export type ActionContext<A> = ActionCtx<A>;
 
 export type UnitAction<C, T> = T extends ActionCtor<infer A>
-    ? A extends Action<infer AC, any, any>
+    ? A extends Action<infer AC, any>
         ? MatchContext<C, AC> extends AC
             ? T
             : never // ["Action context doesn't match its parent context", C, AC]
@@ -38,24 +36,3 @@ export type ResolvableValue<T> = Promise<T> | (() => T | Promise<T>);
 export interface IServiceResolver<T> {
     resolve(): Promise<T>;
 }
-
-export type ActionHookCreate<C extends Context, S = null> = (context: C, state: S) => Promisify<void>;
-export type ActionHookSuccess<C extends Context, T> = (returns: T, context: C) => Promisify<void>;
-export type ActionHookError<C extends Context> = (error: Error, context: C) => Promisify<void>;
-export type ActionHookValidate<C extends Context, S = null> = (validationSchema: ValidationSchema<S>,
-                                                               context: C) => ValidationSchema<S>;
-
-export interface IActionHooks<C extends Context, S = null, T = any> {
-    validate?: ActionHookValidate<C, S>;
-    create?: ActionHookCreate<C, S>;
-    success?: ActionHookSuccess<C, T>;
-    fails?: ActionHookError<C>;
-}
-
-export type ActionHooks<A> = A extends Action<infer X, infer S, infer T>
-    ? IActionHooks<X, S, T>
-    : A extends ActionCtor<any>
-        ? A extends Action<infer X, infer S, infer T>
-            ? IActionHooks<X, S, T>
-            : never
-        : never;

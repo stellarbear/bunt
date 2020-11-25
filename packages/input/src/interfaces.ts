@@ -1,5 +1,5 @@
 import {MaybeArray, MayNullable} from "@typesafeunit/util";
-import {List, ObjectType} from "./Type";
+import {Fields, List} from "./Type";
 import {TypeAbstract} from "./TypeAbstract";
 
 export type Scalars = string | number | boolean;
@@ -15,21 +15,21 @@ export type FieldFn<T> = () => T;
 export type FieldType<T> = T | FieldFn<T>;
 
 export type FieldsSchema<T> = {
-    [K in keyof T]-?: T[K] extends Array<infer S>
-        ? FieldType<List<S, any>>
-        : T[K] extends Record<string, MayInput>
-            ? FieldType<ObjectType<T[K]>>
-            : FieldType<TypeAbstract<T[K]>>;
+    [K in keyof T]-?: T[K] extends Record<string, any>
+        ? FieldType<Fields<T[K]>>
+        : T[K] extends Array<infer S>
+            ? FieldType<List<S, any>>
+            : FieldType<TypeAbstract<T[K], any>>;
 };
 
 export type ObjectFields<T> = T extends Promise<infer A>
-    ? FieldsSchema<Exclude<A, undefined>>
-    : FieldsSchema<Exclude<T, undefined>>;
+    ? FieldsSchema<Exclude<A, undefined | null>>
+    : FieldsSchema<Exclude<T, undefined | null>>;
 
 export type FieldSelectType<T> = T extends Record<string, any>
-    ? ObjectType<T>
+    ? FieldType<Fields<T>>
     : T extends Array<infer I>
-        ? List<I>
-        : TypeAbstract<T>;
+        ? FieldType<List<I, any>>
+        : FieldType<TypeAbstract<T, any>>;
 
-export type ObjectTypeMerge<T extends Record<string, any>> = ObjectType<T> | ObjectFields<T>;
+export type ObjectTypeMerge<T extends Record<string, any>> = Fields<T> | ObjectFields<T>;

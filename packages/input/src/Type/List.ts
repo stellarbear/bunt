@@ -3,8 +3,8 @@ import {AssertionListError, AssertionTypeError, IReadableListField} from "../Ass
 import {MayListInput} from "../interfaces";
 import {SuperType} from "../SuperType";
 
-export class List<TValue,
-    TInput extends MayListInput = MayListInput> extends SuperType<TValue[], TValue, Array<TInput>, TInput> {
+export class List<TValue, TInput extends MayListInput = MayListInput>
+    extends SuperType<TValue[], TValue, Array<TInput>, TInput> {
     public async validate(payload: MayNullable<TInput[]>): Promise<TValue[]> {
         this.assert(isArray(payload), `Wrong payload: ${this.type.name}[] expected`, payload);
 
