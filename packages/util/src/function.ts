@@ -31,6 +31,7 @@ export function isolate<A extends any[]>(fn: (...args: A) => any) {
 }
 
 export type ValueToArray<T> = T extends any[] ? T : T[];
+
 export function toArray<T>(value: T): ValueToArray<T> {
     if (isArray(value)) {
         return value as ValueToArray<T>;

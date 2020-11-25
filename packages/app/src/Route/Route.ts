@@ -26,14 +26,6 @@ export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, IL
         );
     }
 
-    private getRuleArgs(rule: string | RouteRule<A>): { route: string, payload?: Payload<A> } {
-        if (isString(rule)) {
-            return {route: rule, payload: undefined};
-        }
-
-        return {route: rule.route, payload: rule};
-    }
-
     public getLogValue(): { route: string } {
         return {route: this.route};
     }
@@ -44,5 +36,13 @@ export class Route<A extends RouteAction = RouteAction> implements IRoute<A>, IL
 
     public match(route: string): Record<string, string> {
         return this.#matcher.match(route);
+    }
+
+    private getRuleArgs(rule: string | RouteRule<A>): { route: string, payload?: Payload<A> } {
+        if (isString(rule)) {
+            return {route: rule, payload: undefined};
+        }
+
+        return {route: rule.route, payload: rule};
     }
 }

@@ -1,5 +1,5 @@
-import {IHeaders, RequestAbstract, RouteResponse} from "../../../app/src";
 import {Readable} from "stream";
+import {IHeaders, RequestAbstract, RouteResponse} from "../../../app/src";
 import {Headers} from "./Headers";
 
 export class Request extends RequestAbstract {

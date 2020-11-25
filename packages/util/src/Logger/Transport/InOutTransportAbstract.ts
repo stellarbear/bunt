@@ -2,9 +2,9 @@ import {Promisify} from "../../interfaces";
 import {ILoggerTransport, LogFormat, LogMessage} from "../interfaces";
 
 export interface ILoggerStreamCallback<T> {
-    write(log: T, encoding?: string): void;
-
     writable: boolean;
+
+    write(log: T, encoding?: string): void;
 }
 
 export type LoggerWritableStream<T> = ILoggerStreamCallback<T>;
