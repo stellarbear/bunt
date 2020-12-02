@@ -1,4 +1,4 @@
-import * as RedisClient from "ioredis";
+import RedisClient from "ioredis";
 import {Redis} from "ioredis";
 import {parse} from "url";
 

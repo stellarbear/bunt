@@ -1,8 +1,9 @@
-import {assert, isFunction, isNull, isUndefined, Logger} from "@typesafeunit/util";
+import {assert, isNull, isUndefined, Logger} from "@typesafeunit/util";
 import {Promisify} from "../interfaces";
+import {Disposer} from "./Disposer";
 import {Heartbeat} from "./Heartbeat";
 import {Disposable, IRunnable} from "./interfaces";
-import {DisposableSync, isDisposable, isRunnable, Signals} from "./internal";
+import {isDisposable, isRunnable, Signals} from "./internal";
 
 const RuntimeRef = Symbol();
 const DEBUG = !!process.env.DEBUG;
@@ -108,17 +109,7 @@ export class Runtime {
         assert(this.online, "Runtime has been already released");
         this.#disposed = true;
 
-        const filter = (disposer: Disposable) => DisposableSync in disposer;
-        const dispose = (disposer: Disposable) => isFunction(disposer) ? disposer() : disposer.dispose();
-        const disposableSync = this.disposable.filter(filter);
-        const disposableAsync = this.disposable.filter((disposer) => !filter(disposer));
-        for (const disposer of disposableSync) {
-            try {
-                await dispose(disposer);
-            } finally {}
-        }
-
-        await Promise.allSettled(disposableAsync.map(dispose));
+        await Disposer.dispose(this.disposable);
         process.exit();
     }
 }

@@ -1,6 +1,4 @@
-export class MessageAbstract<T> {
-    public id?: string;
-
+export abstract class MessageAbstract<T> {
     public readonly payload: T;
 
     constructor(payload: T) {
@@ -8,7 +6,7 @@ export class MessageAbstract<T> {
     }
 
     public get channel(): string {
-        return this.id ?? this.constructor.name;
+        return this.constructor.name;
     }
 
     public static get channel(): string {

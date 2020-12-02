@@ -1,6 +1,6 @@
 import {assert} from "@typesafeunit/util";
 import * as crypto from "crypto";
-import {IHandleResultFactory, Message} from "./interfaces";
+import {IHandleReleaseFactory, ITransactionType, Message, MessageCtor} from "./interfaces";
 
 const serializeRe = /^[0-9a-f]{8}:.+$/;
 
@@ -28,7 +28,20 @@ export function unserialize<T = unknown>(message: string): T {
     return JSON.parse(body);
 }
 
-export function createHandleState<M extends Message>(message: M): IHandleResultFactory<M> {
+export function tryUnserialize<T = unknown>(message?: string): T | undefined {
+    if (!message) {
+        return;
+    }
+
+    try {
+        return unserialize(message);
+    } catch (error) {
+        // skip serialization error
+        console.warn(error);
+    }
+}
+
+export function createReleaseState<M extends Message>(message: M): IHandleReleaseFactory<M> {
     const runAt = new Date();
     return ((error?: Error) => {
         if (error) {
@@ -41,5 +54,10 @@ export function createHandleState<M extends Message>(message: M): IHandleResultF
             finishAt: new Date(),
             status: true,
         };
-    }) as IHandleResultFactory<M>;
+    }) as IHandleReleaseFactory<M>;
+}
+
+export function isTransactionMessage(type: MessageCtor<any>): type is MessageCtor<any> & ITransactionType {
+    return Reflect.has(type, "getBackupKey")
+        && Reflect.has(type, "getFallbackKey");
 }

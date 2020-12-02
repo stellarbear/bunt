@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queue Rejection 1`] = `
+Array [
+  Object {
+    "error": [Error: Test Error],
+    "message": BarMessage {
+      "payload": 1,
+    },
+    "status": false,
+  },
+]
+`;
+
+exports[`Queue Subscription 1`] = `
+Array [
+  FooMessage {
+    "payload": true,
+  },
+]
+`;

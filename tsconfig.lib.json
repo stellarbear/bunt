@@ -1,17 +1,6 @@
 {
+    "extends": "./tsconfig.json",
     "compilerOptions": {
-        "module": "commonjs",
-        "target": "ES2019",
-        "lib": ["ES2020"],
-        "strict": true,
-        "sourceMap": true,
-        "strictNullChecks": true,
-        "forceConsistentCasingInFileNames": true,
-        "noImplicitThis": true,
-        "noImplicitAny": true,
-        "strictPropertyInitialization": true,
-        "strictFunctionTypes": true,
-        "experimentalDecorators": true,
         "declaration": true,
         "incremental": true,
         "composite": true
