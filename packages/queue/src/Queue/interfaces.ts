@@ -49,11 +49,11 @@ export interface IQueueReader<M extends Message, RO extends IReadOperation<M> = 
 }
 
 export interface IMessageHandler<M extends MessageAbstract<any>> {
-    (message: M): unknown;
+    (message: M): Promisify<unknown>;
 }
 
 export interface ITaskHandler<M extends TaskAbstract<any, any>> {
-    (message: M): TaskReply<M>;
+    (message: M): Promisify<TaskReply<M>>;
 }
 
 export type MessageHandler<M> = M extends TaskAbstract<any, any>
@@ -84,8 +84,8 @@ export interface ISubscription<M extends Message> extends IDisposable {
     watch(fn: ISubscriptionResultHandler<M>): void;
 }
 
-export type MessagePayload<T extends MessageAbstract<any>> = T extends MessageAbstract<infer P> ? P : never;
-export type TaskReply<T extends TaskAbstract<any, any>> = T extends TaskAbstract<any, infer P> ? P : never;
+export type MessagePayload<M extends Message> = M extends MessageAbstract<infer P> ? P : never;
+export type TaskReply<M extends Task> = M extends TaskAbstract<any, infer P> ? P : never;
 
 export interface MessageCtor<M extends Message> {
     prototype: M;

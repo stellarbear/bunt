@@ -28,6 +28,7 @@
     "dependencies": {
         "@types/ioredis": "^4.17.8",
         "@typesafeunit/util": "^0.10.11",
+        "@typesafeunit/unit": "^0.10.11",
         "ioredis": "^4.19.2"
     },
     "license": "MIT"

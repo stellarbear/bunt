@@ -1,4 +1,4 @@
-import {IDisposable} from "@typesafeunit/unit";
+import {Disposable} from "@typesafeunit/unit";
 import {assert, isDefined, isInstanceOf} from "@typesafeunit/util";
 import {
     IMessageHandler,
@@ -54,10 +54,14 @@ export abstract class SubscriptionAbstract<M extends Message> implements ISubscr
         };
     }
 
-    public async dispose(): Promise<IDisposable> {
-        await this.unsubscribe();
-        this.#watchers.splice(0, this.#watchers.length);
-        return this.#reader;
+    public dispose(): Disposable[] {
+        return [
+            () => this.unsubscribe(),
+            () => {
+                this.#watchers.splice(0, this.#watchers.length);
+            },
+            this.#reader,
+        ];
     }
 
     protected async listen(): Promise<void> {

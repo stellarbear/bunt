@@ -64,7 +64,7 @@ export class TestTransport implements ITransport {
     }
 
     public async dispose(): Promise<void> {
-        this.resolve();
+        await this.resolve();
     }
 
     private resolve() {

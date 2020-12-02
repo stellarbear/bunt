@@ -2,7 +2,7 @@ import {assert, isNull, isUndefined, Logger} from "@typesafeunit/util";
 import {Promisify} from "../interfaces";
 import {Disposer} from "./Disposer";
 import {Heartbeat} from "./Heartbeat";
-import {Disposable, IRunnable} from "./interfaces";
+import {Disposable, DisposableFn, IRunnable} from "./interfaces";
 import {isDisposable, isRunnable, Signals} from "./internal";
 
 const RuntimeRef = Symbol();
@@ -31,6 +31,10 @@ export class Runtime {
             this.logger.debug("listen", signal);
             process.on(signal, async () => this.online && this.release());
         }
+    }
+
+    public static on(event: "release", callback: DisposableFn): void {
+        this.runtime.disposable.push(callback);
     }
 
     public static get runtime(): Runtime {

@@ -1,16 +1,11 @@
 import {Disposer} from "@typesafeunit/unit";
+import {wait} from "../../../util/src";
 import {Queue} from "../../src";
 import {BarMessage} from "./Message/BarMessage";
 import {FooMessage} from "./Message/FooMessage";
 import {MultiplyTask} from "./Message/MultiplyTask";
 import {NumMessage} from "./Message/NumMessage";
 import {TestTransport} from "./Queue/TestTransport";
-
-const async = <T = unknown>(fn: (re: (v: T) => void) => void): Promise<T> => {
-    return new Promise((resolve) => {
-        fn(resolve);
-    });
-};
 
 describe("Queue", () => {
     test("Subscription", async () => {
@@ -59,7 +54,7 @@ describe("Queue", () => {
             return payload.reduce((l, r) => l + r, 0);
         });
 
-        const reply = await async<NumMessage>((resolve) => {
+        const reply = await wait<NumMessage>((resolve) => {
             queue.subscribe(NumMessage, (message) => resolve(message));
         });
 

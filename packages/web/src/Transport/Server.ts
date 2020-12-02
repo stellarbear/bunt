@@ -1,6 +1,5 @@
 import {Application} from "@typesafeunit/app";
-import {DisposableSync, IDestroyable, IDisposableSync, IRunnable} from "@typesafeunit/unit";
-import {Heartbeat} from "@typesafeunit/unit/dist/Runtime/Heartbeat";
+import {DisposableSync, Heartbeat, IDestroyable, IDisposableSync, IRunnable} from "@typesafeunit/unit";
 import {assert, logger, Logger} from "@typesafeunit/util";
 import * as http from "http";
 import {IncomingMessage, ServerResponse} from "http";

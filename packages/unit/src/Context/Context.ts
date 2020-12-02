@@ -1,5 +1,6 @@
 import {Logger} from "@typesafeunit/util";
 import {IServiceResolver} from "../interfaces";
+import {IDisposable, isDisposable} from "../Runtime";
 import {isService, Service} from "../Service";
 import {ApplyContext, ResolveService} from "./interfaces";
 
@@ -7,6 +8,7 @@ const cache = new WeakMap();
 
 export class Context {
     public static logger = Logger.factory(Context);
+    public static disposables = new Set<IDisposable>();
 
     public static async resolve<T extends IServiceResolver<any>>(value: T): Promise<ResolveService<T>> {
         if (isService(value)) {
@@ -46,6 +48,10 @@ export class Context {
                             configurable: false,
                             value,
                         });
+
+                        if (isDisposable(value)) {
+                            this.disposables.add(value);
+                        }
                     } finally {
                         finishResolve();
                     }

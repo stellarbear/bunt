@@ -1,16 +1,17 @@
 export interface IAsyncStateMap<T> {
     resolve: (value: T | PromiseLike<T>) => void;
     reject: (error?: Error) => void;
+    listener?: (value: T | Error) => void;
     done: boolean;
 }
 
 const registry = new WeakMap<Promise<any>, IAsyncStateMap<any>>();
 
 export class AsyncState {
-    public static acquire<T = void>(): Promise<T> {
+    public static acquire<T = void>(listener?: (value: T) => void): Promise<T> {
         const state = {};
         const pending = new Promise<T>((resolve, reject) => {
-            Object.assign(state, {resolve, reject, done: false});
+            Object.assign(state, {resolve, listener, reject, done: false});
         });
 
         registry.set(pending, state as IAsyncStateMap<T>);
@@ -24,6 +25,7 @@ export class AsyncState {
             const state = registry.get(pending);
             if (state && !this.isReleased(pending)) {
                 state.resolve(value);
+                state.listener?.(value);
                 state.done = true;
             }
         }
@@ -34,6 +36,7 @@ export class AsyncState {
             const state = registry.get(pending);
             if (state && !this.isReleased(pending)) {
                 state.reject(reason);
+                state.listener?.(reason);
                 state.done = true;
             }
         }

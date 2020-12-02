@@ -1,22 +1,18 @@
 import {Disposer} from "@typesafeunit/unit";
-import {assert, createAsyncTimeout} from "@typesafeunit/util";
+import {Redis} from "ioredis";
+import {assert, throttle, watch} from "../../../util/src";
 import {Queue, RedisTransport, serialize} from "../../src";
 import {createConnection} from "../../src/Redis/fn";
 import {BarMessage} from "./Message/BarMessage";
 import {TestTransaction} from "./Message/TestTransaction";
 
-const watch = async <T>(expected: T, fn: () => Promise<T>) => {
-    while (true) {
-        if (expected === await fn()) {
-            return;
-        }
-
-        await createAsyncTimeout(100);
-    }
-};
-
 describe.skip("Redis", () => {
-    const redis = createConnection();
+    let redis: Redis;
+
+    beforeAll(() => {
+        redis = createConnection();
+    });
+
     afterAll(async () => {
         await redis.flushall();
         await redis.disconnect();
@@ -30,7 +26,7 @@ describe.skip("Redis", () => {
         queue.subscribe(BarMessage, ({payload}) => res.push(payload));
         messages.map((message) => queue.send(message));
 
-        await watch(3, async () => res.length);
+        await watch(3, throttle(() => res.length));
         expect(res).toEqual([1, 2, 3]);
 
         await Disposer.dispose(queue);
@@ -47,7 +43,7 @@ describe.skip("Redis", () => {
 
         queue.send(new TestTransaction(1));
         queue.send(new TestTransaction(2));
-        await watch(4, async () => res.length);
+        await watch(4, throttle(() => res.length));
 
         res.push(await redis.lrange(TestTransaction.getFallbackKey(), 0, 1));
 
