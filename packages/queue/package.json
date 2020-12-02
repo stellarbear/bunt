@@ -1,6 +1,6 @@
 {
     "name": "@typesafeunit/queue",
-    "version": "0.1.0",
+    "version": "0.11.0",
     "keywords": [
         "typescript"
     ],
@@ -27,8 +27,8 @@
     },
     "dependencies": {
         "@types/ioredis": "^4.17.8",
-        "@typesafeunit/util": "^0.10.11",
-        "@typesafeunit/unit": "^0.10.11",
+        "@typesafeunit/unit": "^0.11.0",
+        "@typesafeunit/util": "^0.11.0",
         "ioredis": "^4.19.2"
     },
     "license": "MIT"

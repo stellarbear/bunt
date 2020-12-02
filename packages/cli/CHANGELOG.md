@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.11.0](https://github.com/izatop/typesafeunit/compare/v0.10.11...v0.11.0) (2020-12-02)
+
+
+### Features
+
+* remove previous version of route ([f6a91d1](https://github.com/izatop/typesafeunit/commit/f6a91d1acef7198afea93455345bc57e74309b46))
+
+
+
+
+
 ## [0.10.11](https://github.com/izatop/typesafeunit/compare/v0.10.10...v0.10.11) (2020-11-19)
 
 **Note:** Version bump only for package @typesafeunit/cli
