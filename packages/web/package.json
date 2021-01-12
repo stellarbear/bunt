@@ -1,6 +1,6 @@
 {
     "name": "@typesafeunit/web",
-    "version": "0.11.0",
+    "version": "0.12.0",
     "keywords": [
         "typescript"
     ],
@@ -26,8 +26,8 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/app": "^0.11.0",
-        "@typesafeunit/util": "^0.11.0",
+        "@typesafeunit/app": "^0.12.0",
+        "@typesafeunit/util": "^0.12.0",
         "http-status": "^1.5.0",
         "path-to-regexp": "^6.2.0"
     },

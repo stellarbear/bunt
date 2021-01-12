@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/izatop/typesafeunit/compare/v0.11.3...v0.12.0) (2021-01-12)
+
+**Note:** Version bump only for package @typesafeunit/queue
+
+
+
+
+
 ## [0.11.3](https://github.com/izatop/typesafeunit/compare/v0.11.2...v0.11.3) (2021-01-12)
 
 

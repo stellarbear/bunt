@@ -1,6 +1,6 @@
 {
     "name": "@typesafeunit/project",
-    "version": "0.1.0",
+    "version": "0.12.0",
     "keywords": [
         "typescript"
     ],
@@ -29,10 +29,10 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/app": "^0.11.0",
-        "@typesafeunit/cli": "^0.11.0",
-        "@typesafeunit/unit": "^0.11.0",
-        "@typesafeunit/util": "^0.11.0",
+        "@typesafeunit/app": "^0.12.0",
+        "@typesafeunit/cli": "^0.12.0",
+        "@typesafeunit/unit": "^0.12.0",
+        "@typesafeunit/util": "^0.12.0",
         "path-to-regexp": "^6.2.0"
     },
     "license": "MIT"
