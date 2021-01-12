@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.11.3](https://github.com/izatop/typesafeunit/compare/v0.11.2...v0.11.3) (2021-01-12)
+
+
+### Bug Fixes
+
+* update deps ([70c1c4c](https://github.com/izatop/typesafeunit/commit/70c1c4cb2025e2ce01c5f4d1fb8e54681641dec2))
+
+
+
+
+
 ## [0.11.2](https://github.com/izatop/typesafeunit/compare/v0.11.1...v0.11.2) (2020-12-25)
 
 
