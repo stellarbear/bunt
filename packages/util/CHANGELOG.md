@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/izatop/bunt/compare/v0.11.3...v0.12.0) (2021-01-12)
+
+
+### Features
+
+* rename ([4d35999](https://github.com/izatop/bunt/commit/4d359991a1d8c5968fa7dfb12be7cdefa3c4c4c8))
+
+
+
+
+
 # [0.11.0](https://github.com/izatop/bunt/compare/v0.10.11...v0.11.0) (2020-12-02)
 
 

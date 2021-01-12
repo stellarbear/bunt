@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.12.0](https://github.com/izatop/bunt/compare/v0.11.3...v0.12.0) (2021-01-12)
+
+
+### Bug Fixes
+
+* imports ([b96f724](https://github.com/izatop/bunt/commit/b96f7247dc571cfac5f06b320e4cbd09000c7db1))
+
+
+### Features
+
+* rename ([4d35999](https://github.com/izatop/bunt/commit/4d359991a1d8c5968fa7dfb12be7cdefa3c4c4c8))
+* the project utils added ([a878881](https://github.com/izatop/bunt/commit/a87888167d6580eb3aa954b2ce2dd09cb8ac303f))
+
+
+
+
+
 ## [0.11.3](https://github.com/izatop/bunt/compare/v0.11.2...v0.11.3) (2021-01-12)
 
 
