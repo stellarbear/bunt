@@ -26,7 +26,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@types/ioredis": "^4.17.10",
+        "@types/ioredis": "^4.17.11",
         "@typesafeunit/unit": "^0.11.0",
         "@typesafeunit/util": "^0.11.0",
         "ioredis": "^4.19.4"
