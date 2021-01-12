@@ -8,6 +8,7 @@
         {"path": "./cli"},
         {"path": "./util"},
         {"path": "./input"},
-        {"path": "./queue"}
+        {"path": "./queue"},
+        {"path": "./project"}
     ]
 }
