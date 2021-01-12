@@ -1,4 +1,4 @@
-import {isFunction} from "@typesafeunit/util";
+import {isFunction} from "@bunt/util";
 import {ResolvableValue} from "../interfaces";
 import {Service} from "./Service";
 

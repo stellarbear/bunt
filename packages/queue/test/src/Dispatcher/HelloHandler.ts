@@ -1,4 +1,4 @@
-import {IContext} from "@typesafeunit/unit";
+import {IContext} from "@bunt/unit";
 import {Handler} from "../../../src/Handler";
 import {HelloAsk} from "./HelloAsk";
 

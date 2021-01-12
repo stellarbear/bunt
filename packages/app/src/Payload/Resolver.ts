@@ -1,5 +1,5 @@
-import {ActionContext, ActionState} from "@typesafeunit/unit";
-import {isFunction, isObject} from "@typesafeunit/util";
+import {ActionContext, ActionState} from "@bunt/unit";
+import {isFunction, isObject} from "@bunt/util";
 import {RouteAction} from "../interfaces";
 import {IRouteContext} from "../Route";
 import {ResolverResolvers} from "./interfaces";

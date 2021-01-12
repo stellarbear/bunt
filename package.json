@@ -1,7 +1,7 @@
 {
-    "name": "typesafeunit",
+    "name": "bunt",
     "version": "0.1.0",
-    "description": "TypesafeUnit, the type safe application unit",
+    "description": "TypeSafe unit style Application Framework written in TypeScript for Node.js.",
     "main": "index.js",
     "scripts": {
         "test": "jest",
@@ -16,7 +16,7 @@
     "workspaces": [
         "packages/*"
     ],
-    "repository": "git@github.com:izatop/typesafeunit.git",
+    "repository": "git@github.com:izatop/bunt.git",
     "author": "Artur Bier <izatop@gmail.com>",
     "license": "MIT",
     "private": true,

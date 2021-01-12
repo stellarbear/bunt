@@ -1,4 +1,4 @@
-import {assert} from "@typesafeunit/util";
+import {assert} from "@bunt/util";
 import * as HTTP from "http-status";
 import {IResponseOptions, ResponseAbstract} from "./ResponseAbstract";
 

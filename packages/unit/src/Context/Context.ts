@@ -1,4 +1,4 @@
-import {Logger} from "@typesafeunit/util";
+import {Logger} from "@bunt/util";
 import {IServiceResolver} from "../interfaces";
 import {IDisposable, isDisposable} from "../Runtime";
 import {isService, Service} from "../Service";

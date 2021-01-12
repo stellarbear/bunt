@@ -1,5 +1,5 @@
-import {Action, IContext} from "@typesafeunit/unit";
-import {Promisify} from "@typesafeunit/util";
+import {Action, IContext} from "@bunt/unit";
+import {Promisify} from "@bunt/util";
 import {HandlerReturn, HandlerState} from "./interfaces";
 import {Message, MessagePayload} from "./Queue";
 

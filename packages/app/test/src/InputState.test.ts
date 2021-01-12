@@ -1,4 +1,4 @@
-import {Payload} from "@typesafeunit/app";
+import {Payload} from "@bunt/app";
 import TestInputStateValidationRoute, {resolver, type} from "../../../test/src/actions/TestInputStateValidationRoute";
 import {MainContext} from "../../../test/src/context/MainContext";
 import {Request} from "../../../test/src/transport/Request";

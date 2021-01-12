@@ -7,8 +7,8 @@ import {
     IDisposable,
     IRunnable,
     Unit,
-} from "@typesafeunit/unit";
-import {logger, Logger} from "@typesafeunit/util";
+} from "@bunt/unit";
+import {logger, Logger} from "@bunt/util";
 import {ActionHandler} from "./interfaces";
 import {ITransport, Message, MessageCtor, Queue, QueueAbstract} from "./Queue";
 

@@ -1,5 +1,5 @@
-import {Promisify} from "@typesafeunit/unit";
-import {assert, ILogable, isFunction} from "@typesafeunit/util";
+import {Promisify} from "@bunt/unit";
+import {assert, ILogable, isFunction} from "@bunt/util";
 import {IHeaders, IRequest, IRequestTransform, RequestTransformType, RouteResponse} from "../interfaces";
 import {fromJsonRequest} from "./Request";
 

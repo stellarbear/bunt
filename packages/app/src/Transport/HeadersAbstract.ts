@@ -1,4 +1,4 @@
-import {assert, ILogable, isBoolean, isFunction} from "@typesafeunit/util";
+import {assert, ILogable, isBoolean, isFunction} from "@bunt/util";
 import {HeaderAssertValue, IHeaders} from "../interfaces";
 import {KeyValueReadonlyMap} from "./KeyValueReadonlyMap";
 

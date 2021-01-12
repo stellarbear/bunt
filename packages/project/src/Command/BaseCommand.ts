@@ -1,5 +1,5 @@
-import {Action} from "@typesafeunit/unit";
-import {logger, Logger} from "@typesafeunit/util";
+import {Action} from "@bunt/unit";
+import {logger, Logger} from "@bunt/util";
 import {IProjectContext} from "../ProjectContext";
 
 export abstract class BaseCommand<S extends Record<string, any> | null = null> extends Action<IProjectContext, S> {

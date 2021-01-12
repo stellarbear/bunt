@@ -1,4 +1,4 @@
-import {MaybeArray, MayNullable} from "@typesafeunit/util";
+import {MaybeArray, MayNullable} from "@bunt/util";
 import {Fields, List} from "./Type";
 import {TypeAbstract} from "./TypeAbstract";
 

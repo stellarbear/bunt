@@ -1,5 +1,5 @@
-import {RequestAbstract} from "@typesafeunit/app";
-import {assert, Console} from "@typesafeunit/util";
+import {RequestAbstract} from "@bunt/app";
+import {assert, Console} from "@bunt/util";
 import {Headers} from "./Transport/Headers";
 
 export class RequestCommand extends RequestAbstract {

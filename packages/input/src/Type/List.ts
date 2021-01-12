@@ -1,4 +1,4 @@
-import {isArray, isInstanceOf, MayNullable} from "@typesafeunit/util";
+import {isArray, isInstanceOf, MayNullable} from "@bunt/util";
 import {AssertionListError, AssertionTypeError, IReadableListField} from "../Assertion";
 import {MayListInput} from "../interfaces";
 import {SuperType} from "../SuperType";

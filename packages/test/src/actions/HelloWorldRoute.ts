@@ -1,5 +1,5 @@
-import {Resolver, RouteRule} from "@typesafeunit/app";
-import {Bool, Fields, Int, Text, ToNumber} from "@typesafeunit/input";
+import {Resolver, RouteRule} from "@bunt/app";
+import {Bool, Fields, Int, Text, ToNumber} from "@bunt/input";
 import {pathRoute} from "../route";
 import {HelloWorldAction} from "./HelloWorldAction";
 

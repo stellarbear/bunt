@@ -1,5 +1,5 @@
 {
-    "name": "@typesafeunit/app",
+    "name": "@bunt/app",
     "version": "0.11.0",
     "keywords": [
         "typescript"
@@ -14,7 +14,7 @@
         "dist/"
     ],
     "description": "Application Server",
-    "repository": "git@github.com:izatop/typesafeunit.git",
+    "repository": "git@github.com:izatop/bunt.git",
     "scripts": {
         "clean": "yarn build:clean",
         "watch": "yarn build:watch",
@@ -26,9 +26,9 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/input": "^0.11.0",
-        "@typesafeunit/unit": "^0.11.0",
-        "@typesafeunit/util": "^0.11.0",
+        "@bunt/input": "^0.11.0",
+        "@bunt/unit": "^0.11.0",
+        "@bunt/util": "^0.11.0",
         "path-to-regexp": "^6.2.0"
     },
     "license": "MIT"

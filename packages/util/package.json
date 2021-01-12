@@ -1,5 +1,5 @@
 {
-    "name": "@typesafeunit/util",
+    "name": "@bunt/util",
     "version": "0.11.0",
     "keywords": [
         "typescript"
@@ -14,7 +14,7 @@
         "dist/"
     ],
     "description": "Utils",
-    "repository": "git@github.com:izatop/typesafeunit.git",
+    "repository": "git@github.com:izatop/bunt.git",
     "scripts": {
         "clean": "yarn build:clean",
         "watch": "yarn build:watch",

@@ -1,4 +1,4 @@
-import {Disposable, IDisposable} from "@typesafeunit/unit";
+import {Disposable, IDisposable} from "@bunt/unit";
 import {Redis} from "ioredis";
 import {isTransactionMessage, ITransport, Message, MessageCtor, MessageHandler, serialize} from "../Queue";
 import {createConnection} from "./fn";

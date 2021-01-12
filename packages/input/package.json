@@ -1,5 +1,5 @@
 {
-    "name": "@typesafeunit/input",
+    "name": "@bunt/input",
     "version": "0.11.0",
     "keywords": [
         "typescript"
@@ -13,8 +13,8 @@
     "files": [
         "dist/"
     ],
-    "description": "Input Schema Validation",
-    "repository": "git@github.com:izatop/typesafeunit.git",
+    "description": "Input Schema validation and transformation",
+    "repository": "git@github.com:izatop/bunt.git",
     "scripts": {
         "clean": "yarn build:clean",
         "watch": "yarn build:watch",
@@ -26,7 +26,7 @@
         "access": "public"
     },
     "dependencies": {
-        "@typesafeunit/util": "^0.11.0"
+        "@bunt/util": "^0.11.0"
     },
     "license": "MIT"
 }

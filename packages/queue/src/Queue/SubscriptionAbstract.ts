@@ -1,5 +1,5 @@
-import {Disposable} from "@typesafeunit/unit";
-import {assert, isDefined, isInstanceOf} from "@typesafeunit/util";
+import {Disposable} from "@bunt/unit";
+import {assert, isDefined, isInstanceOf} from "@bunt/util";
 import {
     IMessageHandler,
     IQueueReader,

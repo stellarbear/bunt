@@ -1,4 +1,4 @@
-import {isNumber, isString, MayNullable, Promisify} from "@typesafeunit/util";
+import {isNumber, isString, MayNullable, Promisify} from "@bunt/util";
 import {SuperType} from "../SuperType";
 
 export class ToNumber extends SuperType<number | string, number, number | string, number> {

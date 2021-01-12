@@ -1,4 +1,4 @@
-import {isString, isUndefined, Promisify} from "@typesafeunit/util";
+import {isString, isUndefined, Promisify} from "@bunt/util";
 import {TypeAbstract} from "../TypeAbstract";
 
 interface IVarchar {

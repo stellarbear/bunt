@@ -1,4 +1,4 @@
-import {ServiceFactory} from "@typesafeunit/unit";
+import {ServiceFactory} from "@bunt/unit";
 import {MemoryDb} from "../../../test/src/context/services/MemoryDb";
 import {MemoryDbServiceResolver} from "../../../test/src/context/services/MemoryDbServiceResolver";
 import {Context, SERVICE_KIND} from "../../src";

@@ -1,4 +1,4 @@
-import {Context, Disposer} from "@typesafeunit/unit";
+import {Context, Disposer} from "@bunt/unit";
 import {wait} from "../../../util/src";
 import {Queue} from "../../src";
 import {Dispatcher} from "../../src/Dispatcher";

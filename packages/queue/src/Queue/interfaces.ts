@@ -1,5 +1,5 @@
-import {IDisposable} from "@typesafeunit/unit";
-import {Promisify} from "@typesafeunit/util";
+import {IDisposable} from "@bunt/unit";
+import {Promisify} from "@bunt/util";
 import {MessageAbstract, TaskAbstract} from "./Message";
 
 export interface IReadOperationState<M extends Message> {

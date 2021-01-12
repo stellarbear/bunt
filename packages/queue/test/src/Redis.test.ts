@@ -1,4 +1,4 @@
-import {Disposer} from "@typesafeunit/unit";
+import {Disposer} from "@bunt/unit";
 import {Redis} from "ioredis";
 import {assert, throttle, watch} from "../../../util/src";
 import {Queue, RedisTransport, serialize} from "../../src";

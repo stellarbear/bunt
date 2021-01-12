@@ -1,4 +1,4 @@
-import {isFunction} from "@typesafeunit/util";
+import {isFunction} from "@bunt/util";
 import {FieldSelectType, MayInput} from "./interfaces";
 import {TypeAbstract} from "./TypeAbstract";
 

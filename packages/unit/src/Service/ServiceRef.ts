@@ -1,4 +1,4 @@
-import {DecoratorTarget} from "@typesafeunit/util";
+import {DecoratorTarget} from "@bunt/util";
 
 // eslint-disable-next-line @typescript-eslint/ban-types
 const refs = new WeakMap<Function, ServiceRef>();

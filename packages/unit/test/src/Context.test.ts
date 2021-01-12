@@ -1,4 +1,4 @@
-import {Context, Unit} from "@typesafeunit/unit";
+import {Context, Unit} from "@bunt/unit";
 import {AsyncServiceTestAction} from "../../../test/src/actions/AsyncServiceTestAction";
 import {MainContext} from "../../../test/src/context/MainContext";
 import {MemoryDb} from "../../../test/src/context/services/MemoryDb";

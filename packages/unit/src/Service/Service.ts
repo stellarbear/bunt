@@ -1,4 +1,4 @@
-import {Ctor, DecoratorTarget} from "@typesafeunit/util";
+import {Ctor, DecoratorTarget} from "@bunt/util";
 import {IServiceResolver} from "../interfaces";
 import {SERVICE_KIND} from "./fn";
 import {ServiceRef} from "./ServiceRef";

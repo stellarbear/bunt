@@ -1,4 +1,4 @@
-import {unit, Unit} from "@typesafeunit/unit";
+import {unit, Unit} from "@bunt/unit";
 import {BaseTestAction} from "../../../test/src/actions/BaseTestAction";
 import {NeverRunAction} from "../../../test/src/actions/NeverRunAction";
 import {ProfileTestAction} from "../../../test/src/actions/ProfileTestAction";

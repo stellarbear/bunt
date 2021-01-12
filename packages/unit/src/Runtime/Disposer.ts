@@ -1,4 +1,4 @@
-import {isArray, isFunction, isVoid} from "@typesafeunit/util";
+import {isArray, isFunction, isVoid} from "@bunt/util";
 import {Disposable} from "./interfaces";
 import {DisposableSync} from "./internal";
 

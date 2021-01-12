@@ -1,4 +1,4 @@
-import {isFunction, isInstanceOf, isNumber, Promisify} from "@typesafeunit/util";
+import {isFunction, isInstanceOf, isNumber, Promisify} from "@bunt/util";
 import * as HTTP from "http-status";
 import {Headers} from "../Headers";
 import {TransformError} from "../TransformError";

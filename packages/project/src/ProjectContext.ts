@@ -1,4 +1,4 @@
-import {ApplyContext, Context} from "@typesafeunit/unit";
+import {ApplyContext, Context} from "@bunt/unit";
 import {resolve} from "path";
 import {ResourceStore} from "./Resource";
 

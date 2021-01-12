@@ -1,4 +1,4 @@
-import {isNumber} from "@typesafeunit/util";
+import {isNumber} from "@bunt/util";
 import {ScalarType} from "./ScalarType";
 
 export const Int = new ScalarType<number, number>({

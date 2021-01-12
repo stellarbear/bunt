@@ -1,5 +1,5 @@
-import {FieldSelectType} from "@typesafeunit/input";
-import {ActionState} from "@typesafeunit/unit";
+import {FieldSelectType} from "@bunt/input";
+import {ActionState} from "@bunt/unit";
 import {RouteAction} from "../interfaces";
 import {Payload, Resolver} from "../Payload";
 

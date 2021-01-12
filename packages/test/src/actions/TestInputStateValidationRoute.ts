@@ -1,5 +1,5 @@
-import {RegexpMatcher, Resolver, Route, RouteRule} from "@typesafeunit/app";
-import {DateTime, Fields, Text, Varchar} from "@typesafeunit/input";
+import {RegexpMatcher, Resolver, Route, RouteRule} from "@bunt/app";
+import {DateTime, Fields, Text, Varchar} from "@bunt/input";
 import {Action, IContext} from "../../../unit";
 
 interface ITestTypeValidationState {

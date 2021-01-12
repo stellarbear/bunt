@@ -1,4 +1,4 @@
-import {MayNullable} from "@typesafeunit/util";
+import {MayNullable} from "@bunt/util";
 import {Promisify} from "../../util/src";
 import {assert} from "./Assertion";
 import {MayInput} from "./interfaces";

@@ -1,5 +1,5 @@
-import {DateTime} from "@typesafeunit/input";
-import {isInstanceOf} from "@typesafeunit/util";
+import {DateTime} from "@bunt/input";
+import {isInstanceOf} from "@bunt/util";
 import {
     Bool,
     Fields,

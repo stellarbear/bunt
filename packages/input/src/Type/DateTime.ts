@@ -1,4 +1,4 @@
-import {isNumber, isString} from "@typesafeunit/util";
+import {isNumber, isString} from "@bunt/util";
 import {ScalarType} from "./ScalarType";
 
 export const DateTime = new ScalarType<Date, string | number>({

@@ -1,4 +1,4 @@
-import {assert, fails, isClass, isFunction, isInstanceOf, isUndefined, logger, Logger} from "@typesafeunit/util";
+import {assert, fails, isClass, isFunction, isInstanceOf, isUndefined, logger, Logger} from "@bunt/util";
 import {Action} from "./Action";
 import {ApplyContext, Context} from "./Context";
 import {ActionCtor, ActionReturn, ActionStateArgs, ContextArg, IContext, UnitAction} from "./interfaces";

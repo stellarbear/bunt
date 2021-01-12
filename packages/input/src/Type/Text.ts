@@ -1,4 +1,4 @@
-import {isString} from "@typesafeunit/util";
+import {isString} from "@bunt/util";
 import {ScalarType} from "./ScalarType";
 
 export const Text = new ScalarType<string, string>({

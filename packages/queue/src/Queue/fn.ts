@@ -1,4 +1,4 @@
-import {assert} from "@typesafeunit/util";
+import {assert} from "@bunt/util";
 import * as crypto from "crypto";
 import {IHandleReleaseFactory, ITransactionType, Message, MessageCtor} from "./interfaces";
 

@@ -1,4 +1,4 @@
-import {isBoolean} from "@typesafeunit/util";
+import {isBoolean} from "@bunt/util";
 import {ScalarType} from "./ScalarType";
 
 export const Bool = new ScalarType<boolean, boolean>({

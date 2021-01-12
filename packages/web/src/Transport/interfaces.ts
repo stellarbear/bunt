@@ -1,4 +1,4 @@
-import {RequestValidatorAbstract} from "@typesafeunit/app";
+import {RequestValidatorAbstract} from "@bunt/app";
 import {Request} from "./Request";
 
 export type ServerHeadersResolver = (request: Request) => { [key: string]: string };

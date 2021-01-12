@@ -1,4 +1,4 @@
-import {ILogable, IReadableError} from "@typesafeunit/util";
+import {ILogable, IReadableError} from "@bunt/util";
 import {TypeAbstract} from "../TypeAbstract";
 
 export interface IReadableTypeError {

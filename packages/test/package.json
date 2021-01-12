@@ -1,12 +1,12 @@
 {
-    "name": "@typesafeunit/test",
+    "name": "@bunt/test",
     "version": "0.11.0",
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
     "dependencies": {
-        "@typesafeunit/app": "^0.11.0",
-        "@typesafeunit/unit": "^0.11.0",
-        "@typesafeunit/util": "^0.11.0"
+        "@bunt/app": "^0.11.0",
+        "@bunt/unit": "^0.11.0",
+        "@bunt/util": "^0.11.0"
     },
     "private": true,
     "license": "MIT"

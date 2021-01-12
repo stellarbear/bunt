@@ -1,4 +1,4 @@
-import {entriesReverse, isFunction, isInstanceOf, isObject, MayNullable} from "@typesafeunit/util";
+import {entriesReverse, isFunction, isInstanceOf, isObject, MayNullable} from "@bunt/util";
 import {AssertionObjectError, AssertionTypeError, IReadableTypeError} from "../Assertion";
 import {ObjectFields, ObjectTypeMerge} from "../interfaces";
 import {TypeAbstract} from "../TypeAbstract";

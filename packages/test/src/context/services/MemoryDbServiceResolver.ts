@@ -1,4 +1,4 @@
-import {Service} from "@typesafeunit/unit";
+import {Service} from "@bunt/unit";
 import {MemoryDb} from "./MemoryDb";
 
 export class MemoryDbServiceResolver extends Service<MemoryDb> {

@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 
-import {Application} from "@typesafeunit/app";
-import {RequestCommand} from "@typesafeunit/cli";
-import {main, Runtime} from "@typesafeunit/unit";
-import {debugLogFormat, Logger, SeverityLevel, StdErrorTransport, StdOutTransport} from "@typesafeunit/util";
+import {Application} from "@bunt/app";
+import {RequestCommand} from "@bunt/cli";
+import {main, Runtime} from "@bunt/unit";
+import {debugLogFormat, Logger, SeverityLevel, StdErrorTransport, StdOutTransport} from "@bunt/util";
 import UpdateLintCommand from "./Command/UpdateLintCommand";
 import {ProjectContext} from "./ProjectContext";
 

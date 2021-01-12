@@ -1,5 +1,5 @@
-import {Application, Resolver, RouteRule} from "@typesafeunit/app";
-import {Fields, Text} from "@typesafeunit/input";
+import {Application, Resolver, RouteRule} from "@bunt/app";
+import {Fields, Text} from "@bunt/input";
 import {BaseTestAction} from "../../../test/src/actions/BaseTestAction";
 import {BaseContext} from "../../../test/src/context/BaseContext";
 import {RequestCommand} from "../../src";

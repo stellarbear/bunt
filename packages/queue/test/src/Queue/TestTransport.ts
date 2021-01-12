@@ -1,4 +1,4 @@
-import {AsyncState} from "@typesafeunit/util";
+import {AsyncState} from "@bunt/util";
 import {
     IQueueReader,
     IReadOperation,

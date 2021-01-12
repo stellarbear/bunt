@@ -1,4 +1,4 @@
-import {isFunction, isNull, isUndefined, MayNullable, Promisify} from "@typesafeunit/util";
+import {isFunction, isNull, isUndefined, MayNullable, Promisify} from "@bunt/util";
 import {MayInput} from "../interfaces";
 import {SuperType} from "../SuperType";
 import {TypeAbstract} from "../TypeAbstract";

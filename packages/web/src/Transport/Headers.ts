@@ -1,4 +1,4 @@
-import {HeadersAbstract} from "@typesafeunit/app";
+import {HeadersAbstract} from "@bunt/app";
 
 export class Headers extends HeadersAbstract {
 

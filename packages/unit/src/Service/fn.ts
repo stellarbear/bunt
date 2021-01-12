@@ -1,4 +1,4 @@
-import {isInstanceOf, isObject} from "@typesafeunit/util";
+import {isInstanceOf, isObject} from "@bunt/util";
 import {IServiceResolver} from "../interfaces";
 import {Service} from "./Service";
 

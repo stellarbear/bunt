@@ -1,3 +1,3 @@
-import {RegexpMatcher, Route} from "@typesafeunit/app";
+import {RegexpMatcher, Route} from "@bunt/app";
 
 export const pathRoute = Route.create(RegexpMatcher.factory);

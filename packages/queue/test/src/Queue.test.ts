@@ -1,4 +1,4 @@
-import {Disposer} from "@typesafeunit/unit";
+import {Disposer} from "@bunt/unit";
 import {wait} from "../../../util/src";
 import {Queue} from "../../src";
 import {BarMessage} from "./Message/BarMessage";

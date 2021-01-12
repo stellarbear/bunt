@@ -1,4 +1,4 @@
-import {assert, isNull, isUndefined, Logger} from "@typesafeunit/util";
+import {assert, isNull, isUndefined, Logger} from "@bunt/util";
 import {Promisify} from "../interfaces";
 import {Disposer} from "./Disposer";
 import {Heartbeat} from "./Heartbeat";

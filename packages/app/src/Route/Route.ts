@@ -1,5 +1,5 @@
-import {ActionCtor} from "@typesafeunit/unit";
-import {ILogable, isFunction, isString} from "@typesafeunit/util";
+import {ActionCtor} from "@bunt/unit";
+import {ILogable, isFunction, isString} from "@bunt/util";
 import {RouteAction} from "../interfaces";
 import {Payload} from "../Payload";
 import {IRoute, IRouteMatcher, RouteFactory, RouteMatcherFactory, RouteRuleArg} from "./interfaces";

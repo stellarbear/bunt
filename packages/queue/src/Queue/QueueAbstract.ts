@@ -1,4 +1,4 @@
-import {IDisposable} from "@typesafeunit/unit";
+import {IDisposable} from "@bunt/unit";
 import {ISubscription, ITransport, Message, MessageCtor, MessageHandler, Task} from "./interfaces";
 
 export abstract class QueueAbstract<Q extends ITransport> implements IDisposable {

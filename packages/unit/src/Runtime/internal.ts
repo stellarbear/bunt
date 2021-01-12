@@ -1,4 +1,4 @@
-import {isObject} from "@typesafeunit/util";
+import {isObject} from "@bunt/util";
 import {IDisposable, IRunnable} from "./interfaces";
 import {Runtime} from "./Runtime";
 
