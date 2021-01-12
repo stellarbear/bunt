@@ -1,5 +1,5 @@
-import {IContext} from "@typesafeunit/unit";
-import {Promisify} from "@typesafeunit/util";
+import {IContext} from "@bunt/unit";
+import {Promisify} from "@bunt/util";
 import {Handler} from "./Handler";
 import {Message, MessagePayload, TaskAbstract} from "./Queue";
 
