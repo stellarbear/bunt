@@ -1,5 +1,6 @@
-import {IHeaders, KeyValueMap, RequestAbstract, RequestValidatorAbstract, RouteResponse} from "@bunt/app";
+import {IResponder, KeyValueMap, RouteResponse} from "@bunt/app";
 import {
+    assert,
     isBoolean,
     isError,
     isFunction,
@@ -9,65 +10,27 @@ import {
     isReadableStream,
     isString,
     isUndefined,
-    toArray,
 } from "@bunt/util";
 import {IncomingMessage, ServerResponse} from "http";
-import {parse} from "url";
-import {Headers} from "./Headers";
-import {IRequestSendOptions, IServerOptions} from "./interfaces";
+import {IRequestSendOptions, IResponderOptions} from "./interfaces";
+import {RequestMessage} from "./RequestMessage";
 import {ResponseAbstract} from "./Response";
 import {TransformError} from "./TransformError";
 
-export class Request extends RequestAbstract {
-    public readonly headers: IHeaders;
-    public readonly route: string;
-
-    readonly #method: string;
-    readonly #options: IServerOptions;
-    readonly #message: IncomingMessage;
+export class Responder extends RequestMessage implements IResponder {
+    readonly #options: IResponderOptions;
     readonly #response: ServerResponse;
-    readonly #validators: RequestValidatorAbstract<any>[] = [];
 
-    constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IServerOptions) {
-        super();
+    #complete = false;
+
+    constructor(incomingMessage: IncomingMessage, serverResponse: ServerResponse, options?: IResponderOptions) {
+        super(incomingMessage, options);
         this.#options = options ?? {};
-        this.#message = incomingMessage;
         this.#response = serverResponse;
-        this.#method = incomingMessage.method?.toUpperCase() ?? "GET";
-
-        const headers: [string, string][] = [];
-        for (const [key, value] of Object.entries(this.#message.headers)) {
-            if (isString(value)) {
-                headers.push([key, value]);
-            }
-        }
-
-        this.route = this.getRoute();
-        this.headers = new Headers(headers);
-        if (this.#options.validators) {
-            this.#validators = toArray(this.#options.validators);
-        }
     }
 
-    public get origin(): string {
-        return this.headers.get("origin", "");
-    }
-
-    public validate(): boolean {
-        this.#validators.forEach((validator) => validator.validate(this));
-        return true;
-    }
-
-    public isOptionsRequest(): boolean {
-        return this.#method.startsWith("OPTIONS");
-    }
-
-    public createReadableStream(): NodeJS.ReadableStream {
-        return this.#message;
-    }
-
-    public getRequestMethod(): string {
-        return this.#method;
+    public get complete(): boolean {
+        return this.#complete;
     }
 
     public setResponseHeaders(headers: [string, string][]): void {
@@ -76,10 +39,13 @@ export class Request extends RequestAbstract {
         }
     }
 
-    protected getRoute(): string {
-        const {pathname} = parse(this.#message.url || "/", true);
-        const {method = "GET"} = this.#message;
-        return `${method.toUpperCase()} ${pathname}`;
+    public async respond(response: RouteResponse): Promise<void> {
+        assert(!this.complete, `Response was already sent`);
+        try {
+            await this.write(response);
+        } finally {
+            this.#complete = true;
+        }
     }
 
     /**

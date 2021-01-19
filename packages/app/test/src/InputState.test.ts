@@ -20,12 +20,12 @@ describe("Route", () => {
 
     test("Success", async () => {
         const app = await Application.factory(new MainContext(), [TestInputStateValidationRoute]);
-        await app.handle(request);
-        expect(request).toMatchSnapshot();
+        const response = await app.run(request);
+        expect({response, request}).toMatchSnapshot();
     });
 
     test("Fails", async () => {
         const app = await Application.factory(new MainContext(), [TestInputStateValidationRoute]);
-        expect(app.handle(failRequest)).rejects.toMatchSnapshot();
+        await expect(app.run(failRequest)).rejects.toMatchSnapshot();
     });
 });

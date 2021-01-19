@@ -1,5 +1,8 @@
-import {JSONResponse, NoContentResponse, Redirect} from "../../src";
+import HelloWorldRoute from "@bunt/test/src/actions/HelloWorldRoute";
+import {Context} from "@bunt/unit";
 import * as HTTP from "http-status";
+import {JSONResponse, NoContentResponse, Redirect, RedirectResponse} from "../../src";
+import {WebServer} from "../../src/WebServer/WebServer";
 
 describe("Response", () => {
     test("Main", async () => {
@@ -19,12 +22,24 @@ describe("Response", () => {
     });
 
     test("Redirect", async () => {
-        const redirect = new Redirect("/redirect");
+        const redirect = new RedirectResponse("/redirect");
         expect(redirect.code).toBe(HTTP["MOVED_PERMANENTLY"]);
         expect(redirect.status).toBe(HTTP["301"]);
         expect(await redirect.getResponse()).toMatchSnapshot();
         expect(redirect.getHeaders()).toMatchSnapshot();
 
         expect(() => new Redirect("/", 500)).toThrow();
+    });
+
+    test("WebServer", async () => {
+        const webServer = await WebServer.factory(
+            new Context(),
+            [],
+            {headers: {"x-ww-header": "y"}},
+        );
+
+        webServer.add(HelloWorldRoute);
+        expect(webServer).toBeInstanceOf(WebServer);
+        expect(webServer.size).toBe(1);
     });
 });

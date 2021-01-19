@@ -1,20 +1,20 @@
+import {Promisify} from "@bunt/util";
 import {Action} from "./Action";
 import {Context, MatchContext} from "./Context";
 
 export interface IContext {}
 
-export type Promisify<T> = T | Promise<T>;
 export type ContextArg<C extends Context> = (() => Promisify<C>) | Promisify<C>;
-export type AllowState = Record<string, any> | null;
 
 export type ActionStateArgs<A> = ActionState<A> extends null ? [] : [ActionState<A>];
-export type ActionCtor<A extends Action<any, any>> = {
-    new(context: ActionCtx<A>, state: any): A;
+export type ActionContextCtor<C extends IContext,
+    A extends Action<C, any> = Action<C, any>> = {
+    new(context: C, state: any): A;
     prototype: A;
 };
 
-export type ActionStateCtor<S extends AllowState, A extends Action<any, S>> = {
-    new(context: ActionCtx<A>, state: null): A;
+export type ActionCtor<A extends Action<any, any>> = {
+    new(context: ActionCtx<A>, state: any): A;
     prototype: A;
 };
 
@@ -36,3 +36,5 @@ export type ResolvableValue<T> = Promise<T> | (() => T | Promise<T>);
 export interface IServiceResolver<T> {
     resolve(): Promise<T>;
 }
+
+export type StateType = Record<string, any>;

@@ -1,16 +1,20 @@
 import {
+    ActionContextCtor,
     ActionCtor,
+    ApplyContext,
+    Context,
     ContextArg,
     Disposable,
     Heartbeat,
     IContext,
     IDisposable,
     IRunnable,
+    unit,
     Unit,
 } from "@bunt/unit";
 import {logger, Logger} from "@bunt/util";
 import {ActionHandler} from "./interfaces";
-import {ITransport, Message, MessageCtor, Queue, QueueAbstract} from "./Queue";
+import {ITransport, Message, MessageCtor, MessageHandler, Queue, QueueAbstract} from "./Queue";
 
 export class Dispatcher<C extends IContext> implements IDisposable, IRunnable {
     @logger
@@ -18,21 +22,21 @@ export class Dispatcher<C extends IContext> implements IDisposable, IRunnable {
 
     readonly #unit: Unit<C>;
     readonly #queue: QueueAbstract<ITransport>;
-    readonly #route = new Map<MessageCtor<any>, ActionCtor<any>>();
+    readonly #route = new Map<MessageCtor<any>, ActionContextCtor<C, any>>();
     readonly #disposable: Disposable[] = [];
 
-    protected constructor(queue: QueueAbstract<ITransport>, unit: Unit<C>) {
+    protected constructor(u: Unit<C>, queue: QueueAbstract<ITransport>) {
         this.#queue = queue;
-        this.#unit = unit;
+        this.#unit = u;
     }
 
     public get size(): number {
         return this.#route.size;
     }
 
-    public static async factory<C extends IContext>(queue: Queue<ITransport>,
-                                                    context: ContextArg<C>): Promise<Dispatcher<C>> {
-        return new Dispatcher<C>(queue, await Unit.factory(context));
+    public static async factory<C extends Context>(queue: Queue<ITransport>,
+                                                   context: ContextArg<C>): Promise<Dispatcher<ApplyContext<C>>> {
+        return new this(await unit(context), queue);
     }
 
     public getHeartbeat(): Heartbeat<void> {
@@ -40,10 +44,10 @@ export class Dispatcher<C extends IContext> implements IDisposable, IRunnable {
     }
 
     public subscribe<M extends Message>(type: MessageCtor<M>, action: ActionCtor<ActionHandler<C, M>>): this {
-        this.#unit.add<any>(action);
-        this.#queue.subscribe<any>(type, (message) => {
-            return this.#unit.run<any>(action, message);
-        });
+        this.#unit.add(action);
+        this.#queue.subscribe(type, ((message) => {
+            return this.#unit.run(action, message);
+        }) as MessageHandler<M>);
 
         return this;
     }

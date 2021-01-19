@@ -1,21 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Route Not found 1`] = `
-Request {
-  "body": "",
-  "headers": Object {},
-  "response": [Error: Route "/wrong-uri" not found],
-  "route": "/wrong-uri",
-}
-`;
-
 exports[`Route Success 1`] = `
-Request {
-  "body": "{\\"name\\":\\"World\\"}",
-  "headers": Object {
-    "content-type": "application/json",
+Object {
+  "request": Request {
+    "body": "{\\"name\\":\\"World\\"}",
+    "headers": Object {
+      "content-type": "application/json",
+    },
+    "route": "/u/123",
   },
   "response": "Hello, World!",
-  "route": "/u/123",
 }
 `;

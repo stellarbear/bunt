@@ -103,3 +103,4 @@ export interface ITransactionType {
 
 export type Task<T extends TaskAbstract<any, any> = TaskAbstract<any, any>> = T;
 export type Message<T extends MessageAbstract<any> = MessageAbstract<any>> = T;
+export type MessageOrTask = Task | Message;

@@ -15,6 +15,10 @@ export class Heartbeat<T = unknown> {
         });
     }
 
+    public get beats(): boolean {
+        return this.#beats;
+    }
+
     public static of<T = unknown>(target: unknown, executor: HeartbeatExecutor<T>): Heartbeat<T> {
         const heartbeat = of.get(target) ?? new Heartbeat<any>(executor);
         if (!of.has(target)) {
@@ -22,10 +26,6 @@ export class Heartbeat<T = unknown> {
         }
 
         return heartbeat;
-    }
-
-    public get beats(): boolean {
-        return this.#beats;
     }
 
     public waitUntilStop(): Promise<T | Error> {

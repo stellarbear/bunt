@@ -1,4 +1,6 @@
-import {Action, Context, MatchContext, Promisify} from "@bunt/unit";
+import {Action, Context, MatchContext} from "@bunt/unit";
+import {Promisify} from "@bunt/util";
+import {Application} from "./Application";
 import {IRoute} from "./Route";
 
 export type RouteResponse = Error
@@ -13,7 +15,7 @@ export type RouteResponse = Error
     | void
     | any;
 
-export type RouteAction = Action<any, any, RouteResponse>;
+export type RouteAction = Action<any, any>;
 
 export type MatchRoute<C extends Context, R> = R extends IRoute<infer A>
     ? A extends Action<infer AC, any, RouteResponse>
@@ -22,7 +24,6 @@ export type MatchRoute<C extends Context, R> = R extends IRoute<infer A>
             : ["Action context doesn't match its parent context", C, AC]
         : ["Action doesn't satisfy its interface", A]
     : never;
-
 
 export interface IKeyValueMap {
     has(name: string): boolean;
@@ -44,10 +45,10 @@ export interface IKeyValueReadonlyMap extends IKeyValueMap {
 }
 
 export interface IRequestBodyTransform<T> {
-    transform(request: IRequest): Promise<T>;
+    transform(request: IRequestMessage): Promise<T>;
 }
 
-export type RequestTransformType<T> = IRequestBodyTransform<T> | ((request: IRequest) => Promise<T>);
+export type RequestTransformType<T> = IRequestBodyTransform<T> | ((request: IRequestMessage) => Promise<T>);
 
 export interface IRequestTransform<T> {
     type: string | string[];
@@ -55,10 +56,9 @@ export interface IRequestTransform<T> {
     (buffer: Buffer): T;
 }
 
-export interface IRequest {
+export interface IRequestMessage {
     readonly route: string;
     readonly headers: IHeaders;
-    readonly complete: boolean;
 
     to<T>(transform: IRequestTransform<T>): Promise<T>;
 
@@ -70,10 +70,19 @@ export interface IRequest {
 
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
 
-    respond(response: RouteResponse): Promise<void>;
-
-    validate(): boolean;
+    validate(app: Application): boolean;
 }
+
+export interface IResponder extends IRequestMessage {
+    readonly complete: boolean;
+
+    respond(response: RouteResponse): Promise<void>;
+}
+
+/**
+ * @deprecated see IResponder
+ */
+export interface IRequest extends IResponder {}
 
 export type HeaderAssertValue = |
     string |

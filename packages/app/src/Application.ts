@@ -1,17 +1,25 @@
-import {Context, ContextArg, unit, Unit} from "@bunt/unit";
-import {assert, isDefined, isInstanceOf, logger, Logger} from "@bunt/util";
-import {IRequest, MatchRoute, RouteResponse} from "./interfaces";
+import {ApplyContext, Context, ContextArg, IContext, unit, Unit} from "@bunt/unit";
+import {assert, isDefined, logger, Logger} from "@bunt/util";
+import {IRequestMessage, MatchRoute, RouteResponse} from "./interfaces";
 import {IRoute, RouteNotFound} from "./Route";
 
-export class Application<U extends Unit<C>, C> {
+export class Application<C extends IContext = any> {
     @logger
-    public logger!: Logger;
+    protected logger!: Logger;
 
-    protected readonly unit: U;
+    protected readonly unit: Unit<C>;
     protected readonly route: IRoute[] = [];
 
-    constructor(u: U) {
+    constructor(u: Unit<C>, routes: MatchRoute<C, IRoute>[] = []) {
         this.unit = u;
+
+        if (routes.length > 0) {
+            routes.forEach((route) => this.add(route));
+        }
+    }
+
+    public get context(): C {
+        return this.unit.context;
     }
 
     public get size(): number {
@@ -20,13 +28,8 @@ export class Application<U extends Unit<C>, C> {
 
     public static async factory<C extends Context>(
         context: ContextArg<C>,
-        routes: MatchRoute<C, IRoute>[] = []): Promise<Application<Unit<C>, C>> {
-        const app = new this<Unit<C>, C>(await unit(context));
-        if (routes.length > 0) {
-            routes.forEach((route) => app.add(route));
-        }
-
-        return app;
+        routes: MatchRoute<C, IRoute>[] = []): Promise<Application<ApplyContext<C>>> {
+        return new this(await unit<C>(context), routes);
     }
 
     public add<R extends IRoute>(route: MatchRoute<C, R>): this {
@@ -48,49 +51,27 @@ export class Application<U extends Unit<C>, C> {
         return this;
     }
 
-    public async handle<R extends IRequest>(request: R): Promise<void> {
-        const finish = this.logger.perf("handle", request);
+    public async run<R extends IRequestMessage>(request: R): Promise<RouteResponse> {
+        const route = this.route.find((route) => route.test(request.route));
+        assert(route, () => new RouteNotFound(request.route));
 
-        try {
-            assert(request.validate(), "Invalid Request");
-            await request.respond(await this.run(request));
-        } catch (error) {
-            if (!request.complete) {
-                await request.respond(error);
-            }
+        this.logger.debug("match", route);
 
-            if (isInstanceOf(error, Error)) {
-                throw error;
-            }
-        } finally {
-            finish();
-        }
-    }
+        const unit = this.unit;
+        const state: Record<string, any> = {};
+        const matches = route.match(request.route);
+        const routeContext = {
+            request,
+            context: unit.context,
+            args: new Map<string, string>(Object.entries(matches)),
+        };
 
-    public async run<R extends IRequest>(request: R): Promise<RouteResponse> {
-        for (const route of this.route) {
-            if (route.test(request.route)) {
-                this.logger.debug("match", route);
-
-                const state: Record<string, any> = {};
-                const context = await this.unit.getContext();
-                const matches = route.match(request.route);
-                const routeContext = {
-                    request,
-                    context,
-                    args: new Map<string, string>(Object.entries(matches)),
-                };
-
-                if (isDefined(route.payload)) {
-                    const {payload} = route;
-                    Object.assign(state, await payload.validate(routeContext));
-                }
-
-                return this.unit.run(route.action, state);
-            }
+        if (isDefined(route.payload)) {
+            const {payload} = route;
+            Object.assign(state, await payload.validate(routeContext));
         }
 
-        throw new RouteNotFound(request.route);
+        return unit.run(route.action, state);
     }
 
     public getRoutes(): IRoute[] {

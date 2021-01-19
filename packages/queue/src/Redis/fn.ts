@@ -1,5 +1,4 @@
-import RedisClient from "ioredis";
-import {Redis} from "ioredis";
+import RedisClient, {Redis} from "ioredis";
 import {parse} from "url";
 
 export function createConnection(dsn?: string): Redis {

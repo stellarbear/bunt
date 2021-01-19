@@ -1,41 +1,32 @@
-import {
-    Application,
-    IRoute,
-    IRouteMatcher,
-    RegexpMatcher,
-    RequestValidatorAbstract,
-    RouteNotFound,
-} from "@bunt/app";
+import {Application, IRoute, IRouteMatcher, RegexpMatcher, RequestValidatorAbstract, RouteNotFound} from "@bunt/app";
 import {assert, isDefined, isFunction, isString} from "@bunt/util";
 import {Headers} from "../Headers";
 import {ICorsOptions} from "../interfaces";
-import {Request} from "../Request";
+import {Responder} from "../Responder";
 import {NoContentResponse} from "../Response";
 
-export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
-    #routes: IRoute[] = [];
-    #table: [method: string, matcher: IRouteMatcher][] = [];
+type RouteTuple = [method: string, matcher: IRouteMatcher];
 
+export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
     public get origin(): ICorsOptions["origin"] {
         return this.options.origin;
     }
 
-    public static factory(app: Application<any, any>, options: ICorsOptions = {}): CorsValidation {
-        const validator = new this(options);
-        validator.updateRoutes(app);
-        return validator;
+    public static factory(options: ICorsOptions = {}): CorsValidation {
+        return new this(options);
     }
 
-    public validate(request: Request): void {
+    public validate(app: Application, request: Responder): void {
         const AccessControlAllowMethods = new Set<string>();
         if (request.isOptionsRequest()) {
             // Test route for the current OPTIONS request
-            if (this.#routes.some((route) => route.test(request.route))) {
+            const routes = app.getRoutes();
+            if (routes.some((route) => route.test(request.route))) {
                 return;
             }
 
             let found = false;
-            for (const [method, matcher] of this.#table) {
+            for (const [method, matcher] of this.getRouteTuple(routes)) {
                 if (matcher.test(request.route)) {
                     AccessControlAllowMethods.add(method);
                     found = true;
@@ -60,7 +51,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         request.setResponseHeaders(setHeaders);
     }
 
-    protected getAccessControlHeaders(request: Request, methods: string[]): [string, string][] {
+    protected getAccessControlHeaders(request: Responder, methods: string[]): [string, string][] {
         const acRequestHeaders = request.headers.get(
             "access-control-request-headers",
             "content-type, accept, authorization",
@@ -93,7 +84,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         return;
     }
 
-    protected getAccessControlOrigin(request: Request): string {
+    protected getAccessControlOrigin(request: Responder): string {
         if (isString(this.origin)) {
             return this.origin === "origin" ? request.origin : this.origin;
         }
@@ -105,9 +96,8 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         return "*";
     }
 
-    protected updateRoutes(app: Application<any, any>): void {
-        this.#routes = app.getRoutes();
-        this.#table = app.getRoutes()
+    protected getRouteTuple(routes: IRoute[]): RouteTuple[] {
+        return routes
             .filter((route) => /^(GET|POST|PUT|PATCH|DELETE)\s/i.test(route.route))
             .map(({route}) => route.split(/\s/))
             .map(([method, route]) => [method, new RegexpMatcher(`OPTIONS ${route}`)]);

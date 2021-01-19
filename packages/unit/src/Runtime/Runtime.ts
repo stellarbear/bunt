@@ -1,5 +1,4 @@
-import {assert, isNull, isUndefined, Logger} from "@bunt/util";
-import {Promisify} from "../interfaces";
+import {assert, isNull, isUndefined, Logger, Promisify} from "@bunt/util";
 import {Disposer} from "./Disposer";
 import {Heartbeat} from "./Heartbeat";
 import {Disposable, DisposableFn, IRunnable} from "./interfaces";
@@ -33,16 +32,16 @@ export class Runtime {
         }
     }
 
-    public static on(event: "release", callback: DisposableFn): void {
-        this.runtime.disposable.push(callback);
-    }
-
     public static get runtime(): Runtime {
         return this[RuntimeRef];
     }
 
     public get online(): boolean {
         return !this.#disposed;
+    }
+
+    public static on(event: "release", callback: DisposableFn): void {
+        this.runtime.disposable.push(callback);
     }
 
     public static isDebugEnable(): boolean {

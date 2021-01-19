@@ -1,13 +1,11 @@
 import {Readable} from "stream";
-import {IHeaders, RequestAbstract, RouteResponse} from "../../../app/src";
+import {IHeaders, RequestMessageAbstract} from "../../../app";
 import {Headers} from "./Headers";
 
-export class Request extends RequestAbstract {
+export class Request extends RequestMessageAbstract {
     public readonly headers: IHeaders;
     public readonly route: string;
     public readonly body: string;
-
-    public response?: RouteResponse;
 
     constructor(route: string, headers: { [key: string]: string }, body = "") {
         super();
@@ -22,10 +20,5 @@ export class Request extends RequestAbstract {
 
     public validate(): boolean {
         return true;
-    }
-
-    protected write(response: RouteResponse): Promise<void> {
-        this.response = response;
-        return Promise.resolve();
     }
 }

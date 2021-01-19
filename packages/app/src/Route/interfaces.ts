@@ -1,5 +1,5 @@
 import {Action, ActionCtor, IContext} from "@bunt/unit";
-import {IRequest, RouteAction} from "../interfaces";
+import {IRequestMessage, RouteAction} from "../interfaces";
 import {Payload} from "../Payload";
 import {Route} from "./Route";
 import {RouteRule} from "./RouteRule";
@@ -18,7 +18,7 @@ export interface IRoute<A extends RouteAction = RouteAction> {
 
 export type RouteMatcherFactory = IRouteMatcher | ((route: string) => IRouteMatcher);
 
-export type RouteRuleArg<A extends RouteAction> = A extends Action<IContext, infer S>
+export type RouteRuleArg<A extends Action<any, any>> = A extends Action<any, infer S>
     ? S extends null ? string : RouteRule<A>
     : string;
 
@@ -26,7 +26,7 @@ export type RouteFactory = <A extends RouteAction>(action: ActionCtor<A>, rule: 
 
 export interface IRouteContext<C extends IContext> {
     context: C;
-    request: IRequest;
+    request: IRequestMessage;
     args: Map<string, string>;
 }
 

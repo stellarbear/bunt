@@ -15,8 +15,8 @@ describe("Route", () => {
         );
 
         try {
-            await app.handle(request);
-            expect(request).toMatchSnapshot();
+            const response = await app.run(request);
+            expect({request, response}).toMatchSnapshot();
         } catch (error) {
             console.log(error.toSafeJSON());
         }
@@ -30,7 +30,7 @@ describe("Route", () => {
             JSON.stringify({}),
         );
 
-        await expect(app.handle(wrongRequest))
+        await expect(app.run(wrongRequest))
             .rejects
             .toThrow("Assertion failed");
     });
@@ -38,8 +38,6 @@ describe("Route", () => {
     test("Not found", async () => {
         const app = await Application.factory(new MainContext());
         const request = new Request("/wrong-uri", {});
-        await expect(app.handle(request)).rejects.toThrow(RouteNotFound);
-        expect(request.response).toBeInstanceOf(RouteNotFound);
-        expect(request).toMatchSnapshot();
+        await expect(app.run(request)).rejects.toThrowError(RouteNotFound);
     });
 });

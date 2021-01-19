@@ -54,6 +54,10 @@ export class TestTransport implements ITransport {
         this.resolve();
     }
 
+    public async dispose(): Promise<void> {
+        await this.resolve();
+    }
+
     private ensure<M extends Message>(channel: string) {
         const queue = this.#messages.get(channel) ?? [];
         if (!this.#messages.has(channel)) {
@@ -61,10 +65,6 @@ export class TestTransport implements ITransport {
         }
 
         return queue as M[];
-    }
-
-    public async dispose(): Promise<void> {
-        await this.resolve();
     }
 
     private resolve() {

@@ -1,0 +1,41 @@
+{
+    "name": "@bunt/ws",
+    "version": "0.11.0",
+    "keywords": [
+        "typescript"
+    ],
+    "author": {
+        "name": "Artur Bier",
+        "email": "izatop@gmail.com"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/"
+    ],
+    "description": "WebSocket Server",
+    "repository": "git@github.com:izatop/bunt.git",
+    "scripts": {
+        "clean": "yarn build:clean",
+        "watch": "yarn build:watch",
+        "build": "yarn build:clean && tsc",
+        "build:clean": "rimraf dist tsconfig.tsbuildinfo",
+        "build:watch": "yarn build --watch"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@bunt/app": "^0.13.0",
+        "@bunt/unit": "^0.13.0",
+        "@bunt/util": "^0.13.0",
+        "@bunt/web": "^0.13.0",
+        "@types/ws": "^7.4.0",
+        "ws": "^7.4.2"
+    },
+    "license": "MIT",
+    "devDependencies": {
+        "@types/websocket": "^1.0.1",
+        "websocket": "^1.0.33"
+    }
+}

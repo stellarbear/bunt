@@ -1,3 +1,4 @@
+import {ApplyContext} from "@bunt/unit";
 import * as crypto from "crypto";
 import {Context, resolve} from "../../../unit";
 import {BaseContext} from "./BaseContext";
@@ -20,3 +21,5 @@ export class MainContext extends BaseContext {
         return Context.resolve(this.memoryDb);
     }
 }
+
+export type IMainContext = ApplyContext<MainContext>;

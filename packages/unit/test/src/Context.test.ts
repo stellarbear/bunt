@@ -5,13 +5,13 @@ import {MemoryDb} from "../../../test/src/context/services/MemoryDb";
 
 test("Context", async () => {
     const state = {key: "key"};
-    const asyncContext = new MainContext();
-    const context = await Context.apply(asyncContext);
+    const mainContext = new MainContext();
+    const context = await Context.apply(mainContext);
     const {memoryDb} = context;
 
     expect(memoryDb).toBeInstanceOf(MemoryDb);
-    expect(context === await Context.apply(asyncContext)).toBe(true);
-    expect(await asyncContext.memoryDb.resolve()).toBeInstanceOf(MemoryDb);
+    expect(context === await Context.apply(mainContext)).toBe(true);
+    expect(await mainContext.memoryDb.resolve()).toBeInstanceOf(MemoryDb);
     expect(await context.getMemoryDb()).toBeInstanceOf(MemoryDb);
     expect(await context.getMemoryDb() === context.memoryDb).toBe(true);
 
@@ -19,7 +19,7 @@ test("Context", async () => {
     expect(context.randomBytes).not.toStrictEqual(context.randomBytes);
     expect(context.randomBytes).toBeInstanceOf(Buffer);
 
-    const unit = await Unit.factory(() => context, [AsyncServiceTestAction]);
+    const unit = await Unit.factory(() => mainContext, [AsyncServiceTestAction]);
     const res = await unit.run(AsyncServiceTestAction, state);
     expect(memoryDb.get(state.key)).toBe(res);
 });

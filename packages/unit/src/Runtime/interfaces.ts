@@ -1,4 +1,4 @@
-import {Promisify} from "../interfaces";
+import {Promisify} from "@bunt/util";
 import {Heartbeat} from "./Heartbeat";
 import {DisposableSync} from "./index";
 

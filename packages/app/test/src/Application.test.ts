@@ -3,8 +3,7 @@ import {MainContext} from "../../../test/src/context/MainContext";
 import {Application} from "../../src";
 
 test("Application", async () => {
-    const createContext = () => new MainContext();
-    const app = await Application.factory(createContext, []);
+    const app = await Application.factory(() => new MainContext(), []);
     expect(app).toBeInstanceOf(Application);
     expect(app.size).toBe(0);
     app.add(HelloWorldRoute);

@@ -1,7 +1,7 @@
 import {Action} from "../../../unit";
-import {IResolveAsyncContext} from "../interfaces";
+import {IMainContext} from "../context/MainContext";
 
-export class AsyncServiceTestAction extends Action<IResolveAsyncContext, { key: string }> {
+export class AsyncServiceTestAction extends Action<IMainContext, { key: string }> {
     public async run(): Promise<string> {
         const {key} = this.state;
         const {memoryDb, randomBytes} = this.context;
