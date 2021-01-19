@@ -8,5 +8,5 @@ export abstract class RequestValidatorAbstract<T extends Record<string, any>> {
         this.options = options;
     }
 
-    public abstract validate(app: Application, request: IRequestMessage): void;
+    public abstract validate(app: Application<any>, request: IRequestMessage): void;
 }

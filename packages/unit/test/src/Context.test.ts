@@ -1,7 +1,7 @@
-import {Context, Unit} from "@bunt/unit";
-import {AsyncServiceTestAction} from "../../../test/src/actions/AsyncServiceTestAction";
-import {MainContext} from "../../../test/src/context/MainContext";
-import {MemoryDb} from "../../../test/src/context/services/MemoryDb";
+import {Context, Unit} from "../../src";
+import {AsyncServiceTestAction} from "./actions/AsyncServiceTestAction";
+import {MainContext} from "./context/MainContext";
+import {MemoryDb} from "./context/services/MemoryDb";
 
 test("Context", async () => {
     const state = {key: "key"};

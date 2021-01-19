@@ -1,6 +1,5 @@
 import {EventEmitter} from "events";
-import {IRunnable} from "../../../unit";
-import {Heartbeat} from "../../../unit/dist/Runtime/Heartbeat";
+import {Heartbeat, IRunnable} from "../../../src";
 
 export class RunnableTest extends EventEmitter implements IRunnable<boolean> {
     declare on: (event: "resolve", fn: (value: true | Error) => void) => this;

@@ -1,4 +1,4 @@
-import {Action} from "../../../unit";
+import {Action} from "../../../src";
 import {IMainContext} from "../context/MainContext";
 
 export class AsyncServiceTestAction extends Action<IMainContext, { key: string }> {

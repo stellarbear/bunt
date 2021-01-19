@@ -2,16 +2,6 @@
 
 exports[`Route Fails 1`] = `[Error: Assertion failed]`;
 
-exports[`Route Payload 1`] = `
-Object {
-  "payload": Object {
-    "bd": 2020-11-08T12:18:06.051Z,
-    "name": "Peter",
-  },
-  "session": "s5sChdDmOPmFLtEEsq4L",
-}
-`;
-
 exports[`Route Success 1`] = `
 Object {
   "request": Request {

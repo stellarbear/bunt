@@ -1,4 +1,5 @@
-import {Action, IContext} from "../../../unit";
+import {Action} from "@bunt/unit";
+import {IBaseContext} from "../context/BaseContext";
 
 interface IHelloWorldActionState {
     id: number;
@@ -8,7 +9,7 @@ interface IHelloWorldActionState {
     option?: boolean;
 }
 
-export class HelloWorldAction extends Action<IContext, IHelloWorldActionState> {
+export class HelloWorldAction extends Action<IBaseContext, IHelloWorldActionState> {
     public run(): string {
         const {payload} = this.state;
         return `Hello, ${payload.name}!`;

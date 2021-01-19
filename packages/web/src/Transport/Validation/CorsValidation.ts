@@ -16,7 +16,7 @@ export class CorsValidation extends RequestValidatorAbstract<ICorsOptions> {
         return new this(options);
     }
 
-    public validate(app: Application, request: Responder): void {
+    public validate(app: Application<any>, request: Responder): void {
         const AccessControlAllowMethods = new Set<string>();
         if (request.isOptionsRequest()) {
             // Test route for the current OPTIONS request

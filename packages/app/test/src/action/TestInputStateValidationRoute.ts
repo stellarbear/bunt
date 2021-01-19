@@ -1,8 +1,9 @@
-import {RegexpMatcher, Resolver, Route, RouteRule} from "@bunt/app";
 import {DateTime, Fields, Text, Varchar} from "@bunt/input";
-import {Action, IContext} from "../../../unit";
+import {Action} from "@bunt/unit";
+import {RegexpMatcher, Resolver, Route, RouteRule} from "../../../src";
+import {IBaseContext} from "../context/BaseContext";
 
-interface ITestTypeValidationState {
+export interface ITestTypeValidationState {
     session: string;
     payload: {
         name: string;
@@ -10,7 +11,7 @@ interface ITestTypeValidationState {
     };
 }
 
-class TestInputStateValidationAction extends Action<IContext, ITestTypeValidationState> {
+class TestInputStateValidationAction extends Action<IBaseContext, ITestTypeValidationState> {
     public run(): Record<string, any> {
         const {session, payload} = this.state;
         return {

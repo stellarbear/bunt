@@ -1,8 +1,7 @@
-import HelloWorldRoute from "@bunt/test/src/actions/HelloWorldRoute";
 import {Context} from "@bunt/unit";
 import * as HTTP from "http-status";
-import {JSONResponse, NoContentResponse, Redirect, RedirectResponse} from "../../src";
-import {WebServer} from "../../src/WebServer/WebServer";
+import {JSONResponse, NoContentResponse, RedirectResponse, WebServer} from "../../src";
+import HelloWorldRoute from "./actions/HelloWorldRoute";
 
 describe("Response", () => {
     test("Main", async () => {
@@ -28,7 +27,7 @@ describe("Response", () => {
         expect(await redirect.getResponse()).toMatchSnapshot();
         expect(redirect.getHeaders()).toMatchSnapshot();
 
-        expect(() => new Redirect("/", 500)).toThrow();
+        expect(() => new RedirectResponse("/", 500)).toThrow();
     });
 
     test("WebServer", async () => {

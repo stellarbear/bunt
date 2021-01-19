@@ -1,7 +1,7 @@
-import {ServiceFactory} from "@bunt/unit";
-import {MemoryDb} from "../../../test/src/context/services/MemoryDb";
-import {MemoryDbServiceResolver} from "../../../test/src/context/services/MemoryDbServiceResolver";
+import {ServiceFactory} from "../../src";
 import {Context, SERVICE_KIND} from "../../src";
+import {MemoryDb} from "./context/services/MemoryDb";
+import {MemoryDbServiceResolver} from "./context/services/MemoryDbServiceResolver";
 
 describe("Service", () => {
     const table: [string, (v: string) => any][] = [

@@ -1,5 +1,4 @@
-import {ApplyContext} from "@bunt/unit";
-import {Context, resolve} from "../../../unit";
+import {ApplyContext, Context, resolve} from "../../../src";
 import {MemoryDbServiceResolver} from "./services/MemoryDbServiceResolver";
 
 export class BaseContext extends Context {

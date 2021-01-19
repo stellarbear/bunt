@@ -1,4 +1,4 @@
-import {isReadableError} from "@bunt/util/dist/Exception/functions";
+import {isReadableError} from "@bunt/util";
 import {ServerError} from "./ServerError";
 
 export interface IErrorResponse {

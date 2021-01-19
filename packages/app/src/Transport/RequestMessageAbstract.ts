@@ -34,7 +34,7 @@ export abstract class RequestMessageAbstract implements IRequestMessage, ILogabl
         return this.to<unknown>(fromJsonRequest) as Promise<T>;
     }
 
-    public abstract validate(app: Application): boolean;
+    public abstract validate(app: Application<any>): boolean;
 
     public abstract createReadableStream(): Promisify<NodeJS.ReadableStream>;
 

@@ -70,7 +70,7 @@ export interface IRequestMessage {
 
     transform<T>(transformer: RequestTransformType<T>): Promise<T>;
 
-    validate(app: Application): boolean;
+    validate(app: Application<any>): boolean;
 }
 
 export interface IResponder extends IRequestMessage {

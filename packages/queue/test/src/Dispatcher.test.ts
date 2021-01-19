@@ -1,7 +1,7 @@
 import {Context, Disposer} from "@bunt/unit";
-import {wait} from "../../../util/src";
+import {wait} from "@bunt/util";
 import {Queue} from "../../src";
-import {Dispatcher} from "../../src/Dispatcher";
+import {Dispatcher} from "../../src";
 import {HelloAsk} from "./Dispatcher/HelloAsk";
 import {HelloHandler} from "./Dispatcher/HelloHandler";
 import {HelloReply} from "./Dispatcher/HelloReply";

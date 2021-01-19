@@ -1,4 +1,4 @@
-import HelloWorldRoute from "../../../test/src/actions/HelloWorldRoute";
+import HelloWorldRoute from "./action/HelloWorldRoute";
 
 test("Route", async () => {
     expect(HelloWorldRoute).toMatchSnapshot();

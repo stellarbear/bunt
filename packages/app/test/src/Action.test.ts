@@ -1,13 +1,13 @@
-import HelloWorldRoute from "../../../test/src/actions/HelloWorldRoute";
-import {MainContext} from "../../../test/src/context/MainContext";
-import {Request} from "../../../test/src/transport/Request";
 import {Application, RouteNotFound} from "../../src";
+import HelloWorldRoute from "./action/HelloWorldRoute";
+import {BaseContext} from "./context/BaseContext";
+import {Request} from "./transport/Request";
 
 describe("Route", () => {
     const headers = {"Content-Type": "application/json"};
 
     test("Success", async () => {
-        const app = await Application.factory(new MainContext(), [HelloWorldRoute]);
+        const app = await Application.factory(new BaseContext(), [HelloWorldRoute]);
         const request = new Request(
             "/u/123",
             headers,
@@ -23,7 +23,7 @@ describe("Route", () => {
     });
 
     test("Fails", async () => {
-        const app = await Application.factory(new MainContext(), [HelloWorldRoute]);
+        const app = await Application.factory(new BaseContext(), [HelloWorldRoute]);
         const wrongRequest = new Request(
             "/u/123",
             headers,
@@ -36,7 +36,7 @@ describe("Route", () => {
     });
 
     test("Not found", async () => {
-        const app = await Application.factory(new MainContext());
+        const app = await Application.factory(new BaseContext());
         const request = new Request("/wrong-uri", {});
         await expect(app.run(request)).rejects.toThrowError(RouteNotFound);
     });

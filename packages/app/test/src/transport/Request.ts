@@ -1,5 +1,5 @@
 import {Readable} from "stream";
-import {IHeaders, RequestMessageAbstract} from "../../../app";
+import {IHeaders, RequestMessageAbstract} from "../../../src";
 import {Headers} from "./Headers";
 
 export class Request extends RequestMessageAbstract {

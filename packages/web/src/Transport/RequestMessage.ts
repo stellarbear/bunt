@@ -1,5 +1,4 @@
-import {Application, IHeaders, RequestValidatorAbstract} from "@bunt/app";
-import {RequestMessageAbstract} from "@bunt/app/dist/Transport/RequestMessageAbstract";
+import {Application, IHeaders, RequestMessageAbstract, RequestValidatorAbstract} from "@bunt/app";
 import {isString, toArray} from "@bunt/util";
 import {IncomingMessage} from "http";
 import {URL} from "url";
@@ -39,7 +38,7 @@ export class RequestMessage extends RequestMessageAbstract {
         return this.headers.get("origin", "");
     }
 
-    public validate(app: Application): boolean {
+    public validate(app: Application<any>): boolean {
         this.#validators.forEach((validator) => validator.validate(app, this));
         return true;
     }

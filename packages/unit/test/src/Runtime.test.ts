@@ -1,4 +1,4 @@
-import {RunnableTest} from "../../../test/src/runnable/RunnableTest";
+import {RunnableTest} from "./runnable/RunnableTest";
 
 describe("Test Runnable pattern", () => {
     test("should beats until stop", async () => {

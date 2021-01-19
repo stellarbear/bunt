@@ -1,9 +1,9 @@
 import {Application, Resolver, RouteRule} from "@bunt/app";
 import {Fields, Text} from "@bunt/input";
-import {BaseTestAction} from "../../../test/src/actions/BaseTestAction";
-import {BaseContext} from "../../../test/src/context/BaseContext";
 import {RequestCommand} from "../../src";
+import {BaseTestAction} from "./action/BaseTestAction";
 import {command} from "./command";
+import {BaseContext} from "./context/BaseContext";
 
 test("Command Test", async () => {
     const baseTestCommand = command(BaseTestAction, new RouteRule(

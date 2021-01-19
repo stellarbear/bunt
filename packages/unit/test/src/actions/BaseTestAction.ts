@@ -1,4 +1,4 @@
-import {Action} from "../../../unit";
+import {Action} from "../../../src";
 import {IBaseContext} from "../context/BaseContext";
 
 export class BaseTestAction extends Action<IBaseContext, { name: string }> {

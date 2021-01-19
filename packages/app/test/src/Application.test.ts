@@ -1,9 +1,9 @@
-import HelloWorldRoute from "../../../test/src/actions/HelloWorldRoute";
-import {MainContext} from "../../../test/src/context/MainContext";
 import {Application} from "../../src";
+import HelloWorldRoute from "./action/HelloWorldRoute";
+import {BaseContext} from "./context/BaseContext";
 
 test("Application", async () => {
-    const app = await Application.factory(() => new MainContext(), []);
+    const app = await Application.factory(async () => new BaseContext(), []);
     expect(app).toBeInstanceOf(Application);
     expect(app.size).toBe(0);
     app.add(HelloWorldRoute);

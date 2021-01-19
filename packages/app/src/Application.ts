@@ -3,7 +3,7 @@ import {assert, isDefined, logger, Logger} from "@bunt/util";
 import {IRequestMessage, MatchRoute, RouteResponse} from "./interfaces";
 import {IRoute, RouteNotFound} from "./Route";
 
-export class Application<C extends IContext = any> {
+export class Application<C extends IContext> {
     @logger
     protected logger!: Logger;
 

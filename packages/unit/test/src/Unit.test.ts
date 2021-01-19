@@ -1,9 +1,9 @@
-import {BaseTestAction} from "../../../test/src/actions/BaseTestAction";
-import {NeverRunAction} from "../../../test/src/actions/NeverRunAction";
-import {ProfileTestAction} from "../../../test/src/actions/ProfileTestAction";
-import {TestExceptionAction} from "../../../test/src/actions/TestExceptionAction";
-import {BaseContext} from "../../../test/src/context/BaseContext";
-import {unit, Unit} from "../../../unit";
+import {unit, Unit} from "../../src";
+import {BaseTestAction} from "./actions/BaseTestAction";
+import {NeverRunAction} from "./actions/NeverRunAction";
+import {ProfileTestAction} from "./actions/ProfileTestAction";
+import {TestExceptionAction} from "./actions/TestExceptionAction";
+import {BaseContext} from "./context/BaseContext";
 
 test("Unit", async () => {
     const app = await unit(new BaseContext());
