@@ -1,7 +1,7 @@
-import {ClientConnection} from "../../Connection";
+import {ClientConnectionAbstract} from "../../Connection";
 import {GQLOperationMessage} from "./index";
 
-export class GQLClientConnection extends ClientConnection<GQLOperationMessage> {
+export class GQLClientConnection extends ClientConnectionAbstract<GQLOperationMessage> {
     protected parse(payload: string): GQLOperationMessage {
         return JSON.parse(payload);
     }

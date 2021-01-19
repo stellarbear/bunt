@@ -14,7 +14,7 @@ type ITestContext = ApplyContext<TestContext>;
 class TestHandle extends EchoProtoHandle<ITestContext, { authorization: string }> {
 
     public async run(): Promise<void> {
-        for await (const message of this.listen()) {
+        for await (const message of this.connection) {
             this.send("hello");
             this.logger.info("received", {message});
         }

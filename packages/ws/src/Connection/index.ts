@@ -1,2 +1,2 @@
 export * from "./interface";
-export * from "./ClientConnection";
+export * from "./ClientConnectionAbstract";

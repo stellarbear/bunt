@@ -1,25 +1,19 @@
 import {IContext, StateType} from "@bunt/unit";
-import {AsyncCallback, filterValueCallback, isString, resolveOrReject} from "@bunt/util";
+import {ClientConnection} from "../Connection/ClientConnection";
 import {ProtoHandleAbstract} from "./ProtoHandleAbstract";
 
 export abstract class EchoProtoHandle<C extends IContext,
-    S extends StateType | null = null> extends ProtoHandleAbstract<C, S, string> {
+    S extends StateType | null = null> extends ProtoHandleAbstract<C, S> {
 
     public static protocol = "echo-protocol";
 
-    readonly #connection = this.getShadowState();
+    readonly #connection = new ClientConnection(this.getShadowState());
 
-    protected async send(message: string): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.#connection.send(message, resolveOrReject(resolve, reject));
-        });
+    public get connection(): ClientConnection {
+        return this.#connection;
     }
 
-    protected listen(): AsyncIterable<string> {
-        return new AsyncCallback<string>((emit) => {
-            const listener = filterValueCallback(isString, emit);
-            this.#connection.on("message", listener);
-            return () => this.#connection.removeListener("message", listener);
-        });
+    protected send(message: string): Promise<void> {
+        return this.#connection.send(message);
     }
 }
