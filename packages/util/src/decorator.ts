@@ -43,12 +43,14 @@ export function bind<T extends (...args: any[]) => any>(
     return {
         configurable: true,
         get(this: T): T {
-            const bound: T = descriptor.value!.bind(this) as any;
-            Object.defineProperty(this, propertyKey, {
-                value: bound,
-                configurable: true,
-                writable: true,
-            });
+            const bound = descriptor.value?.bind(this) as T;
+            if (bound) {
+                Object.defineProperty(this, propertyKey, {
+                    value: bound,
+                    configurable: true,
+                    writable: true,
+                });
+            }
 
             return bound;
         },

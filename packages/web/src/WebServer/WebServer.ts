@@ -97,7 +97,7 @@ export class WebServer<C extends IContext> extends Application<C>
         }
     }
 
-    protected handleUpgrade = (req: IncomingMessage, socket: Socket, head: Buffer) => {
+    protected handleUpgrade = (req: IncomingMessage, socket: Socket, head: Buffer): void => {
         const {upgrade} = req.headers;
         try {
             assert(upgrade, "Upgrade headers mustn't be empty");
