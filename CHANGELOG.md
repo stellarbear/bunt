@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.14.0](https://github.com/izatop/bunt/compare/v0.13.0...v0.14.0) (2021-01-19)
+
+
+### Bug Fixes
+
+* lint ([9e5e60c](https://github.com/izatop/bunt/commit/9e5e60c2a1a712fc98f8ae383ea020f87dd23596))
+* node version ([e53e918](https://github.com/izatop/bunt/commit/e53e918cb383667e6a7f6ddcd694fa29bd58b58b))
+* organize tests ([32a2f23](https://github.com/izatop/bunt/commit/32a2f232afc63340f478316d2f7fa52a75860cc6))
+
+
+### Features
+
+* ws package ([0d39ce1](https://github.com/izatop/bunt/commit/0d39ce1b4631839b8dd14446e2f44e06b3ec4f6d))
+
+
+
+
+
 # [0.13.0](https://github.com/izatop/bunt/compare/v0.11.3...v0.13.0) (2021-01-12)
 
 
