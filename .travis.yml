@@ -4,7 +4,7 @@ notifications:
   email: false
 
 node_js:
-  - "14"
+  - "15"
 
 cache: yarn
 
