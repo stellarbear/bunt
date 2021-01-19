@@ -97,4 +97,5 @@ export type GQLServerOperation = IGQLOperationConnectionAsk
 
 export type GQLOperationMessage = GQLClientOperation | GQLServerOperation;
 
-export type GQLSubscribeFunction = (payload: GQLClientPayload) => Promisify<AsyncIterableIterator<any>>;
+export type GQLSubscribeFunction = (payload: GQLClientPayload,
+                                    params: Record<string, any>) => Promisify<AsyncIterableIterator<any>>;
