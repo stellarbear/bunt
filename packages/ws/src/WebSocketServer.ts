@@ -213,6 +213,8 @@ export class WebSocketServer<C extends IContext>
 
                 this.logger.debug("Accept connection");
                 ws.emit("connection", connection, req);
+                connection.on("error", (error) => this.logger.error(error.message, error));
+                connection.on("close", () => this.logger.debug("Close connection"));
 
                 setImmediate(() => this.handle(connection, async () => {
                     const state: Record<string, any> = {};
@@ -234,6 +236,7 @@ export class WebSocketServer<C extends IContext>
                 }));
             });
         } catch (error) {
+            this.logger.error(error.message, error);
             socket.destroy(error);
         }
     };
@@ -243,6 +246,7 @@ export class WebSocketServer<C extends IContext>
             await action();
             connection.close(WebSocketCloseReason.NORMAL_CLOSURE);
         } catch (error) {
+            this.logger.error(error.message, error);
             connection.close(WebSocketCloseReason.INTERNAL_ERROR);
         }
     }

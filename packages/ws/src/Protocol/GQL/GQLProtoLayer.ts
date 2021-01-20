@@ -1,4 +1,4 @@
-import {assert, isFunction, isObject} from "@bunt/util";
+import {assert, isArray, isFunction, isObject} from "@bunt/util";
 import {GQLClientConnection} from "./GQLClientConnection";
 import {
     GQLClientOperation,
@@ -70,7 +70,7 @@ export class GQLProtoLayer {
     }
 
     private isReadableError(error: unknown): error is GQLError {
-        return isObject(error) && "message" in error;
+        return isObject(error) && ("message" in error || ("errors" in error && isArray(error.errors)));
     }
 
     private serializeError(error: unknown): GQLError {
