@@ -10,7 +10,7 @@ export enum GQLClientOperationType {
 export enum GQLServerOperationType {
     CONNECTION_ACK = "connection_ack",
     CONNECTION_ERROR = "connection_error",
-    CONNECTION_KEEP_ALIVE = "connection_keep_alive",
+    CONNECTION_KEEP_ALIVE = "ka",
     DATA = "data",
     ERROR = "error",
     COMPLETE = "complete",

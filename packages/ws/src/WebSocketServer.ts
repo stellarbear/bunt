@@ -15,7 +15,7 @@ import {
     unit,
     Unit,
 } from "@bunt/unit";
-import {assert, AsyncState, isDefined, isString, Logger, logger, noop} from "@bunt/util";
+import {assert, AsyncState, isDefined, isString, Logger, logger, noop, resolveOrReject} from "@bunt/util";
 import {RequestMessage, WebServer} from "@bunt/web";
 import {IncomingMessage} from "http";
 import {Socket} from "net";
@@ -88,19 +88,10 @@ export class WebSocketServer<C extends IContext>
             this.#disposeAcceptor();
 
             const operations = [];
-            const webSocketList = [...this.#servers.values()];
-            for (const webSocket of webSocketList) {
+            for (const webSocket of this.#servers.values()) {
                 try {
-                    const {clients} = webSocket;
-                    clients.forEach((client) => {
-                        client.close(WebSocketCloseReason.SERVICE_RESTART);
-                    });
-
                     operations.push(new Promise<void>((resolve, reject) => {
-                        webSocket.close((error) => {
-                            if (error) return reject(error);
-                            resolve();
-                        });
+                        webSocket.close(resolveOrReject(resolve, reject));
                     }));
                 } catch (error) {
                     this.logger.error(error.message, error);
@@ -193,6 +184,20 @@ export class WebSocketServer<C extends IContext>
             assert(route, () => new RouteNotFound(pathname));
             this.logger.debug("match", route);
 
+            const state: Record<string, any> = {};
+            const request = new RequestMessage(req);
+            const matches = route.match(request.route);
+            const routeContext = {
+                request,
+                context: this.#unit.context,
+                args: new Map<string, string>(Object.entries(matches)),
+            };
+
+            if (isDefined(route.payload)) {
+                const {payload} = route;
+                Object.assign(state, await payload.validate(routeContext));
+            }
+
             const ws = this.getWebSocketServer(route);
             ws.handleUpgrade(req, socket, head, (connection) => {
                 const {action} = route;
@@ -213,27 +218,9 @@ export class WebSocketServer<C extends IContext>
 
                 this.logger.debug("Accept connection");
                 ws.emit("connection", connection, req);
-                connection.on("error", (error) => this.logger.error(error.message, error));
-                connection.on("close", () => this.logger.debug("Close connection"));
+                ShadowState.set(state, connection);
 
-                setImmediate(() => this.handle(connection, async () => {
-                    const state: Record<string, any> = {};
-                    const request = new RequestMessage(req);
-                    const matches = route.match(request.route);
-                    const routeContext = {
-                        request,
-                        context: this.#unit.context,
-                        args: new Map<string, string>(Object.entries(matches)),
-                    };
-
-                    if (isDefined(route.payload)) {
-                        const {payload} = route;
-                        Object.assign(state, await payload.validate(routeContext));
-                    }
-
-                    ShadowState.set(state, connection);
-                    return this.#unit.run(route.action, state);
-                }));
+                this.handle(connection, () => this.#unit.run(route.action, state));
             });
         } catch (error) {
             this.logger.error(error.message, error);

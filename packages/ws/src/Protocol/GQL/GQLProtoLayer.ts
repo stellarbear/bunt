@@ -25,6 +25,7 @@ export class GQLProtoLayer {
     constructor(client: GQLClientConnection, factory: GQLSubscribeFunction) {
         this.#client = client;
         this.#subscribe = factory;
+        this.#client.on("close", this.unsubscribeAll);
     }
 
     public async handle(operation: GQLOperationMessage): Promise<void> {
@@ -38,7 +39,8 @@ export class GQLProtoLayer {
                 this.terminate();
                 break;
             case GQLClientOperationType.START:
-                setImmediate(() => this.createSubscription(operation.id, operation.payload));
+                this.createSubscription(operation.id, operation.payload)
+                    .catch(console.error);
                 break;
             case GQLClientOperationType.STOP:
                 const subscription = this.#subscriptions.get(operation.id);
@@ -49,6 +51,12 @@ export class GQLProtoLayer {
         }
     }
 
+    private unsubscribeAll() {
+        for (const subscription of this.#subscriptions.values()) {
+            subscription.return?.();
+        }
+    }
+
     private async createSubscription(id: string, payload: GQLClientPayload): Promise<void> {
         try {
             const subscription = await this.#subscribe(payload, this.#params);
@@ -56,13 +64,16 @@ export class GQLProtoLayer {
 
             this.#subscriptions.set(id, subscription);
             for await (const next of subscription) {
-                await this.#client.send({id, payload: next, type: GQLServerOperationType.DATA});
+                await this.#client.send({id, type: GQLServerOperationType.DATA, payload: next});
             }
-        } catch (error) {
-            await this.#client.send({id, payload: this.serializeError(error), type: GQLServerOperationType.ERROR});
-        }
 
-        await this.#client.send({id, type: GQLServerOperationType.COMPLETE});
+            await this.#client.send({id, type: GQLServerOperationType.COMPLETE});
+        } catch (error) {
+            if (this.#client.ready) {
+                await this.#client.send({id, type: GQLServerOperationType.ERROR, payload: this.serializeError(error)});
+                await this.#client.send({id, type: GQLServerOperationType.COMPLETE});
+            }
+        }
     }
 
     private isClientOperation(operation: GQLOperationMessage): operation is GQLClientOperation {

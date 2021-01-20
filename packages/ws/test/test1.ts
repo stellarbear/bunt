@@ -63,7 +63,7 @@ function conn() {
         });
 
         client.connect(
-            "ws://127.0.0.1:3000/admin",
+            "ws://127.0.0.1:3333/admin",
             "echo-protocol",
             "localhost",
             {authorization: "Bearer " + crypto.randomBytes(128).toString("base64")},
@@ -73,7 +73,7 @@ function conn() {
 
 async function main() {
     try {
-        Logger.setSeverity(SeverityLevel.WARNING);
+        Logger.setSeverity(SeverityLevel.INFO);
         Logger.set([new StdErrorTransport(debugLogFormat), new StdOutTransport(debugLogFormat)]);
 
         const server = await WebServer.factory(new TestContext());
@@ -91,7 +91,7 @@ async function main() {
 
         const clients = 1024;
         const backlog = 128;
-        await server.listen(3000, backlog);
+        await server.listen(3333, backlog);
         const all = [];
         const ready = [];
         const errors = [];

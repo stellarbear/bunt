@@ -9,13 +9,13 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
     readonly #queue: T[] = [];
 
     constructor(link: (emit: ReturnCallback<T>) => () => void) {
-        this.#disposables.push(link(this.push), this.resolve);
+        this.#disposables.push(link(this.push), this.pipe);
     }
 
     @bind
     public push(value: T): void {
         if (this.#pipeline.length) {
-            return this.resolve(value);
+            return this.pipe(value);
         }
 
         this.#queue.push(value);
@@ -28,18 +28,18 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
             return Promise.resolve(value);
         }
 
-        return new Promise<T | undefined>((resolve) => this.#pipeline.push(resolve));
+        return new Promise<T | undefined>(this.sync);
     }
 
     public [Symbol.asyncIterator](): AsyncIterator<T> {
         return {
             next: async (): Promise<IteratorResult<T>> => {
-                return this.getIteratorResult();
+                return this.pull().then(this.asResult);
             },
             return: async (value?: T | PromiseLike<T>): Promise<IteratorResult<T>> => {
                 this.dispose();
                 return Promise.resolve(value)
-                    .then(this.valueToIteratorResult);
+                    .then(this.asResult);
             },
             throw: async (e?): Promise<IteratorResult<T>> => {
                 this.dispose();
@@ -52,18 +52,24 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
         this.#disposables.forEach((fn) => fn());
     }
 
-    private getIteratorResult(): Promise<IteratorResult<T>> {
-        return this.pull().then(this.valueToIteratorResult);
-    }
-
     @bind
-    private valueToIteratorResult(value?: T): IteratorResult<T> {
+    private asResult(value?: T): IteratorResult<T> {
         return isUndefined(value) ? {value, done: true} : {value, done: false};
     }
 
     @bind
-    private resolve(value?: T) {
+    private pipe(value?: T) {
         this.#pipeline.splice(0, this.#pipeline.length)
             .forEach((resolve) => resolve(value));
+    }
+
+    @bind
+    private sync(resolve: (data?: T) => void): void {
+        const value = this.#queue.shift();
+        if (value) {
+            return resolve(value);
+        }
+
+        this.#pipeline.push(resolve);
     }
 }

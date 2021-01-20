@@ -1,4 +1,4 @@
-import {AsyncCallback, filterValueCallback, isString, resolveOrReject} from "@bunt/util";
+import {assert, AsyncCallback, filterValueCallback, isString, resolveOrReject} from "@bunt/util";
 import ws from "ws";
 import {IClientConnection} from "./interface";
 
@@ -9,8 +9,18 @@ export abstract class ClientConnectionAbstract<T> implements IClientConnection<T
         this.#connection = connection;
     }
 
+    public get ready(): boolean {
+        return this.#connection.readyState === this.#connection.OPEN;
+    }
+
+    public on(event: "close", listener: () => void): this {
+        this.#connection.once("close", listener);
+        return this;
+    }
+
     public send(payload: T): Promise<void> {
         return new Promise<void>((resolve, reject) => {
+            assert(this.#connection.readyState === this.#connection.OPEN, "Cannot send message in close state");
             this.#connection.send(this.serialize(payload), resolveOrReject(resolve, reject));
         });
     }
