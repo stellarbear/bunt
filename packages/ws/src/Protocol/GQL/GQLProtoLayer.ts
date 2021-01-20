@@ -25,7 +25,10 @@ export class GQLProtoLayer {
     constructor(client: GQLClientConnection, factory: GQLSubscribeFunction) {
         this.#client = client;
         this.#subscribe = factory;
+
+        const interval = setInterval(() => this.keepAliveUpdate(), 30000);
         this.#client.on("close", () => this.unsubscribeAll());
+        this.#client.on("close", () => clearInterval(interval));
     }
 
     public async handle(operation: GQLOperationMessage): Promise<void> {
@@ -34,6 +37,7 @@ export class GQLProtoLayer {
             case GQLClientOperationType.CONNECTION_INIT:
                 Object.assign(this.#params, operation.payload);
                 await this.#client.send({type: GQLServerOperationType.CONNECTION_ACK});
+                await this.keepAliveUpdate();
                 break;
             case GQLClientOperationType.CONNECTION_TERMINATE:
                 this.terminate();
@@ -49,6 +53,10 @@ export class GQLProtoLayer {
                     subscription.return?.();
                 }
         }
+    }
+
+    private keepAliveUpdate() {
+        return this.#client.send({type: GQLServerOperationType.CONNECTION_KEEP_ALIVE});
     }
 
     private unsubscribeAll() {
