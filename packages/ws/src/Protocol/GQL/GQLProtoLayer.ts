@@ -25,7 +25,7 @@ export class GQLProtoLayer {
     constructor(client: GQLClientConnection, factory: GQLSubscribeFunction) {
         this.#client = client;
         this.#subscribe = factory;
-        this.#client.on("close", this.unsubscribeAll);
+        this.#client.on("close", () => this.unsubscribeAll());
     }
 
     public async handle(operation: GQLOperationMessage): Promise<void> {
