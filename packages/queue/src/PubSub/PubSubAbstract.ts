@@ -39,6 +39,11 @@ export abstract class PubSubAbstract<S extends Record<string, any>, T extends IP
         return iterable;
     }
 
+    public async asyncIterator<K extends keyof S>(channel: Extract<K, string>): Promise<AsyncIterator<S[K]>> {
+        const subscription = await this.subscribe(channel);
+        return subscription[Symbol.asyncIterator]();
+    }
+
     public dispose(): Promisify<Disposable | Disposable[] | void> {
         for (const iterable of this.#iterables.values()) {
             iterable.dispose();

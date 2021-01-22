@@ -49,6 +49,10 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
         };
     }
 
+    public getAsyncIterator(): AsyncIterator<T> {
+        return this[Symbol.asyncIterator]();
+    }
+
     public dispose(): void {
         this.#disposables.forEach((fn) => fn());
     }
