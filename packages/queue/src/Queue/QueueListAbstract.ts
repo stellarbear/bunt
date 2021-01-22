@@ -1,31 +1,31 @@
 import {Disposable} from "@bunt/unit";
 import {assert, isDefined, isInstanceOf} from "@bunt/util";
+import {ITransport} from "../interfaces";
 import {
     IMessageHandler,
+    IQueueList,
+    IQueueListWatcher,
     IQueueReader,
     IReadOperation,
-    ISubscription,
-    ISubscriptionResultHandler,
-    ITransport,
     Message,
     MessageCtor,
     OperationReleaseState,
 } from "./interfaces";
 import {TaskAbstract} from "./Message";
 
-export abstract class SubscriptionAbstract<M extends Message> implements ISubscription<M> {
+export abstract class QueueListAbstract<M extends Message> implements IQueueList<M> {
     readonly #type: MessageCtor<M>;
     readonly #reader: IQueueReader<M>;
     readonly #transport: ITransport;
     readonly #handler: IMessageHandler<M>;
-    readonly #watchers: ISubscriptionResultHandler<M>[] = [];
+    readonly #watchers: IQueueListWatcher<M>[] = [];
 
     #subscribed = true;
     #state?: Promise<void>;
 
     constructor(transport: ITransport, type: MessageCtor<M>, handler: IMessageHandler<M>) {
         this.#type = type;
-        this.#reader = transport.reader(type);
+        this.#reader = transport.createQueueReader(type);
         this.#handler = handler;
         this.#transport = transport;
         this.#state = this.listen();
@@ -43,11 +43,11 @@ export abstract class SubscriptionAbstract<M extends Message> implements ISubscr
 
     public async unsubscribe(): Promise<void> {
         this.#subscribed = false;
-        this.#reader.cancel();
-        await this.#state;
+        await this.#reader.cancel()
+            .finally(() => this.#state);
     }
 
-    public watch(fn: ISubscriptionResultHandler<M>): () => void {
+    public watch(fn: IQueueListWatcher<M>): () => void {
         this.#watchers.push(fn);
         return () => {
             this.#watchers.splice(this.#watchers.indexOf(fn), 1);
@@ -89,6 +89,6 @@ export abstract class SubscriptionAbstract<M extends Message> implements ISubscr
 
     private async fire(operation: Promise<OperationReleaseState<M>>) {
         const value = await operation;
-        this.#watchers.forEach(async (fn) => fn(value));
+        this.#watchers.forEach((fn) => fn(value));
     }
 }

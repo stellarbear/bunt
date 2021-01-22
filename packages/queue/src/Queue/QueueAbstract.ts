@@ -1,5 +1,6 @@
 import {IDisposable} from "@bunt/unit";
-import {ISubscription, ITransport, Message, MessageCtor, MessageHandler, Task} from "./interfaces";
+import {ITransport} from "../interfaces";
+import {IQueueList, Message, MessageCtor, MessageHandler, Task} from "./interfaces";
 
 export abstract class QueueAbstract<Q extends ITransport> implements IDisposable {
     readonly #transport: Q;
@@ -12,8 +13,8 @@ export abstract class QueueAbstract<Q extends ITransport> implements IDisposable
         await this.#transport.send(message);
     }
 
-    public subscribe<M extends Message | Task>(type: MessageCtor<M>, handler: MessageHandler<M>): ISubscription<M> {
-        return this.#transport.subscribe(type, handler);
+    public subscribe<M extends Message | Task>(type: MessageCtor<M>, handler: MessageHandler<M>): IQueueList<M> {
+        return this.#transport.createQueueList(type, handler);
     }
 
     public async dispose(): Promise<IDisposable> {

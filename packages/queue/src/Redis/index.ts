@@ -1,5 +1,5 @@
-export * from "./RedisReader";
+export * from "./RedisQueueReader";
 export * from "./RedisQ2Reader";
 export * from "./RedisQ2ReadOperation";
-export * from "./RedisSubscription";
+export * from "./RedisQueueList";
 export * from "./RedisTransport";

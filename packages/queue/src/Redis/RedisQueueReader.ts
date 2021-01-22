@@ -1,10 +1,9 @@
 import {Redis} from "ioredis";
-import {Message, MessageCtor, ReadOperation} from "../Queue";
-import {ReaderAbstract} from "../Queue/ReaderAbstract";
+import {Message, MessageCtor, QueueReaderAbstract, ReadOperation} from "../Queue";
 import {RedisTransport} from "./RedisTransport";
 
-export class RedisReader<M extends Message, MC extends MessageCtor<M>>
-    extends ReaderAbstract<M, MC, ReadOperation<M>> {
+export class RedisQueueReader<M extends Message, MC extends MessageCtor<M>>
+    extends QueueReaderAbstract<M, MC, ReadOperation<M>> {
     protected readonly timeout = 100;
     readonly #transport: RedisTransport;
     readonly #connection: Redis;
@@ -28,7 +27,8 @@ export class RedisReader<M extends Message, MC extends MessageCtor<M>>
     }
 
     protected next(): Promise<string | undefined> {
-        return this.wrap(this.#connection.brpop(this.channel, this.timeout).then((message) => message?.[1]));
+        return this.wrap(this.#connection.brpop(this.channel, this.timeout)
+            .then((message) => message?.[1]));
     }
 
     protected createReadOperation(message: M): ReadOperation<M> {

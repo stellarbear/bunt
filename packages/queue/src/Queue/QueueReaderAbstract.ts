@@ -1,7 +1,7 @@
 import {tryUnserialize} from "./fn";
 import {IQueueReader, IReadOperation, Message, MessageCtor, MessagePayload} from "./interfaces";
 
-export abstract class ReaderAbstract<M extends Message,
+export abstract class QueueReaderAbstract<M extends Message,
     MC extends MessageCtor<M>,
     RO extends IReadOperation<M>> implements IQueueReader<M, RO> {
     readonly #type: MC;

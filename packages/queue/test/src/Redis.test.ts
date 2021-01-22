@@ -1,6 +1,6 @@
 import {Disposer} from "@bunt/unit";
+import {assert, throttle, watch} from "@bunt/util";
 import {Redis} from "ioredis";
-import {assert, throttle, watch} from "../../../util/src";
 import {Queue, RedisTransport, serialize} from "../../src";
 import {createConnection} from "../../src/Redis/fn";
 import {BarMessage} from "./Message/BarMessage";

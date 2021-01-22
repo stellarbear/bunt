@@ -13,8 +13,8 @@ import {
     Unit,
 } from "@bunt/unit";
 import {logger, Logger} from "@bunt/util";
-import {ActionHandler} from "./interfaces";
-import {ITransport, Message, MessageCtor, MessageHandler, Queue, QueueAbstract} from "./Queue";
+import {ActionHandler, ITransport} from "./interfaces";
+import {Message, MessageCtor, MessageHandler, Queue, QueueAbstract} from "./Queue";
 
 export class Dispatcher<C extends IContext> implements IDisposable, IRunnable {
     @logger

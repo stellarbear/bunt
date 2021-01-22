@@ -10,3 +10,5 @@ export type DecoratorTarget = Object;
 
 export type MaybeArray<T> = T | T[];
 export type MayNullable<T> = T | null | undefined;
+
+export type Fn<A extends any[] = [], R = void> = (...args: A) => R;

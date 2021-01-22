@@ -32,8 +32,7 @@
         "@bunt/app": "^0.14.4",
         "@bunt/cli": "^0.14.4",
         "@bunt/unit": "^0.14.4",
-        "@bunt/util": "^0.14.4",
-        "path-to-regexp": "^6.2.0"
+        "@bunt/util": "^0.14.4"
     },
     "license": "MIT"
 }

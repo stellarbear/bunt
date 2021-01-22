@@ -1,5 +1,5 @@
 import {Disposer} from "@bunt/unit";
-import {wait} from "../../../util/src";
+import {wait} from "@bunt/util";
 import {Queue} from "../../src";
 import {BarMessage} from "./Message/BarMessage";
 import {FooMessage} from "./Message/FooMessage";

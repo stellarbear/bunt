@@ -2,24 +2,24 @@ import {AsyncState} from "@bunt/util";
 import {
     IQueueReader,
     IReadOperation,
-    ISubscription,
+    IQueueList,
     ITransport,
     Message,
     MessageCtor,
     MessageHandler,
     ReadOperation,
 } from "../../../src";
-import {Subscription} from "../../../src/Queue/Subscription";
+import {QueueList} from "../../../src/Queue/QueueList";
 
 export class TestTransport implements ITransport {
     public readonly pending: Promise<void>[] = [];
     readonly #messages = new Map<string, Message[]>();
 
-    public subscribe<M extends Message>(type: MessageCtor<M>, handler: MessageHandler<M>): ISubscription<M> {
-        return new Subscription(this, type, handler);
+    public createQueueList<M extends Message>(type: MessageCtor<M>, handler: MessageHandler<M>): IQueueList<M> {
+        return new QueueList(this, type, handler);
     }
 
-    public reader<M extends Message>(type: MessageCtor<M>): IQueueReader<M> {
+    public createQueueReader<M extends Message>(type: MessageCtor<M>): IQueueReader<M> {
         const queue = this.ensure<M>(type.channel);
         const cancel = () => this.resolve();
         const listenNext = () => {

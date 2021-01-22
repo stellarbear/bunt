@@ -31,14 +31,6 @@ export interface IReadOperation<M extends Message> {
     rollback(reason?: Error): Promise<IReadOperationFail<M>>;
 }
 
-export interface ITransport extends IDisposable {
-    send<M extends Message>(message: M): Promisify<void>;
-
-    subscribe<M extends Message>(type: MessageCtor<M>, handler: MessageHandler<M>): ISubscription<M>;
-
-    reader<M extends Message>(type: MessageCtor<M>): IQueueReader<M>;
-}
-
 export interface IQueueReader<M extends Message, RO extends IReadOperation<M> = IReadOperation<M>>
     extends IDisposable {
     readonly channel: string;
@@ -70,18 +62,18 @@ export interface IHandleReleaseFactory<M extends Message> {
     (error: Error): IReadOperationFail<M>;
 }
 
-export interface ISubscriptionResultHandler<M extends Message> {
+export interface IQueueListWatcher<M extends Message> {
     (result: OperationReleaseState<M>): unknown;
 }
 
-export interface ISubscription<M extends Message> extends IDisposable {
+export interface IQueueList<M extends Message> extends IDisposable {
     readonly subscribed: boolean;
 
     unsubscribe(): Promise<void>;
 
     subscribe(): Promise<void>;
 
-    watch(fn: ISubscriptionResultHandler<M>): void;
+    watch(fn: IQueueListWatcher<M>): void;
 }
 
 export type MessagePayload<M extends Message> = M extends MessageAbstract<infer P> ? P : never;

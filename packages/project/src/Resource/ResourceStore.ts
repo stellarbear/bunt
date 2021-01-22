@@ -1,6 +1,7 @@
 import {promises} from "fs";
 import {basename, join} from "path";
 import {Resource} from "./Resource";
+import {ResourceNotFound} from "./ResourceNotFound";
 
 const {stat, copyFile} = promises;
 
@@ -32,8 +33,14 @@ export class ResourceStore {
 
     protected async resolve(file: string): Promise<string> {
         const path = join(this.location, file);
-        await stat(path);
+        const paths = [path, path.concat(".dist")];
+        for (const variant of paths) {
+            const resolved = await stat(variant).catch(() => null);
+            if (resolved) {
+                return variant;
+            }
+        }
 
-        return path;
+        throw new ResourceNotFound(file);
     }
 }

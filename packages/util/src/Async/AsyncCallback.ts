@@ -1,19 +1,20 @@
+import {IDisposable} from "@bunt/unit";
 import {bind} from "../decorator";
+import {Fn} from "../interfaces";
 import {isUndefined} from "../is";
 
-export type ReturnCallback<T> = (value: T) => void;
-
-export class AsyncCallback<T> implements AsyncIterable<T> {
-    readonly #disposables: { (): void }[] = [];
-    readonly #pipeline: ReturnCallback<T | undefined>[] = [];
+export class AsyncCallback<T> implements AsyncIterable<T>, IDisposable {
+    readonly #disposables: Fn[] = [];
+    readonly #pipeline: Fn<[T | undefined]>[] = [];
     readonly #queue: T[] = [];
 
-    constructor(link: (emit: ReturnCallback<T>) => () => void) {
+    constructor(link: (emit: Fn<[data: T]>) => () => void) {
         this.#disposables.push(link(this.push), this.pipe);
     }
 
     @bind
     public push(value: T): void {
+        console.log("push", value);
         if (this.#pipeline.length) {
             return this.pipe(value);
         }
@@ -34,7 +35,8 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
     public [Symbol.asyncIterator](): AsyncIterator<T> {
         return {
             next: async (): Promise<IteratorResult<T>> => {
-                return this.pull().then(this.asResult);
+                return this.pull()
+                    .then(this.asResult);
             },
             return: async (value?: T | PromiseLike<T>): Promise<IteratorResult<T>> => {
                 this.dispose();
@@ -48,7 +50,7 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
         };
     }
 
-    private dispose(): void {
+    public dispose(): void {
         this.#disposables.forEach((fn) => fn());
     }
 
@@ -64,7 +66,7 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
     }
 
     @bind
-    private sync(resolve: (data?: T) => void): void {
+    private sync(resolve: Fn<[T?]>): void {
         const value = this.#queue.shift();
         if (value) {
             return resolve(value);

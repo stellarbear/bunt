@@ -1,10 +1,10 @@
 import {ITransactionType, Message, MessageCtor} from "../Queue";
 import {RedisQ2ReadOperation} from "./RedisQ2ReadOperation";
-import {RedisReader} from "./RedisReader";
+import {RedisQueueReader} from "./RedisQueueReader";
 import {RedisTransport} from "./RedisTransport";
 
 export class RedisQ2Reader<M extends Message,
-    MC extends MessageCtor<M> & ITransactionType> extends RedisReader<M, MC> {
+    MC extends MessageCtor<M> & ITransactionType> extends RedisQueueReader<M, MC> {
     constructor(transport: RedisTransport, type: MC) {
         super(transport, type);
     }
