@@ -13,7 +13,6 @@ export class AsyncCallback<T> implements AsyncIterable<T> {
 
     @bind
     public push(value: T): void {
-        console.log("push", value);
         if (this.#pipeline.length) {
             return this.pipe(value);
         }
