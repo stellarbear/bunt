@@ -1,0 +1,24 @@
+{
+    "packages": [
+        "packages/*"
+    ],
+    "command": {
+        "version": {
+            "allowBranch": "master",
+            "ignoreChanges": [
+                "*.md",
+                "packages/test/**"
+            ],
+            "conventionalCommits": true,
+            "noCommitHooks": true,
+            "noChangelog": true
+        },
+        "publish": {
+            "yes": true
+        }
+    },
+    "stream": true,
+    "npmClient": "yarn",
+    "useWorkspaces": true,
+    "version": "0.14.6"
+}

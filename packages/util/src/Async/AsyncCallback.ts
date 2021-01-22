@@ -1,9 +1,8 @@
-import {IDisposable} from "@bunt/unit";
 import {bind} from "../decorator";
 import {Fn} from "../interfaces";
 import {isUndefined} from "../is";
 
-export class AsyncCallback<T> implements AsyncIterable<T>, IDisposable {
+export class AsyncCallback<T> implements AsyncIterable<T> {
     readonly #disposables: Fn[] = [];
     readonly #pipeline: Fn<[T | undefined]>[] = [];
     readonly #queue: T[] = [];
