@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.9](https://github.com/izatop/bunt/compare/v0.14.8...v0.14.9) (2021-01-22)
+
+
+### Bug Fixes
+
+* console.log ([4cb558d](https://github.com/izatop/bunt/commit/4cb558d67d4f4877c678464fcf9b46404f3c31d6))
+
+
+
+
+
 ## [0.14.8](https://github.com/izatop/bunt/compare/v0.14.7...v0.14.8) (2021-01-22)
 
 
