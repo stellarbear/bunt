@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://github.com/izatop/bunt/compare/v0.14.7...v0.14.8) (2021-01-22)
+
+
+### Bug Fixes
+
+* asyncIterator ([e89c514](https://github.com/izatop/bunt/commit/e89c514fa2582d7da519f0c07373a0aa17ca2fa1))
+
+
+
+
+
 ## [0.14.7](https://github.com/izatop/bunt/compare/v0.14.6...v0.14.7) (2021-01-22)
 
 

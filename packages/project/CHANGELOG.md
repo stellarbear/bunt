@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.14.8](https://github.com/izatop/bunt/compare/v0.14.7...v0.14.8) (2021-01-22)
+
+**Note:** Version bump only for package @bunt/project
+
+
+
+
+
 ## [0.14.7](https://github.com/izatop/bunt/compare/v0.14.6...v0.14.7) (2021-01-22)
 
 
