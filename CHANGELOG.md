@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.1](https://github.com/izatop/bunt/compare/v0.15.0...v0.15.1) (2021-01-25)
+
+
+### Bug Fixes
+
+* env reader ([25dc913](https://github.com/izatop/bunt/commit/25dc913418e15b7ef9f9f1c97f93f031e86eec11))
+
+
+
+
+
 # [0.15.0](https://github.com/izatop/bunt/compare/v0.14.9...v0.15.0) (2021-01-25)
 
 
