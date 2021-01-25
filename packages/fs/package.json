@@ -1,0 +1,35 @@
+{
+    "name": "@bunt/fs",
+    "version": "0.1.0",
+    "keywords": [
+        "typescript"
+    ],
+    "author": {
+        "name": "Artur Bier",
+        "email": "izatop@gmail.com"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "files": [
+        "dist/"
+    ],
+    "description": "FileSystem library",
+    "repository": "git@github.com:izatop/bunt.git",
+    "scripts": {
+        "clean": "yarn build:clean",
+        "watch": "yarn build:watch",
+        "build": "yarn build:clean && tsc",
+        "build:clean": "rimraf dist tsconfig.tsbuildinfo",
+        "build:watch": "yarn build --watch"
+    },
+    "publishConfig": {
+        "access": "public"
+    },
+    "dependencies": {
+        "@bunt/unit": "^0.14.8",
+        "@bunt/util": "^0.14.8",
+        "@types/minio": "^7.0.7",
+        "minio": "^7.0.18"
+    },
+    "license": "MIT"
+}

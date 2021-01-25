@@ -2,14 +2,35 @@
     "files": [],
     "include": [],
     "references": [
-        {"path": "./unit"},
-        {"path": "./app"},
-        {"path": "./web"},
-        {"path": "./ws"},
-        {"path": "./cli"},
-        {"path": "./util"},
-        {"path": "./input"},
-        {"path": "./queue"},
-        {"path": "./project"}
+        {
+            "path": "./unit"
+        },
+        {
+            "path": "./app"
+        },
+        {
+            "path": "./web"
+        },
+        {
+            "path": "./ws"
+        },
+        {
+            "path": "./fs"
+        },
+        {
+            "path": "./cli"
+        },
+        {
+            "path": "./util"
+        },
+        {
+            "path": "./input"
+        },
+        {
+            "path": "./queue"
+        },
+        {
+            "path": "./project"
+        }
     ]
 }
