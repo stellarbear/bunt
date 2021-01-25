@@ -12,7 +12,8 @@ export class EnvReader<T extends EnvRecord> {
         );
     }
 
-    public static from<T extends EnvRecord>(target: Partial<T>, ...envs: EnvRecord[]): EnvReader<T> {
+    public static from<T extends EnvRecord>(target: Partial<T>,
+                                            ...envs: Record<string, string | undefined>[]): EnvReader<T> {
         for (const next of envs) {
             Object.assign(target, next);
         }
