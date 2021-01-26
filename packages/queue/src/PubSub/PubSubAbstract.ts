@@ -1,6 +1,6 @@
 import {Disposable, IDisposable} from "@bunt/unit";
-import {AsyncCallback, Fn, Promisify} from "@bunt/util";
-import {IPubSubTransport, ISubscriber} from "./interfaces";
+import {AsyncCallback, Fn, isArray, Promisify} from "@bunt/util";
+import {IPubSubTransport, ISubscriber, PubSubChannel} from "./interfaces";
 
 export abstract class PubSubAbstract<S extends Record<string, any>, T extends IPubSubTransport>
     implements IDisposable {
@@ -12,19 +12,20 @@ export abstract class PubSubAbstract<S extends Record<string, any>, T extends IP
         this.#transport = transport;
     }
 
-    public async publish<K extends keyof S>(channel: Extract<K, string>, message: S[K]): Promise<void> {
-        await this.#transport.publish(channel, this.serialize(message));
+    public async publish<K extends keyof S>(channel: PubSubChannel<K>, message: S[K]): Promise<void> {
+        await this.#transport.publish(this.key(channel), this.serialize(message));
     }
 
-    public async subscribe<K extends keyof S>(channel: Extract<K, string>): Promise<AsyncIterable<S[K]>>;
-    public async subscribe<K extends keyof S>(channel: Extract<K, string>,
+    public async subscribe<K extends keyof S>(channel: PubSubChannel<string>): Promise<AsyncIterable<S[K]>>;
+    public async subscribe<K extends keyof S>(channel: PubSubChannel<string>,
                                               listener: Fn<[S[K]], unknown>): Promise<() => void>;
     public async subscribe<K extends keyof S>(
-        channel: Extract<K, string>, listener?: Fn<[S[K]], unknown>): Promise<AsyncIterable<S[K]> | (() => void)> {
-        const subscription = this.#subscriptions.get(channel) ?? await this.#transport.subscribe(channel);
-        if (!this.#subscriptions.has(channel)) {
+        channel: PubSubChannel<string>, listener?: Fn<[S[K]], unknown>): Promise<AsyncIterable<S[K]> | (() => void)> {
+        const key = this.key(channel);
+        const subscription = this.#subscriptions.get(key) ?? await this.#transport.subscribe(key);
+        if (!this.#subscriptions.has(key)) {
             await subscription.subscribe();
-            this.#subscriptions.set(channel, subscription);
+            this.#subscriptions.set(key, subscription);
         }
 
         if (listener) {
@@ -41,7 +42,7 @@ export abstract class PubSubAbstract<S extends Record<string, any>, T extends IP
 
     public async asyncIterator<K extends keyof S>(channel: Extract<K, string>): Promise<AsyncIterator<S[K]>> {
         const subscription = await this.subscribe(channel);
-        return subscription[Symbol.asyncIterator]();
+        return subscription[Symbol.asyncIterator]() as AsyncIterator<S[K]>;
     }
 
     public dispose(): Promisify<Disposable | Disposable[] | void> {
@@ -50,6 +51,10 @@ export abstract class PubSubAbstract<S extends Record<string, any>, T extends IP
         }
 
         return this.#transport.dispose();
+    }
+
+    protected key(channel: PubSubChannel<string>): string {
+        return isArray(channel) ? channel.join("/") : channel;
     }
 
     protected abstract serialize<K extends keyof S>(message: S[K]): string;
