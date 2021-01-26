@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.15.3](https://github.com/izatop/bunt/compare/v0.15.2...v0.15.3) (2021-01-26)
+
+
+### Bug Fixes
+
+* pubsub subkeys added ([ed829f2](https://github.com/izatop/bunt/commit/ed829f249ab43b4c7353b7b2b0a229a6d9804b74))
+
+
+
+
+
 ## [0.15.2](https://github.com/izatop/bunt/compare/v0.15.1...v0.15.2) (2021-01-25)
 
 **Note:** Version bump only for package @bunt/queue
